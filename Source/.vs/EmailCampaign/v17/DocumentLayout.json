@@ -1,0 +1,361 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "A:\\Giriraj_work\\email-campaign-manager\\Source\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BEF85BD4-1D98-46BD-A811-4F74E2811EAB}|EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.infrastructure\\data\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BEF85BD4-1D98-46BD-A811-4F74E2811EAB}|EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj|solutionrelative:emailcampaign.infrastructure\\data\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.domain\\interfaces\\iauthrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|solutionrelative:emailcampaign.domain\\interfaces\\iauthrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BEF85BD4-1D98-46BD-A811-4F74E2811EAB}|EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.infrastructure\\data\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BEF85BD4-1D98-46BD-A811-4F74E2811EAB}|EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj|solutionrelative:emailcampaign.infrastructure\\data\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BEF85BD4-1D98-46BD-A811-4F74E2811EAB}|EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.infrastructure\\repository\\loginrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BEF85BD4-1D98-46BD-A811-4F74E2811EAB}|EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj|solutionrelative:emailcampaign.infrastructure\\repository\\loginrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E8B62A2C-64DC-428E-A3E5-D220BE80215C}|EmailCampaign.Application\\EmailCampaign.Application.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.application\\services\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E8B62A2C-64DC-428E-A3E5-D220BE80215C}|EmailCampaign.Application\\EmailCampaign.Application.csproj|solutionrelative:emailcampaign.application\\services\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.domain\\interfaces\\iloginrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|solutionrelative:emailcampaign.domain\\interfaces\\iloginrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.domain\\entities\\viewmodel\\loginvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|solutionrelative:emailcampaign.domain\\entities\\viewmodel\\loginvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\views\\account\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\views\\account\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.domain\\entities\\permission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|solutionrelative:emailcampaign.domain\\entities\\permission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.domain\\emailcampaign.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{FEC78E47-F3C3-4018-9046-24F09F6515DA}|EmailCampaign.Domain\\EmailCampaign.Domain.csproj|solutionrelative:emailcampaign.domain\\emailcampaign.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\views\\shared\\_layout.cshtml||{C76D83F8-A489-11D0-8195-00A0C91BBEE3}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\views\\shared\\_layout.cshtml||{C76D83F8-A489-11D0-8195-00A0C91BBEE3}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BEF85BD4-1D98-46BD-A811-4F74E2811EAB}|EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.infrastructure\\emailcampaign.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{BEF85BD4-1D98-46BD-A811-4F74E2811EAB}|EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj|solutionrelative:emailcampaign.infrastructure\\emailcampaign.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|a:\\giriraj_work\\email-campaign-manager\\source\\emailcampaign.webapplication\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{20D4EE83-B132-4851-92CE-E86899FDCD4E}|EmailCampaign.WebApplication\\EmailCampaign.WebApplication.csproj|solutionrelative:emailcampaign.webapplication\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Infrastructure\\Data\\Context\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.Infrastructure\\Data\\Context\\ApplicationDbContext.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Infrastructure\\Data\\Context\\ApplicationDbContext.cs",
+              "RelativeToolTip": "EmailCampaign.Infrastructure\\Data\\Context\\ApplicationDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T05:59:16.11Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IAuthRepository.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\Interfaces\\IAuthRepository.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.Domain\\Interfaces\\IAuthRepository.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\Interfaces\\IAuthRepository.cs",
+              "RelativeToolTip": "EmailCampaign.Domain\\Interfaces\\IAuthRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T05:43:28.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PasswordHasher.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Application\\Services\\PasswordHasher.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.Application\\Services\\PasswordHasher.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Application\\Services\\PasswordHasher.cs",
+              "RelativeToolTip": "EmailCampaign.Application\\Services\\PasswordHasher.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwBkAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T05:04:50.39Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Infrastructure\\Data\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.Infrastructure\\Data\\Services\\AuthService.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Infrastructure\\Data\\Services\\AuthService.cs",
+              "RelativeToolTip": "EmailCampaign.Infrastructure\\Data\\Services\\AuthService.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAxwCEAAABIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T04:47:23.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LoginRepository.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Infrastructure\\Repository\\LoginRepository.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.Infrastructure\\Repository\\LoginRepository.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Infrastructure\\Repository\\LoginRepository.cs",
+              "RelativeToolTip": "EmailCampaign.Infrastructure\\Repository\\LoginRepository.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T04:38:40.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ILoginRepository.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\Interfaces\\ILoginRepository.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.Domain\\Interfaces\\ILoginRepository.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\Interfaces\\ILoginRepository.cs",
+              "RelativeToolTip": "EmailCampaign.Domain\\Interfaces\\ILoginRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T04:35:01.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LoginVM.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\Entities\\ViewModel\\LoginVM.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.Domain\\Entities\\ViewModel\\LoginVM.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\Entities\\ViewModel\\LoginVM.cs",
+              "RelativeToolTip": "EmailCampaign.Domain\\Entities\\ViewModel\\LoginVM.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T04:33:41.616Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Views\\Account\\Index.cshtml",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\Views\\Account\\Index.cshtml",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Views\\Account\\Index.cshtml",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\Views\\Account\\Index.cshtml",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAAABkAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-20T08:51:39.859Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\Controllers\\AccountController.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\Controllers\\AccountController.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAQwBgAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T08:45:51.932Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Permission.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\Entities\\Permission.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.Domain\\Entities\\Permission.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\Entities\\Permission.cs",
+              "RelativeToolTip": "EmailCampaign.Domain\\Entities\\Permission.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T07:11:23.504Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\Controllers\\UserController.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Controllers\\UserController.cs",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\Controllers\\UserController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T09:48:18.98Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T06:55:24.253Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "EmailCampaign.Domain.csproj",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\EmailCampaign.Domain.csproj",
+              "RelativeDocumentMoniker": "EmailCampaign.Domain\\EmailCampaign.Domain.csproj",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\EmailCampaign.Domain.csproj",
+              "RelativeToolTip": "EmailCampaign.Domain\\EmailCampaign.Domain.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-09-19T11:10:30.309Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAIUAAAAAAAAAAAAAAK8AAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-20T05:16:51.126Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\Controllers\\HomeController.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T06:55:19.567Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\Views\\Shared\\_Layout.cshtml",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-20T04:26:16.218Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\Properties\\launchSettings.json",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Properties\\launchSettings.json",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAABHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-19T11:33:53.531Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "EmailCampaign.Infrastructure.csproj",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj",
+              "RelativeToolTip": "EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-09-19T11:11:13.746Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\appsettings.json",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\appsettings.json",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\appsettings.json",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAACsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-19T11:08:26.295Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Program.cs",
+              "DocumentMoniker": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Program.cs",
+              "RelativeDocumentMoniker": "EmailCampaign.WebApplication\\Program.cs",
+              "ToolTip": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\Program.cs",
+              "RelativeToolTip": "EmailCampaign.WebApplication\\Program.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-19T11:08:19.004Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

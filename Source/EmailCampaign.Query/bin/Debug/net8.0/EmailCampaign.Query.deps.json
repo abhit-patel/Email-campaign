@@ -1,0 +1,50 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "EmailCampaign.Query/1.0.0": {
+        "dependencies": {
+          "EmailCampaign.Core": "1.0.0",
+          "EmailCampaign.Domain": "1.0.0"
+        },
+        "runtime": {
+          "EmailCampaign.Query.dll": {}
+        }
+      },
+      "EmailCampaign.Core/1.0.0": {
+        "runtime": {
+          "EmailCampaign.Core.dll": {}
+        }
+      },
+      "EmailCampaign.Domain/1.0.0": {
+        "dependencies": {
+          "EmailCampaign.Core": "1.0.0"
+        },
+        "runtime": {
+          "EmailCampaign.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "EmailCampaign.Query/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "EmailCampaign.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "EmailCampaign.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
