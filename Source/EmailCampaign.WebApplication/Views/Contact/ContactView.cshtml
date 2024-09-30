@@ -1,0 +1,95 @@
+﻿@model List<EmailCampaign.Domain.Entities.Contact>
+
+@{
+    Layout = "_Layout"; // render the page without layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    <style>
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+            .action-buttons form {
+                margin: 0;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 col">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h2 class="mb-0">Contact List</h2>
+                                </div>
+                            </div>
+
+                            <div class="card-body px-0 pt-0 pb-2">
+                                @if (Model != null && Model.Any())
+                                {
+                                    <div class="tabel-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>FirstName</th>
+                                                    <th>LastName</th>
+                                                    <th>Email</th>
+                                                    <th>Company Name</th>
+                                                    <th>IsActive</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int i = 1;
+                                                }
+                                                @foreach (var contact in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@i</td>
+                                                        <td>@contact.FirstName</td>
+                                                        <td>@contact.LastName</td>
+                                                        <td>@contact.Email</td>
+                                                        <td>@contact.CompanyName</td>
+                                                        <td>@contact.IsActive</td>
+                                                    </tr>
+                                                    i++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+</body>
+
+</html>

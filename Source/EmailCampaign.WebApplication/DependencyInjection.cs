@@ -1,0 +1,17 @@
+﻿using EmailCampaign.Application;
+using EmailCampaign.Domain;
+using EmailCampaign.Core;
+using EmailCampaign.Infrastructure;
+
+namespace EmailCampaign.WebApplication
+{
+    public static class DependencyInjection
+    {
+        public static IServiceCollection AddAppDI(this IServiceCollection services , IConfiguration configuration)
+        {
+            services.AddDomainDI().AddCoreDI().AddInfraDI().AddApplicationDI();
+
+            return services;
+        }
+    }
+}

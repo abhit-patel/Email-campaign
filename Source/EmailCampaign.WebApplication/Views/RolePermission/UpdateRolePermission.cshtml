@@ -1,0 +1,96 @@
+﻿@* @model EmailCampaign.Domain.Entities.ViewModel.RolePermissionVM
+
+@{
+    Layout = "_Layout"; // render the page without layout
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition register-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Update RolePermission</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class=" register-card-body">
+
+                            <form asp-action="Update" asp-controller="RolePermission" method="post">
+                                @Html.HiddenFor(m => m.id)
+                                <div class="form-group mb-3">
+                                    <select asp-for="RoleId" class="form-control" required>
+                                        @* asp-items="ViewBag.Roles"  -- also we can use to show items*@
+                                         @* <option value="">-- Select an option --</option>
+                                        @foreach (var role in (Dictionary<string, string>)ViewBag.Roles)
+                                        {
+                                            <option value="@role.Key">@role.Value</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <select asp-for="PermissionId" class="form-control" required> *@ 
+                                        @* asp-items="ViewBag.Roles"  -- also we can use to show items*@
+                                         @* <option value="">-- Select an option --</option>
+                                        @foreach (var permission in (Dictionary<string, string>)ViewBag.Permission)
+                                        {
+                                            <option value="@permission.Key">@permission.Value</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="icheck-primary">
+                                                <input asp-for="IsView" type="checkbox" id="IsView" name="IsView" >
+                                                <label asp-for="IsView">IsView</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="icheck-primary">
+                                                <input asp-for="IsAddEdit" type="checkbox" id="IsAddEdit" name="IsAddEdit" >
+                                                <label asp-for="IsAddEdit">IsAddEdit</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="icheck-primary">
+                                                <input asp-for="IsDelete" type="checkbox" id="IsDelete" name="IsDelete" >
+                                                <label asp-for="IsDelete">IsDelete</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button type="submit" class="btn btn-primary btn-block">submit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.form-box -->
+                    </div><!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+</body>
+</html> *@

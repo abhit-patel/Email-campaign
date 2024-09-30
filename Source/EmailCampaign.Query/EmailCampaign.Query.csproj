@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EmailCampaign.Core\EmailCampaign.Core.csproj" />
     <ProjectReference Include="..\EmailCampaign.Domain\EmailCampaign.Domain.csproj" />
+    <ProjectReference Include="..\EmailCampaign.Infrastructure\EmailCampaign.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

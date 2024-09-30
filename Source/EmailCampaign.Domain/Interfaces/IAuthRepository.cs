@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EmailCampaign.Domain.Entities;
+using EmailCampaign.Domain.Entities.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +10,8 @@ namespace EmailCampaign.Domain.Interfaces
 {
     public interface IAuthRepository
     {
-        Task<bool> validateUser(string email, string password);
+        Task<User> validateUser(string email, string password);
 
-        Task RegisterUser(string username, string password);
+        Task<HashedPassVM> RegisterUser(string email, string password);
     }
 }

@@ -1,6 +1,7 @@
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\bin\Debug\net8.0\EmailCampaign.Core.deps.json
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\bin\Debug\net8.0\EmailCampaign.Core.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\bin\Debug\net8.0\EmailCampaign.Core.pdb
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.csproj.AssemblyReference.cache
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.GeneratedMSBuildEditorConfig.editorconfig
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.AssemblyInfoInputs.cache
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.AssemblyInfo.cs
@@ -10,3 +11,16 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\refint\EmailCampaign.Core.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\ref\EmailCampaign.Core.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\bin\Debug\net8.0\EmailCampaign.Core.deps.json
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\bin\Debug\net8.0\EmailCampaign.Core.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\bin\Debug\net8.0\EmailCampaign.Core.pdb
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.csproj.AssemblyReference.cache
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.GeneratedMSBuildEditorConfig.editorconfig
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.AssemblyInfoInputs.cache
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.AssemblyInfo.cs
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.csproj.CoreCompileInputs.cache
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.sourcelink.json
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\refint\EmailCampaign.Core.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\EmailCampaign.Core.pdb
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Core\obj\Debug\net8.0\ref\EmailCampaign.Core.dll

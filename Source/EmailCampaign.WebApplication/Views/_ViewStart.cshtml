@@ -1,3 +1,45 @@
 ﻿@{
     Layout = "_Layout";
 }
+
+@* 
+@page
+@model RolePermissionManagementModel
+@{
+    ViewData["Title"] = "Role and Permission Management";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Role and Permission Management</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Role</th>
+                    <th>View</th>
+                    <th>Create</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Approve</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in Model.Roles)
+                {
+                    <tr>
+                        <td>@role.Name</td>
+                        <td><input type="checkbox" class="form-check-input" name="Permissions[@role.Id][View]" value="true" @(role.Permissions.Contains("View") ? "checked" : "")></td>
+                        <td><input type="checkbox" class="form-check-input" name="Permissions[@role.Id][Create]" value="true" @(role.Permissions.Contains("Create") ? "checked" : "")></td>
+                        <td><input type="checkbox" class="form-check-input" name="Permissions[@role.Id][Edit]" value="true" @(role.Permissions.Contains("Edit") ? "checked" : "")></td>
+                        <td><input type="checkbox" class="form-check-input" name="Permissions[@role.Id][Delete]" value="true" @(role.Permissions.Contains("Delete") ? "checked" : "")></td>
+                        <td><input type="checkbox" class="form-check-input" name="Permissions[@role.Id][Approve]" value="true" @(role.Permissions.Contains("Approve") ? "checked" : "")></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+} *@

@@ -1,0 +1,113 @@
+﻿@model List<EmailCampaign.Domain.Entities.RolePermission>
+
+@{
+    Layout = "_Layout"; // render the page without layout
+}
+@{
+    var d = ViewBag.Roles;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    <style>
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        .action-buttons form {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 col">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h2 class="mb-0">RolePermission List</h2>
+                                    <a asp-controller="RolePermission" asp-action="AddRolePermission" class="btn btn-success btn-sm">
+                                        <i class="fas fa-plus fa-sm"></i> Assign New RolePermission
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="card-body px-0 pt-0 pb-2">
+                                @if (Model != null && Model.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Index</th>
+                                                    <th>Role Name</th>
+                                                    <th>Slug</th>
+                                                    <th>IsView</th>
+                                                    <th>IsAddEdit</th>
+                                                    <th>IsDelete</th>
+                                                    <th>
+                                                        Actions
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int i = 1;
+                                                }
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@i</td>
+                                                        <td>@(ViewBag.Roles != null && ViewBag.Roles.ContainsKey(item.RoleId.ToString().ToUpper()) ? ViewBag.Roles[item.RoleId.ToString().ToUpper()] : "N/A")</td>
+                                                        <td>@(ViewBag.Roles != null && ViewBag.Permission.ContainsKey(item.PermissionId.ToString().ToUpper()) ? ViewBag.Permission[item.PermissionId.ToString().ToUpper()] : "N/A")</td>
+                                                        <td>@item.IsView</td>
+                                                        <td>@item.IsAddEdit</td>
+                                                        <td>@item.IsDelete</td>
+                                                        <td>
+                                                            <div class="action-buttons">
+                                                                <a asp-controller="RolePermission" asp-action="GetById" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-edit fa-sm"></i>
+                                                                </a>
+                                                                <form asp-controller="RolePermission" asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                                        <i class="fas fa-trash-alt fa-sm"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    i++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+</div>
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+</body>
+
+</html>

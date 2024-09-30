@@ -1,4 +1,4 @@
-﻿@model EmailCampaign.Domain.Entities.ViewModel.RegisterVM
+﻿@model EmailCampaign.Domain.Entities.ViewModel.UserRegisterVM
 
 @{
     Layout = "_Layout"; // render the page without layout
@@ -18,71 +18,106 @@
     <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition register-page">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="register-box">
-                    <div class="register-logo">
-                        <p><b>User Registration</b></p>
-                    </div>
 
-                    <div class="card">
-                        <div class="card-body register-card-body">
-                            <p class="login-box-msg">Register a new User</p>
+    <div class="wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Add New User</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form asp-action="AddUser" asp-controller="User" method="post">
+                                <div class="card-body">
 
-                            <form asp-action="" asp-controller="" method="post">
-                                <div class="input-group mb-3">
-                                    <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="firstname">First Name</label>
+                                                <input asp-for="FirstName" type="text" class="form-control" id="firstname"
+                                                       placeholder="Enter First Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lastname">Last Name</label>
+                                                <input asp-for="LastName" type="text" class="form-control" id="lastname"
+                                                       placeholder="Enter Last Name">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input asp-for="Email" type="email" class="form-control" id="email"
+                                                       placeholder="Enter Email">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="birthdate">Birthdate</label>
+                                                <input asp-for="Birthdate" type="datetime-local" class="form-control"
+                                                       id="birthdate" placeholder="Select Birthdate">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input asp-for="Email" type="email" class="form-control" placeholder="Email">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="password">Password</label>
+                                                <input asp-for="Password" type="password" class="form-control" id="password"
+                                                       placeholder="Enter your Password">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="role">Select role</label>
+                                                <select asp-for="RoleID" class="form-control">
+                                                    <option value="">-- Select an option --</option>
+                                                    @foreach (var role in  (Dictionary<string,string>)ViewBag.Roles)
+                                                    {
+                                                        <option value="@role.Key">@role.Value</option>
+                                                    }
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input asp-for="Birthdate" type="datetime" class="form-control" placeholder="Birthdate">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-calendar-alt"></span>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input asp-for="IsActive" type="checkbox" class="form-check-input"
+                                                       id="isactive">
+                                                <label for="isactive" class="form-check-label">IsActive</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input asp-for="IsSuperAdmin" type="checkbox" class="form-check-input"
+                                                       id="issuperadmin">
+                                                <label for="issuperadmin" class="form-check-label">IsSuperAdmin</label>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
-                                <div class="input-group mb-3">
-                                    <input asp-for="Password" type="password" class="form-control" placeholder="Password">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-lock"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </form>
-
-                            <a href="login.html" class="text-center">I already have a membership</a>
                         </div>
-                        <!-- /.form-box -->
-                    </div><!-- /.card -->
+                        <!-- /.card -->
+
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
     <!-- /.register-box -->
     <!-- jQuery -->

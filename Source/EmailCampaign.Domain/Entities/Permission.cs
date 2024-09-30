@@ -9,7 +9,7 @@ namespace EmailCampaign.Domain.Entities
 {
     public class Permission : BaseEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string PageName { get; set; }
         public string ActionName { get; set; }
         public string ControllerName { get; set; }

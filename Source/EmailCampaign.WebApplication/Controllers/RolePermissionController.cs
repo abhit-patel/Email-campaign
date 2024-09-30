@@ -1,0 +1,127 @@
+﻿using AutoMapper;
+using EmailCampaign.Domain.Entities.ViewModel;
+using EmailCampaign.Domain.Entities;
+using EmailCampaign.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using EmailCampaign.Infrastructure.Data.Repositories;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace EmailCampaign.WebApplication.Controllers
+{
+    public class RolePermissionController : Controller
+    {
+        private readonly IRolePermissionRepository _rolePermissionRepository;
+        private readonly IRoleRepository _roleRepository;
+        private readonly IPermissionRepository _permissionRepository;
+        private readonly IMapper _mapper;
+        public RolePermissionController(IRolePermissionRepository rolePermissionRepository, IMapper mapper, IRoleRepository roleRepository, IPermissionRepository permissionRepository)
+        {
+            _mapper = mapper;
+            _rolePermissionRepository = rolePermissionRepository;
+            _roleRepository = roleRepository;
+            _permissionRepository = permissionRepository;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+
+            List<RolePermission> roleList = await _rolePermissionRepository.GetAllAsync();
+
+            await LoadRolePermission();
+            
+            return View(roleList);
+        }
+
+
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            RolePermission item = await _rolePermissionRepository.GetByIdAsync(id);
+
+            RolePermissionVM roleVM = _mapper.Map<RolePermissionVM>(item);
+
+            await LoadRolePermission();
+
+            return View("UpdateRolePermission", roleVM);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddRolePermission()
+        {
+            await LoadRolePermission();
+            
+            var model = new RolePermissionVM
+            {
+                PermissionList = new List<PermissionListVM>()
+            };
+
+            foreach (var permission in ViewBag.Permission)
+            {
+                model.PermissionList.Add(new PermissionListVM { PermissionId = Guid.Parse(permission.Key) });
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("AddRolePermission")]
+        public async Task<IActionResult> Post(RolePermissionVM model)
+        {
+            //if (ModelState.IsValid) { return View("Index"); }
+
+            foreach(var permissions in model.PermissionList)
+            {
+                RolePermissionDBVM dbModel = _mapper.Map<RolePermissionDBVM>(permissions);
+                dbModel.RoleId = model.RoleId;
+
+                var item = await _rolePermissionRepository.CreateAsync(dbModel);
+
+                if (item == null)
+                {
+                    TempData["Message"] = "";
+                    return View("AddRolePermission");
+                }
+            }
+
+            
+
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Update(Guid id, RolePermissionDBVM rolePermissionVM)
+        {
+
+            await _rolePermissionRepository.UpdateAsync(id, rolePermissionVM);
+
+            return RedirectToAction("Index");
+        }
+
+
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var isDeleted = await _rolePermissionRepository.DeleteAsync(id);
+
+            if (!isDeleted)
+            {
+                TempData["Message"] = "";
+                return View("Index");
+            }
+            return RedirectToAction("Index");
+        }
+
+        private async Task LoadRolePermission()
+        {
+            var roles = await _roleRepository.GetRolesAsSelectListItemsAsync();
+            var permission = await _permissionRepository.GetPermissionAsSelectListItemsAsync();
+
+            ViewBag.Roles = roles.ToDictionary(r => r.Value, r => r.Text);
+            ViewBag.Permission = permission.ToDictionary(p => p.Value, p => p.Text);
+
+            //ViewBag.Roles = new SelectList(roles, "Value", "Text");
+            //ViewBag.Permission = new SelectList(permission, "Value", "Text");
+        }
+
+    }
+}
