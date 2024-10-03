@@ -15,6 +15,7 @@ namespace EmailCampaign.Application.DataMapper
         {
             CreateMap<UserRegisterVM, User>();
             CreateMap<User, UserRegisterVM>();
+            CreateMap<ProfileVM,User>();
             CreateMap<RoleVM, Role>();
             CreateMap<Role, RoleVM>();
             CreateMap<PermissionVM, Permission>();

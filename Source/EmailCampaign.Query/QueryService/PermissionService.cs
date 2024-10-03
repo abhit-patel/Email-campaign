@@ -20,33 +20,15 @@ namespace EmailCampaign.Query.QueryService
 
         public async Task<RolePermission> GetRolePermissionAsync(Guid userId, string controllerName, string actionName)
         {
-            var roleID =  _dbContext.User.Where(p => p.ID == userId).Select(p => p.RoleId).ToString();
-            var roleName = await _dbContext.Role.FindAsync(Guid.Parse(roleID));
+
+            var roleID = _dbContext.User.Where(p => p.ID == userId && p.IsDeleted == false).Select(p => p.RoleId).SingleOrDefault();
+
+            var roleName = await _dbContext.Role.FindAsync(Guid.Parse(roleID.ToString().ToUpper()));
             if (roleName == null) return null;
 
+            var rolePermission = await _dbContext.RolePermission.FirstOrDefaultAsync(p => p.RoleId == Guid.Parse(roleID.ToString().ToUpper()) && p.Permission.ControllerName == controllerName && p.IsDeleted == false);
 
-            var permission = await _dbContext.RolePermission.FirstOrDefaultAsync(p => p.RoleId == Guid.Parse(roleID) && p.Permission.ActionName == actionName);
-
-            return permission;
-        }
-
-        public async Task<bool> HasPermission(Guid roleId, string controller, string actionName, string permissionType)
-        {
-            var permission = await _dbContext.Permission.FirstOrDefaultAsync(p => p.ControllerName == controller && p.ActionName == actionName);
-
-            if (permission == null) { return  false; }
-
-            var rolePermission = await _dbContext.RolePermission.FirstOrDefaultAsync(p => p.RoleId == roleId && p.PermissionId == permission.Id);
-
-            if (rolePermission == null) { return false;}
-
-            return permissionType switch
-            {
-                "View" => rolePermission.IsView,
-                "Edit" => rolePermission.IsAddEdit,
-                "Delete" => rolePermission.IsDelete,
-                _ => false
-            };
+            return rolePermission;
         }
     }
 }

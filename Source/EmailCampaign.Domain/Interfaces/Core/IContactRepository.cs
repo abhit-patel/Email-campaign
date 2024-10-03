@@ -15,7 +15,11 @@ namespace EmailCampaign.Domain.Interfaces.Core
         Task<Contact> GetContactAsync(Guid id);
         Task<Contact> CreateContactAsync(ContactVM model);
         Task<Contact> UpdateContactAsync(Guid id, ContactVM model);
+        Task<Contact> ActiveToggleAsync(string email);
+
         Task<bool> DeleteContactAsync(Guid userID);
-        Task<Contact> ActiveToggleAsync(Guid userID);
+
+        Task<List<ContactVM>> ImportExcel(string filePath);
+        Task<List<ContactVM>> ImportCsv(string filePath);
     }
 }

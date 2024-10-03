@@ -54,7 +54,6 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
 
-        [HttpPost]
         [ActionName("UserLogout")]
         public async Task<IActionResult> Logout()
         {

@@ -1,7 +1,7 @@
 using EmailCampaign.Application.DataMapper;
 using EmailCampaign.Infrastructure.Data.Context;
-using EmailCampaign.WebApplication;
 using EmailCampaign.Query.QueryService;
+using EmailCampaign.WebApplication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,20 +32,29 @@ builder.Services.AddAuthentication(options => {
 
 builder.Services.AddAuthorization(options => {
     options.AddPolicy("RequireAuthenticatedUser", policy => policy.RequireAuthenticatedUser());
+
+    options.AddPolicy("ViewPermission", policy =>
+        policy.Requirements.Add(new PermissionRequirement("View")));
+
+    options.AddPolicy("AddEditPermission", policy =>
+        policy.Requirements.Add(new PermissionRequirement("AddEdit")));
+
+    options.AddPolicy("DeletePermission", policy =>
+        policy.Requirements.Add(new PermissionRequirement("Delete")));
+
+
 });
 
 builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromHours(24); 
-    options.Cookie.HttpOnly = true; 
+    options.IdleTimeout = TimeSpan.FromHours(24);
+    options.Cookie.HttpOnly = true;
 });
 
 
 
+builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
-builder.Services.AddControllersWithViews(options =>
-{
-    options.Filters.Add<PermissionFilter>();
-});
+
 
 var app = builder.Build();
 

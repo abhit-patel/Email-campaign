@@ -119,11 +119,11 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
         public async Task<List<SelectListItem>> GetPermissionAsSelectListItemsAsync()
         {
-            return await _dbContext.Permission
+            return await _dbContext.Permission.Where(p => p.IsDeleted == false)
                 .Select(p => new SelectListItem
                 {
                     Value = p.Id.ToString(),
-                    Text = p.Slug
+                    Text = p.ControllerName
                 })
                 .ToListAsync();
         }

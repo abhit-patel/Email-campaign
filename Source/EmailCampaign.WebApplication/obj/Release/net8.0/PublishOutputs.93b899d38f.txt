@@ -7,6 +7,11 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\AutoMapper.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Azure.Core.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Azure.Identity.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\CsvHelper.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\EPPlus.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\EPPlus.Interfaces.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\EPPlus.System.Drawing.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\ExcelDataReader.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Humanizer.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Web.Mvc.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Web.Razor.dll
@@ -57,6 +62,7 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.IdentityModel.Tokens.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.IO.RecyclableMemoryStream.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.NET.StringTools.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.SqlServer.Server.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGeneration.dll
@@ -91,6 +97,7 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Composition.TypedParts.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Configuration.ConfigurationManager.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Drawing.Common.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Formats.Asn1.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Memory.Data.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Reflection.MetadataLoadContext.dll

@@ -11,21 +11,9 @@ namespace EmailCampaign.Query
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplicationDI(this IServiceCollection services)
+        public static IServiceCollection AddQueryDI(this IServiceCollection services)
         {
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("ViewPermission", policy =>
-                    policy.Requirements.Add(new PermissionRequirement("View")));
-
-                options.AddPolicy("EditPermission", policy =>
-                    policy.Requirements.Add(new PermissionRequirement("AddEdit")));
-
-                options.AddPolicy("DeletePermission", policy =>
-                    policy.Requirements.Add(new PermissionRequirement("Delete")));
-            });
-
-            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+            services.AddScoped<IAuthorizationHandler, PermissionHandler>();
             services.AddScoped<IPermissionService, PermissionService>();
 
 

@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\EmailCampaign.WebApplication.bundle.scp.css"
     },
     {
+      "Id": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\ContactsFile\\Book.xlsx",
+      "PackagePath": "staticwebassets\\ContactsFile\\Book.xlsx"
+    },
+    {
+      "Id": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\ContactsFile\\dummy-data.csv",
+      "PackagePath": "staticwebassets\\ContactsFile\\dummy-data.csv"
+    },
+    {
       "Id": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\build\\config\\.eslintrc.json",
       "PackagePath": "staticwebassets\\build\\config\\.eslintrc.json"
     },

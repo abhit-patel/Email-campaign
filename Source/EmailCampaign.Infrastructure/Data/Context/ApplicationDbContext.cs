@@ -27,34 +27,28 @@ namespace EmailCampaign.Infrastructure.Data.Context
         public DbSet<ContactGroup> ContactGroup { get; set; }
 
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-        //    modelBuilder.Entity<User>().HasData(
-        //        new User
-        //        {
-        //            ID = new Guid(),
-        //            FirstName = "GD",
-        //            LastName = "Admin",
-        //            BirthDate = new DateTime(2000, 1, 1),
-        //            Email = "admin@gd.com",
-        //            Password = "Admin123",
-        //            SaltKey = "randomSaltKey123",
-        //            HashPassword = "HashedAdminWithSalt123",
-        //            ProfilePicture = "profile1.jpg",
-        //            RoleId = 1,
-        //            IsActive = true,
-        //            IsSuperAdmin = false,
-        //            ResetpasswordCode = null,
-        //            CreatedOn = DateTime.Now,
-        //            CreatedBy = 1,
-        //            UpdatedOn = DateTime.MinValue,
-        //            UpdatedBy = 1,
-        //            IsDeleted = false
-        //        });
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Role)
+                .WithMany(r => r.RolePermissions)
+                .HasForeignKey(rp => rp.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-        //}
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Permission)
+                .WithMany(p => p.RolePermissions)
+                .HasForeignKey(rp => rp.PermissionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasOne(rp => rp.Role)
+                .WithMany(p => p.Users)
+                .HasForeignKey(rp => rp.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
 
 
     }

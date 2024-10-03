@@ -4,6 +4,7 @@ using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Domain.Interfaces.Core;
 using EmailCampaign.Infrastructure.Data.Context;
+using EmailCampaign.Infrastructure.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IUserContextService _userContextService;
 
-        public GroupRepository(ApplicationDbContext dbContext, IMapper mapper)
+
+        public GroupRepository(ApplicationDbContext dbContext, IMapper mapper, IUserContextService userContextService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _userContextService = userContextService;
 
         }
         public async Task<List<Group>> GetAllGroupAsync()
@@ -38,12 +42,12 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
         {
             Group group = new Group
             {
-                Id = model.Id,
+                Id = Guid.NewGuid(),
                 Name = model.Name,
                 Description = model.Description,
                 IsActive = model.IsActive,
 
-                CreatedBy = Guid.NewGuid(),
+                CreatedBy = Guid.Parse(_userContextService.GetUserId()),
                 CreatedOn = DateTime.UtcNow,
                 UpdatedBy = Guid.Empty,
                 UpdatedOn = DateTime.MinValue,
@@ -66,7 +70,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
             group.Description = model.Description;
             group.IsActive = model.IsActive;
 
-            group.UpdatedBy = Guid.NewGuid();
+            group.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
             group.UpdatedOn = DateTime.UtcNow;
 
             _dbContext.Entry(group).State = EntityState.Modified;

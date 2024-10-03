@@ -5,9 +5,11 @@ using EmailCampaign.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using EmailCampaign.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
+    //[Microsoft.AspNetCore.Authorization.Authorize]
     public class RolePermissionController : Controller
     {
         private readonly IRolePermissionRepository _rolePermissionRepository;
@@ -22,9 +24,9 @@ namespace EmailCampaign.WebApplication.Controllers
             _permissionRepository = permissionRepository;
         }
 
+        [Authorize("ViewPermission")]
         public async Task<IActionResult> Index()
         {
-
             List<RolePermission> roleList = await _rolePermissionRepository.GetAllAsync();
 
             await LoadRolePermission();
@@ -33,6 +35,7 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
 
+        [Authorize("AddEditPermission")]
         public async Task<IActionResult> GetById(Guid id)
         {
             RolePermission item = await _rolePermissionRepository.GetByIdAsync(id);
@@ -45,6 +48,7 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
         [HttpGet]
+        [Authorize("AddEditPermission")]
         public async Task<IActionResult> AddRolePermission()
         {
             await LoadRolePermission();
@@ -63,24 +67,25 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize("AddEditPermission")]
         [ActionName("AddRolePermission")]
         public async Task<IActionResult> Post(RolePermissionVM model)
         {
             //if (ModelState.IsValid) { return View("Index"); }
 
-            foreach(var permissions in model.PermissionList)
-            {
-                RolePermissionDBVM dbModel = _mapper.Map<RolePermissionDBVM>(permissions);
-                dbModel.RoleId = model.RoleId;
+            //foreach(var permissions in model.PermissionList)
+            //{
+            //    RolePermissionDBVM dbModel = _mapper.Map<RolePermissionDBVM>(permissions);
+            //    dbModel.RoleId = model.RoleId;
 
-                var item = await _rolePermissionRepository.CreateAsync(dbModel);
+            //    var item = await _rolePermissionRepository.CreateAsync(dbModel);
 
-                if (item == null)
-                {
-                    TempData["Message"] = "";
-                    return View("AddRolePermission");
-                }
-            }
+            //    if (item == null)
+            //    {
+            //        TempData["Message"] = "";
+            //        return View("AddRolePermission");
+            //    }
+            //}
 
             
 
@@ -92,13 +97,13 @@ namespace EmailCampaign.WebApplication.Controllers
         public async Task<IActionResult> Update(Guid id, RolePermissionDBVM rolePermissionVM)
         {
 
-            await _rolePermissionRepository.UpdateAsync(id, rolePermissionVM);
+            await _rolePermissionRepository.UpdateAsync(rolePermissionVM);
 
             return RedirectToAction("Index");
         }
 
 
-
+        [Authorize("DeletePermission")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var isDeleted = await _rolePermissionRepository.DeleteAsync(id);

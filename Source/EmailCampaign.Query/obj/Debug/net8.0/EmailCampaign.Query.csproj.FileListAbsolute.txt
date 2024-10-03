@@ -3,8 +3,10 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\ne
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Query.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Core.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Domain.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Infrastructure.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Core.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Domain.pdb
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Infrastructure.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8.0\EmailCampaign.Query.csproj.AssemblyReference.cache
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8.0\EmailCampaign.Query.GeneratedMSBuildEditorConfig.editorconfig
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8.0\EmailCampaign.Query.AssemblyInfoInputs.cache
@@ -21,8 +23,10 @@ A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Query.pdb
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Core.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Domain.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Infrastructure.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Core.pdb
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Domain.pdb
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Infrastructure.pdb
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8.0\EmailCampaign.Query.csproj.AssemblyReference.cache
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8.0\EmailCampaign.Query.GeneratedMSBuildEditorConfig.editorconfig
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8.0\EmailCampaign.Query.AssemblyInfoInputs.cache
@@ -34,5 +38,3 @@ A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8.0\refint\EmailCampaign.Query.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8.0\EmailCampaign.Query.pdb
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\obj\Debug\net8.0\ref\EmailCampaign.Query.dll
-A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Infrastructure.dll
-A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Query\bin\Debug\net8.0\EmailCampaign.Infrastructure.pdb

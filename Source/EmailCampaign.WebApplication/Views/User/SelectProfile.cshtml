@@ -1,0 +1,77 @@
+﻿@model EmailCampaign.Domain.Entities.ViewModel.ProfileVM
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
+
+
+@{
+    ViewData["Title"] = "User List";
+    Layout = "_Layout"; // render the page without layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+</head>
+<body>
+
+<div class="wrapper">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 col">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2 class="mb-0">Update Profile Picture</h2>
+                                    <a asp-controller="User" asp-action="ViewProfile" class="btn btn-dark btn-sm">
+                                    <i class="fas fa-arrow-left"></i> Back to Profile
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+
+                                <!-- Profile Picture Upload Form -->
+                                <div class="col-md-9">
+                                        <form asp-action="UpdateProfilePic" asp-controller="User" method="post" enctype="multipart/form-data">
+                                        
+                                        <div class="form-group">
+                                            <label for="profilePicture">Select New Profile Picture</label>
+                                            <input type="file" class="form-control-file" id="profilePicture" name="profilePicture" accept="image/*">
+                                            <span class="text-danger" asp-validation-for="ProfilePicture"></span>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Update Picture</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+</body>
+
+</html>

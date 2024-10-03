@@ -1,0 +1,71 @@
+﻿@model EmailCampaign.Domain.Entities.User
+
+@{
+    ViewData["Title"] = "User Profile";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+</head>
+<body>
+
+    <div class="wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h2 class="mb-0">User Profile</h2>
+                                    <a asp-controller="User" asp-action="UpdateProfile" class="btn btn-dark btn-sm">
+                                        <i class="fas fa-plus fa-sm"></i> Update Profile
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Profile Picture Section -->
+                                    <div class="col-md-4 text-center">
+                                        <img src="~/ProfilePics/0f6cdf66-77d5-402c-b2ee-8d04b694ea7e.jpg" alt="Profile Picture" class="img-fluid mb-2" style="width: 200px; height: 200px; object-fit: cover;">
+                                    </div>
+
+                                    <!-- User Information Section -->
+                                    <div class="col-md-8">
+                                        <h3>@Model.FirstName @Model.LastName</h3>
+                                        <p><strong>Email:</strong> @Model.Email</p>
+                                        <p><strong>Birthdate:</strong> @Model.BirthDate.ToShortDateString()</p>
+                                        <p><strong>Role:</strong>@(ViewBag.Roles[@Model.RoleId.ToString().ToUpper()])</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+</body>
+
+</html>
+

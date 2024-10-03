@@ -31,17 +31,22 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             return await _dbContext.Role.Where(p => p.IsDeleted == false).ToListAsync() ;
         }
 
-        public async Task<Role> GetRoleAsync(Guid id)
+        public async Task<Role> GetRoleByIdAsync(Guid id)
         {
             return await _dbContext.Role.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<Role> CreateRoleAsync(RoleVM model)
+        public async Task<Role> GetRoleByNameAsync(string name)
+        {
+            return await _dbContext.Role.FirstOrDefaultAsync(p => p.Name == name && p.IsDeleted == false);
+        }
+
+        public async Task<Role> CreateRoleAsync(string roleName)
         {
             Role newRole = new Role
             {
                 Id = Guid.NewGuid(),
-                Name = model.Name,
+                Name = roleName,
                 CreatedBy = Guid.Parse(_userContextService.GetUserId()),
                 CreatedOn = DateTime.Now,
                 UpdatedBy = Guid.Empty,
@@ -64,7 +69,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
             if (role == null) { return null; }
 
-            role.Name = model.Name;
+            role.Name = model.RoleName;
 
             role.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
             role.UpdatedOn = DateTime.UtcNow;
@@ -112,7 +117,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
         public async Task<List<SelectListItem>> GetRolesAsSelectListItemsAsync()
         {
-            return await _dbContext.Role
+            return await _dbContext.Role.Where(p => p.IsDeleted == false)
                 .Select(p => new SelectListItem
                 {
                     Value = p.Id.ToString(),
@@ -120,5 +125,6 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 })
                 .ToListAsync();
         }
+
     }
 }

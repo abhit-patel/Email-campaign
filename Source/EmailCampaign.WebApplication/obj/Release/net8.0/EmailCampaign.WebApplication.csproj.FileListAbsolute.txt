@@ -308,3 +308,10 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\System.Web.WebPages.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\Microsoft.Web.Infrastructure.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\Newtonsoft.Json.Bson.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\CsvHelper.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\EPPlus.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\EPPlus.Interfaces.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\EPPlus.System.Drawing.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\ExcelDataReader.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\Microsoft.IO.RecyclableMemoryStream.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Release\net8.0\System.Formats.Asn1.dll

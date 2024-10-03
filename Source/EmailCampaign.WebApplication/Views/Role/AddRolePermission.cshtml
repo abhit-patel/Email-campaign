@@ -1,0 +1,109 @@
+﻿@model EmailCampaign.Domain.Entities.ViewModel.RolePermissionVM
+
+@{
+    ViewData["Title"] = "Add Role-Permission";
+    Layout = "_Layout"; // render the page without layout
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition register-page">
+    <div class="wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">Add New Role and Set Permissions</h3>
+                            </div>
+                        </div>
+
+                        <form asp-action="AddRole" asp-controller="Role" method="post">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="form-group ">
+                                        <label asp-for="RoleName">Role Name</label>
+                                        <input asp-for="RoleName" type="text" class="form-control" placeholder="Role Name" required>
+                                        <span asp-validation-for="RoleName" class="text-danger"></span>
+                                    </div>
+
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Index</th>
+                                                <th>Permission</th>
+                                                <th>IsView</th>
+                                                <th>IsAddEdit</th>
+                                                <th>IsDelete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.PermissionList.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td>@(i + 1)</td>
+                                                    <td>@ViewBag.Permission[Model.PermissionList[i].PermissionId.ToString().ToUpper()]</td>
+                                                    <input type="hidden" asp-for="PermissionList[i].PermissionId" />
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input asp-for="PermissionList[i].IsView" class="form-check-input" />
+                                                            <label class="form-check-label" asp-for="PermissionList[i].IsView"></label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input asp-for="PermissionList[i].IsAddEdit" class="form-check-input" />
+                                                            <label class="form-check-label" asp-for="PermissionList[i].IsAddEdit"></label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input asp-for="PermissionList[i].IsDelete" class="form-check-input" />
+                                                            <label class="form-check-label" asp-for="PermissionList[i].IsDelete"></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>

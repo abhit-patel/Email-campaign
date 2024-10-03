@@ -1,13 +1,3 @@
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.csproj.AssemblyReference.cache
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.GeneratedMSBuildEditorConfig.editorconfig
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.AssemblyInfoInputs.cache
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.AssemblyInfo.cs
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.csproj.CoreCompileInputs.cache
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.MvcApplicationPartsAssemblyInfo.cs
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.MvcApplicationPartsAssemblyInfo.cache
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.RazorAssemblyInfo.cache
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.RazorAssemblyInfo.cs
-D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.sourcelink.json
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\appsettings.Development.json
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\appsettings.json
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EmailCampaign.WebApplication.staticwebassets.runtime.json
@@ -19,6 +9,11 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\AutoMapper.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Azure.Core.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Azure.Identity.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\CsvHelper.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EPPlus.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EPPlus.Interfaces.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EPPlus.System.Drawing.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\ExcelDataReader.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Humanizer.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Web.Mvc.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Web.Razor.dll
@@ -70,6 +65,7 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.IO.RecyclableMemoryStream.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.NET.StringTools.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.dll
@@ -104,6 +100,7 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Composition.TypedParts.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Drawing.Common.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Formats.Asn1.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Memory.Data.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Reflection.MetadataLoadContext.dll
@@ -292,6 +289,16 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EmailCampaign.Infrastructure.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EmailCampaign.Query.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EmailCampaign.Core.pdb
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.csproj.AssemblyReference.cache
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.GeneratedMSBuildEditorConfig.editorconfig
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.AssemblyInfoInputs.cache
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.AssemblyInfo.cs
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.csproj.CoreCompileInputs.cache
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.MvcApplicationPartsAssemblyInfo.cs
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.MvcApplicationPartsAssemblyInfo.cache
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.RazorAssemblyInfo.cache
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.RazorAssemblyInfo.cs
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.sourcelink.json
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\staticwebassets.build.json
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\staticwebassets.development.json
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\staticwebassets\msbuild.EmailCampaign.WebApplication.Microsoft.AspNetCore.StaticWebAssets.props
@@ -319,6 +326,11 @@ A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\D
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\AutoMapper.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Azure.Core.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Azure.Identity.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\CsvHelper.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EPPlus.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EPPlus.Interfaces.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EPPlus.System.Drawing.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\ExcelDataReader.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Humanizer.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Web.Mvc.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Web.Razor.dll
@@ -370,6 +382,7 @@ A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\D
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.IO.RecyclableMemoryStream.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.NET.StringTools.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.dll
@@ -404,6 +417,7 @@ A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\D
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Composition.TypedParts.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Drawing.Common.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Formats.Asn1.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Memory.Data.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Reflection.MetadataLoadContext.dll

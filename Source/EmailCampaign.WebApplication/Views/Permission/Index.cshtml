@@ -1,6 +1,9 @@
 ﻿@model List<EmailCampaign.Domain.Entities.Permission>
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
+
 
 @{
+    ViewData["Title"] = "Permission List";
     Layout = "_Layout"; // render the page without layout
 }
 
@@ -34,11 +37,11 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- general form elements -->
-                        <div class="card card-primary">
+                        <div class="card card-secondary">
                             <div class="card-header">
-                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <h2 class="mb-0">Permission List</h2>
-                                    <a asp-controller="Permission" asp-action="AddPermission" class="btn btn-success btn-sm">
+                                    <a asp-controller="Permission" asp-action="AddPermission" class="btn btn-dark btn-sm">
                                         <i class="fas fa-plus fa-sm"></i> Add New Permission
                                     </a>
                                 </div>
@@ -56,9 +59,12 @@
                                                     <th>ControllerName</th>
                                                     <th>PageName</th>
                                                     <th>Slug</th>
-                                                    <th>
-                                                        Actions
-                                                    </th>
+                                                    @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                                    {
+                                                        <th>
+                                                            Actions
+                                                        </th>
+                                                    }
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -73,15 +79,25 @@
                                                         <td>@permission.ControllerName</td>
                                                         <td>@permission.PageName</td>
                                                         <td>@permission.Slug</td>
-                                                        <td>
-                                                            <div class="action-buttons">
-                                                                <form asp-controller="Permission" asp-action="Delete" asp-route-id="@permission.Id" method="post">
-                                                                    <button type="submit" class="btn btn-danger btn-sm">
-                                                                        <i class="fas fa-trash-alt fa-sm"></i>
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        </td>
+                                                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                                        {
+                                                            <td>
+                                                                <div class="action-buttons">
+                                                                    <a asp-controller="Permission" asp-action="GetPermissionById" asp-route-id="@permission.Id" class="btn btn-primary btn-sm">
+                                                                        <i class="fas fa-edit fa-sm"></i>
+                                                                    </a>
+                                                                    @if ((await AuthorizationService.AuthorizeAsync(User, "", "DeletePermission")).Succeeded)
+                                                                    {
+                                                                    
+                                                                            <form asp-controller="Permission" asp-action="Delete" asp-route-id="@permission.Id" method="post" class="DeleteForm")" >
+                                                                                <button type="submit" class="btn btn-danger btn-sm deleteButton">
+                                                                                    <i class="fas fa-trash-alt fa-sm"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                        }
                                                     </tr>
                                                     i++;
                                                 }

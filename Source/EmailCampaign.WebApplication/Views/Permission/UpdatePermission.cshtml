@@ -1,6 +1,7 @@
 ﻿@model EmailCampaign.Domain.Entities.ViewModel.PermissionVM
 
 @{
+    ViewData["Title"] = "Update Permission";
     Layout = "_Layout"; // render the page without layout
 }
 
@@ -22,7 +23,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card card-primary">
+                <div class="card card-secondary">
                     <div class="card-header">
                         <h3 class="card-title">Update Permission</h3>
                     </div>
@@ -34,15 +35,19 @@
                                 @Html.HiddenFor(m => m.Id)
                                 <div class="input-group mb-3">
                                     <input asp-for="ActionName" type="text" class="form-control" placeholder="Action Name" required>
+                                    <span asp-validation-for="ActionName" class="text-danger"></span>
                                 </div>
                                 <div class="input-group mb-3">
                                     <input asp-for="ControllerName" type="text" class="form-control" placeholder="Controller Name" required>
+                                    <span asp-validation-for="ControllerName" class="text-danger"></span>
                                 </div>
                                 <div class="input-group mb-3">
                                     <input asp-for="PageName" type="text" class="form-control" placeholder="Page Name" required>
+                                    <span asp-validation-for="PageName" class="text-danger"></span>
                                 </div>
                                 <div class="input-group mb-3">
                                     <input asp-for="Slug" type="text" class="form-control" placeholder="Slug" required>
+                                    <span asp-validation-for="Slug" class="text-danger"></span>
                                 </div>
                                 <div class="row">
                                     <button type="submit" class="btn btn-primary btn-block">submit</button>
@@ -62,5 +67,9 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 </body>
 </html>

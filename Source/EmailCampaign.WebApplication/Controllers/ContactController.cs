@@ -5,10 +5,14 @@ using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Infrastructure.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using EmailCampaign.Domain.Interfaces.Core;
+using Microsoft.EntityFrameworkCore;
 using EmailCampaign.Infrastructure.Data.Repositories;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
+    //[Microsoft.AspNetCore.Authorization.Authorize]
     public class ContactController : Controller
     {
         private readonly IContactRepository _contactRepository;
@@ -22,13 +26,6 @@ namespace EmailCampaign.WebApplication.Controllers
 
         //[CustomAuthorize("User/Index", typeof(IUserService))]
         public async Task<IActionResult> Index()
-        {
-            List<Contact> contactList = await _contactRepository.GetAllContactAsync();
-            return View(contactList);
-        }
-
-        [ActionName("ContactView")]
-        public async Task<IActionResult> ContactView()
         {
             List<Contact> contactList = await _contactRepository.GetAllContactAsync();
             return View(contactList);
@@ -62,8 +59,62 @@ namespace EmailCampaign.WebApplication.Controllers
 
             if (contact == null)
             {
-                TempData["Message"] = "";
-                return View("AddContact");
+                TempData["Message"] = "Failed to add contact. Please try again.";
+                return View("Index");
+            }
+
+            TempData["Message"] = "Contact successfully added!";
+
+            return RedirectToAction("Index");
+        }
+
+
+
+        [HttpPost]
+        [ActionName("ImportFile")]
+        public async Task<IActionResult> Upload(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return Content("File not selected");
+            }
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ContactsFile", file.FileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            if (Path.GetExtension(file.FileName).Equals(".csv", StringComparison.OrdinalIgnoreCase))
+            {
+                List<ContactVM> scvData=  await _contactRepository.ImportCsv(filePath);
+
+                foreach (var item in scvData)
+                {
+                    var contact = await _contactRepository.CreateContactAsync(item);
+
+                    if (contact == null)
+                    {
+                        TempData["Message"] = "";
+                        return View("AddContact");
+                    }
+                }
+            }
+            else if (Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                List<ContactVM> excelData = await _contactRepository.ImportExcel(filePath);
+
+                foreach (var item in excelData)
+                {
+                    var contact = await _contactRepository.CreateContactAsync(item);
+
+                    if (contact == null)
+                    {
+                        TempData["Message"] = "";
+                        return View("AddContact");
+                    }
+                }
             }
 
             return RedirectToAction("Index");
@@ -84,6 +135,21 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
 
+        [ActionName("IsActiveToggle")]
+        public async Task<IActionResult> IsActiveToggleAsync(string email)
+        {
+            var contact = await _contactRepository.ActiveToggleAsync(email);
+
+            if (contact == null)
+            {
+                TempData["Message"] = "";
+                return View("AddUser");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
 
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -97,20 +163,17 @@ namespace EmailCampaign.WebApplication.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        [ActionName("IsActiveToggle")]
 
-        public async Task<IActionResult> IsActiveToggleAsync(Guid userId)
+        public async Task<IActionResult> SearchQuery(string searchQuery)
         {
-            var user = await _contactRepository.ActiveToggleAsync(userId);
+            var contactList = await _contactRepository.GetAllContactAsync();
 
-            if (user == null)
+            if (!string.IsNullOrEmpty(searchQuery))
             {
-                TempData["Message"] = "";
-                return View("AddUser");
+                contactList = contactList.Where(n => n.FirstName.Contains(searchQuery) || n.Email.Contains(searchQuery) || n.LastName.Contains(searchQuery)).ToList();
             }
 
-            return RedirectToAction("Index");
+            return View( "Index", contactList);
         }
 
         //private async Task LoadGroup()

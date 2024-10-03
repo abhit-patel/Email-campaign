@@ -1,6 +1,7 @@
 ﻿@model EmailCampaign.Domain.Entities.ViewModel.ContactVM
 
 @{
+    ViewData["Title"] = "Update Contact";
     Layout = "_Layout"; // render the page without layout
 }
 
@@ -24,12 +25,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- general form elements -->
-                        <div class="card card-primary">
+                        <div class="card card-secondary">
                             <div class="card-header">
                                 <h3 class="card-title">Update Contact</h3>
                             </div>
 
-                            <form asp-action="AddContact" asp-controller="Contact" method="post">
+                            <form asp-action="Update" asp-controller="Contact" method="post">
                                 @Html.HiddenFor(p => p.Id)
                                 <div class="card-body">
                                     <div class="input-group mb-3">
@@ -39,6 +40,7 @@
                                                 <span class="fas fa-user"></span>
                                             </div>
                                         </div>
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
                                     </div>
                                     <div class="input-group mb-3">
                                         <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name" required>
@@ -47,6 +49,7 @@
                                                 <span class="fas fa-user"></span>
                                             </div>
                                         </div>
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
                                     </div>
                                     <div class="input-group mb-3">
                                         <input asp-for="Email" type="email" class="form-control" placeholder="Email" required>
@@ -55,6 +58,7 @@
                                                 <span class="fas fa-envelope"></span>
                                             </div>
                                         </div>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                     <div class="input-group mb-3">
                                         <input asp-for="CompanyName" type="text" class="form-control" placeholder="CompanyName" required>
@@ -63,16 +67,18 @@
                                                 <span class="fas fa-briefcase"></span>
                                             </div>
                                         </div>
+                                        <span asp-validation-for="CompanyName" class="text-danger"></span>
                                     </div>
                                     <div class="form-group mb-3">
                                         <div class="form-check">
                                             <input asp-for="IsActive" type="checkbox" class="form-check-input">
                                             <label class="form-check-label" asp-for="IsActive">IsActive</label>
                                         </div>
+                                        <span asp-validation-for="CompanyName" class="text-danger"></span>
                                     </div>
-                                    <div class="row">
-                                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </form>
                         </div>

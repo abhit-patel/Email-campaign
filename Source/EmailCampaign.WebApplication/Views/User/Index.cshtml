@@ -1,6 +1,9 @@
 ﻿@model List<EmailCampaign.Domain.Entities.User>
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
+
 
 @{
+    ViewData["Title"] = "User List";
     Layout = "_Layout"; // render the page without layout
 }
 
@@ -33,13 +36,16 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12 col">
-                        <div class="card card-primary">
+                        <div class="card card-secondary">
                             <div class="card-header">
-                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <h2 class="mb-0 "><b>User List</b></h2>
-                                    <a asp-controller="User" asp-action="AddUser" class="btn btn-success btn-sm">
-                                        <i class="fas fa-plus fa-sm"></i> Add New User
-                                    </a>
+                                <div class="d-flex justify-content-between align-items-center ">
+                                    <h2 class="mb-0 ">User List</h2>
+                                    @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                    {
+                                        <a asp-controller="User" asp-action="AddUser" class="btn btn-dark btn-sm">
+                                            <i class="fas fa-plus fa-sm"></i> Add New User
+                                        </a>
+                                    }
                                 </div>
                             </div>
 
@@ -57,9 +63,11 @@
                                                     <th>Birthdate</th>
                                                     <th>RoleId</th>
                                                     <th>IsActive</th>
-                                                    <th>
-                                                        Actions
-                                                    </th>
+                                                     @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded){
+                                                        <th>
+                                                            Actions
+                                                        </th>
+                                                     }
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -76,29 +84,35 @@
                                                         <td>@user.BirthDate</td>
                                                         <td>@(ViewBag.Roles != null && ViewBag.Roles.ContainsKey(user.RoleId.ToString().ToUpper()) ? ViewBag.Roles[user.RoleId.ToString().ToUpper()] : "N/A")</td>
                                                         <td>
-                                                            <form asp-action="IsActiveToggle" asp-controller="User" method="post" class="d-inline">
-                                                            @Html.HiddenFor(m => user.ID)
-                                                                <button type="submit" class="btn btn-sm @(user.IsActive ? "btn-success" : "btn-danger")">
+
+                                                            <a href="@Url.Action("IsActiveToggle", "User", new { email = user.Email })" 
+                                                               class="btn btn-sm @(user.IsActive ? "btn-success" : "btn-danger") toggleButton">
                                                                 @(user.IsActive ? "Active" : "Inactive")
-                                                                </button>
-                                                            </form>
+                                                            </a>
                                                         </td>
-                                                        <td>
-                                                            <div class="action-buttons">
-                                                                <a asp-controller="User" asp-action="GetUserById" asp-route-id="@user.ID" class="btn btn-primary btn-sm">
-                                                                    <i class="fas fa-edit fa-sm"></i>
-                                                                </a>
-                                                                <form asp-controller="User" asp-action="Delete" asp-route-id="@user.ID" method="post">
-                                                                    <button type="submit" class="btn btn-danger btn-sm">
-                                                                        <i class="fas fa-trash-alt fa-sm"></i>
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        </td>
+                                                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                                        {
+                                                            <td>
+                                                                <div class="action-buttons">
+
+                                                                    <a asp-controller="User" asp-action="GetUserById" asp-route-id="@user.ID" class="btn btn-primary btn-sm">
+                                                                        <i class="fas fa-edit fa-sm"></i>
+                                                                    </a>
+
+                                                                    @if ((await AuthorizationService.AuthorizeAsync(User, "", "DeletePermission")).Succeeded)
+                                                                    {
+                                                                        <form asp-controller="User" asp-action="Delete" asp-route-id="@user.ID" method="post" class="DeleteForm">
+                                                                            <button type="submit" class="btn btn-danger btn-sm deleteButton">
+                                                                                <i class="fas fa-trash-alt fa-sm"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                        }
                                                     </tr>
                                                     i++;
                                                 }
-
                                             </tbody>
                                         </table>
                                     </div>

@@ -1,58 +1,79 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using EmailCampaign.Domain.Entities;
+using EmailCampaign.Infrastructure.Data.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
-using System.Net;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace EmailCampaign.Query.QueryService
 {
     public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
     {
-        private readonly IPermissionService _permissionService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly IPermissionService _permissionService;
 
-        public PermissionHandler(IPermissionService permissionService , IHttpContextAccessor httpContextAccessor)
+        public PermissionHandler(IHttpContextAccessor httpContextAccessor, ApplicationDbContext dbContext, IPermissionService permissionService)
         {
-            _permissionService = permissionService;
             _httpContextAccessor = httpContextAccessor;
+            _dbContext = dbContext;
+            _permissionService = permissionService;
         }
 
-        public void MyMethod()
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement )
         {
-            var httpContext = _httpContextAccessor.HttpContext;
-            var controllerName = httpContext.GetRouteData().Values["controller"].ToString();
-            // Now you have the controller name
-        }
-
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
-        {
-            var httpContext = (context.Resource as AuthorizationFilterContext)?.HttpContext;
-
-            var roleId = context.User.Claims.FirstOrDefault(c => c.Type == "roleId")?.Value;
-
-            if (roleId == null)
+            var user = _httpContextAccessor.HttpContext.User;
+            if (!user.Identity.IsAuthenticated)
             {
-                context.Fail();
                 return;
             }
 
-            // Get the controller and action names from the route
-            //var controllerName = httpContext.Request RouteValues["controller"]?.ToString();
-            //var actionName = httpContext.Request.RouteValues["action"]?.ToString();
+            Guid userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            // Query the permissions from the database
-            bool hasPermission = await _permissionService.HasPermission(Guid.Parse(roleId), "User", "AddEdit", requirement.PermissionType);
+            var roleId =  _dbContext.User.Where(p => p.ID == userId && p.IsDeleted == false).Select(p => p.RoleId.ToString()).SingleOrDefault() ;
 
-            if (hasPermission)
+
+            var controllerName = _httpContextAccessor.HttpContext.GetRouteData().Values["controller"].ToString();
+            var actionName = _httpContextAccessor.HttpContext.GetRouteData().Values["action"].ToString();
+
+            var rolePermission = await _permissionService.GetRolePermissionAsync(userId, controllerName, actionName);
+
+            if (rolePermission != null)
             {
-                context.Succeed(requirement);
+
+                //var permission = await _dbContext.RolePermission.Where(p => p.Id == Guid.Parse(roleId.ToString().ToUpper()) && p.Permission.ActionName == requirement.PermissionType).FirstOrDefaultAsync();
+
+                bool hasPermission = false;
+
+                switch (requirement.PermissionType)
+                {
+                    case "View":
+                        hasPermission = rolePermission.IsView;
+                        break;
+                    case "AddEdit":
+                        hasPermission = rolePermission.IsAddEdit;
+                        break;
+                    case "Delete":
+                        hasPermission = rolePermission.IsDelete;
+                        break;
+                }
+
+
+                if (hasPermission)
+                {
+                    context.Succeed(requirement);
+                }
             }
-            else
-            {
-                context.Fail();
-            }
+
         }
+
     }
 }

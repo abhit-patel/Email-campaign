@@ -8,7 +8,7 @@ using EmailCampaign.Infrastructure.Data.Repositories;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
-    //[Authorize]
+    //[Microsoft.AspNetCore.Authorization.Authorize]
     public class PermissionController : Controller
     {
         private readonly IPermissionRepository _permissionRepository;
@@ -19,13 +19,14 @@ namespace EmailCampaign.WebApplication.Controllers
             _mapper = mapper;
         }
 
+        [Authorize("ViewPermission")]
         public async Task<IActionResult> Index()
         {
             List<Permission> roleList = await _permissionRepository.GetAllPermissionAsync();
             return View(roleList);
         }
 
-
+        [Authorize("AddEditPermission")]
         public async Task<IActionResult> GetPermissionById(Guid id)
         {
             Permission permission = await _permissionRepository.GetPermissionAsync(id);
@@ -36,6 +37,7 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
         [HttpGet]
+        [Authorize("AddEditPermission")]
         public IActionResult AddPermission()
         {
             return View();
@@ -43,6 +45,7 @@ namespace EmailCampaign.WebApplication.Controllers
 
         [HttpPost]
         [ActionName("AddPermission")]
+        [Authorize("AddEditPermission")]
         public async Task<IActionResult> AddPermission(PermissionVM model)
         {
             //if (ModelState.IsValid) { return View("Index"); }
@@ -60,6 +63,7 @@ namespace EmailCampaign.WebApplication.Controllers
 
 
         [HttpPost]
+        [Authorize("AddEditPermission")]
         public async Task<IActionResult> Update(Guid id, PermissionVM permissionModel)
         {
 
@@ -69,7 +73,7 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
 
-
+        [Authorize("DeletePermission")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var isDeleted = await _permissionRepository.DeletePermissionAsync(id);

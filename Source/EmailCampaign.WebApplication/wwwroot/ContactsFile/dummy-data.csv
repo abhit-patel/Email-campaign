@@ -1,0 +1,11 @@
+Id,FirstName,LastName,Email,CompanyName,IsActive
+550e8400-e29b-41d4-a716-446655440000,John,Doe,john.doe@example.com,Acme Corp,true
+f47ac10b-58cc-4372-a567-0e02b2c3d479,Jane,Smith,jane.smith@example.com,TechStart Inc,false
+63f7a2d7-9869-4a8f-8b1e-68c6c9a0c9e9,Michael,Johnson,michael.j@example.com,Global Solutions,true
+9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d,Emily,Brown,emily.brown@example.com,Innovate LLC,true
+1f9c99e5-4c47-4f8a-8f87-d5a89d313f4b,David,Wilson,david.wilson@example.com,Creative Designs,false
+d9a5346e-8515-4f5d-a4e4-d7d2c5b58b7f,Sarah,Taylor,sarah.t@example.com,DataDrive Systems,true
+c7d9482c-1a9e-4d7c-a142-3bfe98c967cd,Robert,Anderson,robert.a@example.com,CloudNine Solutions,true
+e83e62a4-0c7b-4b1c-b7d9-3f92c6e24f5b,Lisa,Martinez,lisa.m@example.com,EcoFriendly Co,false
+6ba7b810-9dad-11d1-80b4-00c04fd430c8,Christopher,Lee,chris.lee@example.com,Smart Tech Ltd,true
+f47ac10b-58cc-4372-a567-0e02b2c3d479,Jennifer,Garcia,jen.garcia@example.com,Future Innovations,true

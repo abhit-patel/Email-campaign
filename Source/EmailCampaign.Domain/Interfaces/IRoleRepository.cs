@@ -12,8 +12,9 @@ namespace EmailCampaign.Domain.Interfaces
     public interface IRoleRepository
     {
         Task<List<Role>> GetAllRoleAsync();
-        Task<Role> GetRoleAsync(Guid id);
-        Task<Role> CreateRoleAsync(RoleVM model);
+        Task<Role> GetRoleByIdAsync(Guid id);
+        Task<Role> GetRoleByNameAsync(string name);
+        Task<Role> CreateRoleAsync(string roleName);
         Task<Role> UpdateRoleAsync(Guid id, RoleVM model);
         Task<bool> DeleteRoleAsync(Guid ID);
         Task<List<SelectListItem>> GetRolesAsSelectListItemsAsync();

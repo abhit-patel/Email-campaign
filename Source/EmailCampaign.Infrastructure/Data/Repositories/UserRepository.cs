@@ -4,6 +4,8 @@ using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -146,9 +148,9 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
         }
 
 
-        public async Task<User> ActiveToggleAsync(Guid userID)
+        public async Task<User> ActiveToggleAsync(string email)
         {
-            User user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == userID);
+            User user = await _dbContext.User.FirstOrDefaultAsync(p => p.Email == email);
 
             if(user != null)
             {
@@ -178,6 +180,99 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
             return user;
 
+        }
+
+        public async Task<User> GetUserInfoForProfile()
+        {
+            Guid UserId = Guid.Parse(_userContextService.GetUserId());
+
+            User user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == UserId && p.IsDeleted == false);
+
+            if(user == null)
+            {
+                return null;
+            }
+
+            return user;
+        }
+
+
+        public async Task<User> UpdateProfilePic(IFormFile profilePicture)
+        {
+            Guid UserId = Guid.Parse(_userContextService.GetUserId());
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\ProfilePics", UserId.ToString() + ".jpg");
+
+            // Overwrite the file if it exists
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await profilePicture.CopyToAsync(stream);
+            }
+
+            User user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == UserId);
+
+            user.ProfilePicture = "~/ProfilePics/"+ UserId.ToString() +".jpg";
+            user.UpdatedBy = UserId;
+            user.UpdatedOn = DateTime.UtcNow;
+
+
+            _dbContext.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                //_logger.LogError(ex, "Error updating user with ID {id}", id);
+                throw;
+            }
+            return user;
+        }
+
+        public async Task<User> ChangePasswordAsync(string password)
+        {
+            Guid userId = Guid.Parse(_userContextService.GetUserId());
+
+            User user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == userId);
+
+            user.Password = password;
+            user.UpdatedOn = DateTime.UtcNow;
+            user.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
+
+            _dbContext.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw;
+            }
+            return user;
+        }
+
+
+        public async Task<User> UpdateProfileAsync(ProfileVM model)
+        {
+            User user = await _dbContext.User.FirstOrDefaultAsync(p => p.Email == model.Email);
+
+            User UpdatedUser = _mapper.Map<User>(user);
+
+            user.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
+            user.UpdatedOn = DateTime.UtcNow;
+
+            _dbContext.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw;
+            }
+            return user;
         }
     }
 }

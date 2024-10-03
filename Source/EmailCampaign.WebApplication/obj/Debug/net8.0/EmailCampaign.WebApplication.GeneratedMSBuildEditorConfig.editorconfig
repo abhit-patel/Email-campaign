@@ -106,10 +106,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxBZGRDb250YWN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/Contact/ContactView.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxDb250YWN0Vmlldy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/Contact/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -138,24 +134,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVybWlzc2lvblxVcGRhdGVQZXJtaXNzaW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/RolePermission/AddRolePermission.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVBlcm1pc3Npb25cQWRkUm9sZVBlcm1pc3Npb24uY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/RolePermission/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVBlcm1pc3Npb25cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/RolePermission/UpdateRolePermission.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVBlcm1pc3Npb25cVXBkYXRlUm9sZVBlcm1pc3Npb24uY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/Role/AddRole.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVxBZGRSb2xlLmNzaHRtbA==
+[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/Role/AddRolePermission.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVxBZGRSb2xlUGVybWlzc2lvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/Role/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/Role/UpdateRolePermission.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVxVcGRhdGVSb2xlUGVybWlzc2lvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/Shared/Error.cshtml]
@@ -166,6 +158,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/Shared/_PopUpScriptPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Qb3BVcFNjcmlwdFBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -174,12 +170,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxBZGRVc2VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/User/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/User/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/User/SelectProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxTZWxlY3RQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/User/UpdateUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxVcGRhdGVVc2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/User/UserProfileInfo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxVc2VyUHJvZmlsZUluZm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [A:/Giriraj_work/email-campaign-manager/Source/EmailCampaign.WebApplication/Views/_ViewImports.cshtml]

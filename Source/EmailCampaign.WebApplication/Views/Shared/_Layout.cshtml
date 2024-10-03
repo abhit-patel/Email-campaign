@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using EmailCampaign.Query.QueryService
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,6 +31,7 @@
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -160,33 +167,44 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
-                <li class="nav-item">
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <form asp-controller="Account" asp-action="UserLogout" method="post">
-                            <button type="submit" class="nav-link">
-                                <i class="fas fa-sign-out-alt nav-icon"></i>
-                                <span>Logout</span>
-                            </button>
-                        </form>
-                    }
-                    else
-                    {
-                        <a class="nav-link" asp-controller="Account" asp-action="index">
-                            <i class="fas fa-sign-in nav-icon"></i>
-                            <span>Login</span>
+                <li class="nav-item dropdown pe-3">
+
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fas fa-user-circle nav-icon"></i> Profile
+                    </a>
+                    <!-- End Profile Image Icon -->
+
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <div class="dropdown-divider"></div>
+                        <a asp-action="ViewProfile" asp-controller="User" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i> My Profile
                         </a>
-                    }
-                </li>
+                        <div class="dropdown-divider"></div>
+                        <a asp-action="SelectProfile" asp-controller="User" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i> Change Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a asp-action="ChangePassword" asp-controller="User" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i> Change Password
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-controller="Account" asp-action="UserLogout" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt nav-icon"></i>Logout
+                            </a>
+                        }
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    </div>
+                </li><!-- End Profile Nav -->
 
 
             </ul>
-        
+
         </nav>
         <!-- /.navbar -->
-
-
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
@@ -223,7 +241,7 @@
                                 </p>
                             </a>
                         </li>
-                        
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-chart-pie"></i>
@@ -242,7 +260,7 @@
                             </a>
                         </li>
 
-                        
+
                         @* Contact DropDown *@
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -252,25 +270,28 @@
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
+                            @{
+                                HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "Contact";
+                            }
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="Index" asp-controller="Contact" class="nav-link">
-                                        <i class="fa fa-circle nav-icon"></i>
-                                        <p>Manage Contact</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="AddContact" asp-controller="Contact" class="nav-link">
-                                        <i class="fa fa-circle nav-icon"></i>
-                                        <p>Add Contact</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="ContactView" asp-controller="Contact" class="nav-link">
-                                        <i class="fa fa-circle nav-icon"></i>
-                                        <p>Contact List</p>
-                                    </a>
-                                </li>
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "ViewPermission")).Succeeded)
+                                {
+                                    <li class="nav-item">
+                                        <a asp-action="Index" asp-controller="Contact" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Manage Contact</p>
+                                        </a>
+                                    </li>
+                                }
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                {
+                                    <li class="nav-item">
+                                        <a asp-action="AddContact" asp-controller="Contact" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Add Contact</p>
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </li>
 
@@ -296,34 +317,94 @@
 
                         <hr style="height:2px;border-width:0;color:white;background-color:white">
 
-                        @if (User.Identity.IsAuthenticated)
-                        {
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user-alt"></i>
+                                <p>
+                                    Manger User
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
 
-                            <li class="nav-item d-none d-sm-inline-block">
-                                <a asp-action="Index" asp-controller="User" class="nav-link">
-                                    <i class="fas fa-user-alt"></i>
-                                    <p>Manage User</p>
-                                </a>
-                            </li>
-                            <li class="nav-item d-none d-sm-inline-block">
-                                <a asp-action="Index" asp-controller="Role" class="nav-link">
-                                    <i class="fas fa-id-card"></i>
-                                    <p>Manage Role</p>
-                                </a>
-                            </li>
-                            <li class="nav-item d-none d-sm-inline-block">
+                            <ul class="nav nav-treeview">
+                                @{
+                                    HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "User";
+                                }
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "ViewPermission")).Succeeded)
+                                {
+                                    <li class="nav-item">
+                                        <a asp-action="Index" asp-controller="User" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>User List</p>
+                                        </a>
+                                    </li>
+                                }
+                                @{
+                                    HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "User";
+                                }
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                {
+                                    <li class="nav-item">
+                                        <a asp-action="AddUser" asp-controller="User" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Add User</p>
+                                        </a>
+                                    </li>
+                                }
+                                @{
+                                    HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "Role";
+                                }
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "ViewPermission")).Succeeded)
+                                {
+                                    <li class="nav-item">
+                                        <a asp-action="Index" asp-controller="Role" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Role List</p>
+                                        </a>
+                                    </li>
+                                }
+                                @{
+                                    HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "Role";
+                                }
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                {
+                                    <li class="nav-item">
+                                        <a asp-action="AddRolePermission" asp-controller="Role" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Manage Role-Permission</p>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+
+                        
+                        @{
+                            HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "Permission";
+                        }
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "ViewPermission")).Succeeded)
+                        {
+                            <li class="nav-item ">
                                 <a asp-action="Index" asp-controller="Permission" class="nav-link">
-                                    <i class="fas fa-lock"></i>
+                                    <i class=" nav-icon fas fa-lock"></i>
                                     <p>Manage Permission</p>
                                 </a>
                             </li>
-                            <li class="nav-item d-none d-sm-inline-block">
+                        }
+
+                        @{
+                            HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "RolePermission";
+                        }
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "ViewPermission")).Succeeded)
+                        {
+                            <li class="nav-item ">
                                 <a asp-action="Index" asp-controller="RolePermission" class="nav-link">
-                                    <i class="fas fa-user-lock"></i>
+                                    <i class="nav-icon fas fa-user-lock"></i>
                                     <p>Manage RolePermission</p>
                                 </a>
                             </li>
                         }
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -345,7 +426,7 @@
             </div>
             <!-- /.content-header -->
 
-            
+
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
@@ -363,7 +444,11 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
+    @RenderSection("Scripts", required: false)
+    @{
+        Html.RenderPartial("_PopUpScriptPartial");
+    }
+    
 
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>

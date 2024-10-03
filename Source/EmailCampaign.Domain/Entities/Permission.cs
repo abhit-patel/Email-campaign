@@ -14,6 +14,7 @@ namespace EmailCampaign.Domain.Entities
         public string ActionName { get; set; }
         public string ControllerName { get; set; }
         public string Slug { get; set; }
+        public ICollection<RolePermission> RolePermissions { get; set; }
 
     }
 }

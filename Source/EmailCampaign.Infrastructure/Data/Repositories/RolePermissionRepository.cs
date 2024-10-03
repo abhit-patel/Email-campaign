@@ -32,6 +32,30 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             return await _dbContext.RolePermission.FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<RolePermissionVM> GetAllByIdAsync(Guid id)
+        {
+            RolePermissionVM model = new RolePermissionVM();
+
+            var roleName = await _dbContext.Role.Where(p => p.Id == id).Select(p => p.Name).SingleOrDefaultAsync();
+
+            List<RolePermission> dBModelList = await _dbContext.RolePermission.Where(p => p.RoleId == id && p.IsDeleted == false).ToListAsync();
+
+            RolePermissionVM rolePermissionVMList = dBModelList.GroupBy(r => r.RoleId).Select(g => new RolePermissionVM
+            {
+                RoleName = roleName,
+                PermissionList = g.Select(p => new PermissionListVM
+                {
+                    PermissionId = p.PermissionId,
+                    IsView = p.IsView,
+                    IsAddEdit = p.IsAddEdit,
+                    IsDelete = p.IsDelete
+                }).ToList()
+            }).FirstOrDefault();
+
+            return rolePermissionVMList;
+
+        }
+
         public async Task<RolePermission> CreateAsync(RolePermissionDBVM model)
         {
             RolePermission newItem = new RolePermission
@@ -57,17 +81,15 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
         }
 
 
-        public async Task<RolePermission> UpdateAsync(Guid id, RolePermissionDBVM model)
+        public async Task<RolePermission> UpdateAsync( RolePermissionDBVM model)
         {
-            RolePermission rolePermission = await _dbContext.RolePermission.FirstOrDefaultAsync(p => p.Id == id);
+            RolePermission rolePermission = await _dbContext.RolePermission.FirstOrDefaultAsync(p => p.RoleId == model.RoleId && p.PermissionId == model.PermissionId);
 
             if ( rolePermission == null) 
             {
                 return null;
             }
 
-            rolePermission.RoleId = model.RoleId;
-            rolePermission.PermissionId = model.PermissionId;
             rolePermission.IsView = model.IsView;
             rolePermission.IsAddEdit = model.IsAddEdit;
             rolePermission.IsDelete = model.IsDelete;
@@ -100,13 +122,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
                 rolePermission.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
                 rolePermission.UpdatedOn = DateTime.UtcNow;
-                rolePermission.IsDelete = true;
+                rolePermission.IsDeleted = true;
 
                 _dbContext.Entry(rolePermission).State = EntityState.Modified;
 
                 try
                 {
                     await _dbContext.SaveChangesAsync();
+                    return true;
                 }
                 catch (DbUpdateException ex)
                 {

@@ -1,9 +1,13 @@
+using EmailCampaign.Query.QueryService;
 using EmailCampaign.WebApplication.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Web.Http;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
