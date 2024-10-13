@@ -1,8 +1,10 @@
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Infrastructure.deps.json
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Infrastructure.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Infrastructure.pdb
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Application.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Core.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Domain.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Application.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Core.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Domain.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\obj\Debug\net8.0\EmailCampaign.Infrastructure.csproj.AssemblyReference.cache
@@ -19,8 +21,10 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Infrastructure\obj
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Infrastructure.deps.json
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Infrastructure.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Infrastructure.pdb
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Application.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Core.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Domain.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Application.pdb
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Core.pdb
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\bin\Debug\net8.0\EmailCampaign.Domain.pdb
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.Infrastructure\obj\Debug\net8.0\EmailCampaign.Infrastructure.csproj.AssemblyReference.cache

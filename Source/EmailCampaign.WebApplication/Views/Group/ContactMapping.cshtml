@@ -1,0 +1,148 @@
+﻿@model EmailCampaign.Domain.Entities.ViewModel.ContactGroupVM
+@{
+    ViewData["Title"] = "Add Group-Contacts";
+    Layout = "_Layout"; // render the page without layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    
+</head>
+<body class="hold-transition register-page">
+    <div class="wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">Add Group-Contacts Mapping</h3>
+                            </div>
+
+                            <form asp-action="AddContactMapping" asp-controller="Group" method="post">
+                                <div class="card-body">
+                                    <input type="hidden" asp-for="GroupID" />
+                                    <div class="form-group">
+                                        <label>Contacts</label>
+                                        <div class="mb-3">
+                                            <select id="filterField" class="form-control col-md-3 d-inline-block mr-2">
+                                                <option value="name">Contact Name</option>
+                                                <option value="email">Contact Email</option>
+                                                <option value="company">Contact Company</option>
+                                            </select>
+                                            <input type="text" id="searchInput" class="form-control col-md-3 d-inline-block mr-2" placeholder="Search...">
+                                            <button type="button" id="selectAllBtn" class="btn btn-primary">Select All Filtered</button>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table id="contactsTable" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Contact Name</th>
+                                                        <th>Contact Email</th>
+                                                        <th>Contact Company</th>
+                                                        <th>Select</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (int i = 0; i < Model.Contacts.Count; i++)
+                                                    {
+                                                        <tr>
+                                                            <td>@Model.Contacts[i].ContactName</td>
+                                                            <td>@Model.Contacts[i].Email</td>
+                                                            <td>@Model.Contacts[i].CompanyName</td>
+                                                            <td>
+                                                                <input type="hidden" asp-for="Contacts[i].ContactId" />
+                                                                <input type="hidden" asp-for="Contacts[i].ContactName" />
+                                                                <input type="checkbox" asp-for="Contacts[i].IsSelected" class="contact-checkbox" />
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+
+     @* pagination scripts *@
+ <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+ <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+ <script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+ <script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#contactsTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            function filterTable() {
+                var filterField = $('#filterField').val();
+                var searchText = $('#searchInput').val().toLowerCase();
+                $('#contactsTable tbody tr').each(function() {
+                    var fieldValue = $(this).find('td').eq(filterField === 'name' ? 0 : filterField === 'email' ? 1 : 2).text().toLowerCase();
+                    if (fieldValue.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+            $('#filterField, #searchInput').on('change keyup', filterTable);
+
+            $('#selectAllBtn').click(function() {
+                $('#contactsTable tbody tr:visible .contact-checkbox').prop('checked', true);
+            });
+        });
+    </script>
+
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>

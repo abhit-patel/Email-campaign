@@ -13,6 +13,8 @@ namespace EmailCampaign.Domain.Interfaces
         Task<List<RolePermission>> GetAllAsync();
         Task<RolePermission> GetByIdAsync(Guid id);
         Task<RolePermissionVM> GetAllByIdAsync(Guid id);
+        Task<RolePermission> GetItemByRoleID(Guid roleId);
+        Task<RolePermission> GetItemByPermissionId(Guid permissionId);
         Task<RolePermission> CreateAsync(RolePermissionDBVM model);
         Task<RolePermission> UpdateAsync( RolePermissionDBVM model);
         Task<bool> DeleteAsync(Guid ID);

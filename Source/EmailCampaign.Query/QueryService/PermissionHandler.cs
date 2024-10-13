@@ -38,6 +38,14 @@ namespace EmailCampaign.Query.QueryService
 
             Guid userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
+            bool isSuperAdmin = await _dbContext.User.AnyAsync(p => p.IsSuperAdmin == true && p.ID == userId);
+
+            if(isSuperAdmin)
+            {
+                context.Succeed(requirement);
+                return;
+            }
+
             var roleId =  _dbContext.User.Where(p => p.ID == userId && p.IsDeleted == false).Select(p => p.RoleId.ToString()).SingleOrDefault() ;
 
 

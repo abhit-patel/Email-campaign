@@ -20,7 +20,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _dbContext.User.FirstOrDefaultAsync(p => p.Email == email);
+            return await _dbContext.User.FirstOrDefaultAsync(p => p.Email == email && p.IsDeleted == false && p.IsActive == true);
         }
     }
 }

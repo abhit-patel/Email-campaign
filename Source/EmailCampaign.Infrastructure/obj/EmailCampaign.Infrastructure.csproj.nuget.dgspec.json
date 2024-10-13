@@ -4,6 +4,79 @@
     "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Infrastructure\\EmailCampaign.Infrastructure.csproj": {}
   },
   "projects": {
+    "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Application\\EmailCampaign.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Application\\EmailCampaign.Application.csproj",
+        "projectName": "EmailCampaign.Application",
+        "projectPath": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Application\\EmailCampaign.Application.csproj",
+        "packagesPath": "C:\\Users\\abhit\\.nuget\\packages\\",
+        "outputPath": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\abhit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Core\\EmailCampaign.Core.csproj": {
+                "projectPath": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Core\\EmailCampaign.Core.csproj"
+              },
+              "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\EmailCampaign.Domain.csproj": {
+                "projectPath": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Domain\\EmailCampaign.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Core\\EmailCampaign.Core.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -45,6 +118,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
             "Microsoft.AspNetCore.Mvc.Abstractions": {
               "target": "Package",
               "version": "[2.2.0, )"
@@ -52,6 +129,10 @@
             "Microsoft.AspNetCore.Mvc.Core": {
               "target": "Package",
               "version": "[2.2.5, )"
+            },
+            "NETCore.MailKit": {
+              "target": "Package",
+              "version": "[2.1.0, )"
             }
           },
           "imports": [
@@ -172,6 +253,9 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Application\\EmailCampaign.Application.csproj": {
+                "projectPath": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Application\\EmailCampaign.Application.csproj"
+              },
               "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Core\\EmailCampaign.Core.csproj": {
                 "projectPath": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.Core\\EmailCampaign.Core.csproj"
               },

@@ -30,7 +30,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
         }
         public async Task<List<Group>> GetAllGroupAsync()
         {
-            return await _dbContext.Group.ToListAsync();
+            return await _dbContext.Group.Where(p=> p.IsDeleted == false).ToListAsync();
         }
 
         public async Task<Group> GetGroupAsync(Guid id)
@@ -55,7 +55,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
             };
 
             await _dbContext.Group.AddAsync(group);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw;
+            }
 
             return group;
         }
@@ -81,7 +88,43 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
             
         }
 
-        public async Task<bool> DeleteGroupAsync(Guid GroupID)
+
+        public async Task<Group> ActiveToggleAsync(Guid id)
+        {
+            Group group = await _dbContext.Group.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (group != null)
+            {
+                if (group.IsActive)
+                {
+                    group.IsActive = false;
+                }
+                else
+                {
+                    group.IsActive = true;
+                }
+            }
+
+            group.UpdatedOn = DateTime.UtcNow;
+            group.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
+
+
+            _dbContext.Entry(group).State = EntityState.Modified;
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw;
+            }
+
+            return group;
+
+        }
+
+
+        public async Task<Group> DeleteGroupAsync(Guid GroupID)
         {
             Group group = await _dbContext.Group.FirstOrDefaultAsync(p => p.Id == GroupID);
 
@@ -98,16 +141,121 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
                 try
                 {
                     await _dbContext.SaveChangesAsync();
-                    return true;
+                    return group;
                 }
                 catch (DbUpdateException ex)
                 {
                     throw;
                 }
             }
-            return false;
+            return new Group();
         }
 
 
+
+
+        public async Task<ContactGroup> AddContactsGroupAsync(Guid groupId, Guid contactId, bool isSelected)
+        {
+            var model = new ContactGroup
+            {
+                Id = Guid.NewGuid(),
+                ContactId = contactId,
+                GroupID = groupId,
+                IsSubscribed = isSelected
+            };
+
+            await _dbContext.ContactGroup.AddAsync(model);
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw;
+            }
+
+            return model;
+        }
+
+
+        public async Task<ContactGroupVM> GetContactForGroupAsync( Guid groupId)
+        {
+            var group = await _dbContext.Group.AsNoTracking().FirstOrDefaultAsync( p => p.Id ==groupId);
+
+            var contactgroup = await _dbContext.ContactGroup.AsNoTracking().Where(p => p.GroupID == groupId && p.IsSubscribed == true).Include(p => p.Contact).ToListAsync();
+
+            var model = new ContactGroupVM
+            {
+                GroupID = groupId,
+                Contacts = contactgroup.Select(p => new ContactSelection
+                {
+                    ContactId = p.ContactId,
+                    ContactName = $"{p.Contact.FirstName} {p.Contact.LastName} ",
+                    Email = $"{p.Contact.Email}",
+                    CompanyName = $"{p.Contact.CompanyName}",
+                    IsSelected = p.IsSubscribed
+                }).ToList(),
+            };
+
+            return model;
+        }
+        
+        public async Task<ContactGroup> UpdateContactsGroupAsync(Guid groupId, Guid contactId, bool isSelected)
+        {
+            ContactGroup contactGroup = await _dbContext.ContactGroup.AsNoTracking().FirstOrDefaultAsync(p => p.ContactId == contactId && p.GroupID == groupId);
+
+            if (contactGroup == null)
+            {
+                return new ContactGroup();
+            }
+
+            var model = new ContactGroup
+            {
+                Id = contactGroup.Id,
+                ContactId = contactId,
+                GroupID = groupId,
+                IsSubscribed = isSelected
+            };
+
+            _dbContext.Entry(model).State = EntityState.Modified;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw;
+            }
+
+            return model;
+        }
+
+
+        public async Task<ContactGroup> ContacSubscribeStatus(Guid contactId, Guid groupId)
+        {
+            ContactGroup model = await _dbContext.ContactGroup.FirstOrDefaultAsync(p => p.ContactId == contactId && groupId == groupId);
+
+            if (model == null)
+            {
+                return new ContactGroup();
+            }
+
+            model.IsSubscribed = false;
+
+            _dbContext.Entry(model).State = EntityState.Modified;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw;
+            }
+
+            return model;
+        }
     }
 }

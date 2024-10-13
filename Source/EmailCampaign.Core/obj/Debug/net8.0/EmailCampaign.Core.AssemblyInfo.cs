@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("EmailCampaign.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0860f5aba83b083285d88f16c2a32bb6dea73563")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5e1cf20aa2c2c5792cc955c49561440288b1b321")]
 [assembly: System.Reflection.AssemblyProductAttribute("EmailCampaign.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EmailCampaign.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

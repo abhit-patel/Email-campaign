@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "d7+9UZ9iD6G3WmUtfPz0VQLHFQaSHeOlUefxU7dYE9Y=",
+  "Hash": "PTA9rNMattC1GorQzQiZgfL2YgfEH9+71Uoh5GhQN+Q=",
   "Source": "EmailCampaign.WebApplication",
   "BasePath": "_content/EmailCampaign.WebApplication",
   "Mode": "Default",
@@ -3416,6 +3416,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\css\\toaster.css",
+      "SourceId": "EmailCampaign.WebApplication",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\",
+      "BasePath": "_content/EmailCampaign.WebApplication",
+      "RelativePath": "css/toaster.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\toaster.css"
     },
     {
       "Identity": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\dist\\css\\adminlte.css",
@@ -8016,6 +8035,25 @@
       "OriginalItemSpec": "wwwroot\\js\\site.js"
     },
     {
+      "Identity": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\js\\toaster.js",
+      "SourceId": "EmailCampaign.WebApplication",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\",
+      "BasePath": "_content/EmailCampaign.WebApplication",
+      "RelativePath": "js/toaster.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\toaster.js"
+    },
+    {
       "Identity": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "SourceId": "EmailCampaign.WebApplication",
       "SourceType": "Discovered",
@@ -9097,6 +9135,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\LogsFile\\activity_log.json",
+      "SourceId": "EmailCampaign.WebApplication",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\",
+      "BasePath": "_content/EmailCampaign.WebApplication",
+      "RelativePath": "LogsFile/activity_log.json",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\LogsFile\\activity_log.json"
     },
     {
       "Identity": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\pages\\calendar.html",
@@ -48009,6 +48066,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\plugins\\uplot\\uPlot.min.css"
+    },
+    {
+      "Identity": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\ProfilePics\\7ad48839-b79b-4b7a-a812-9ac273090c7d.jpg",
+      "SourceId": "EmailCampaign.WebApplication",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\",
+      "BasePath": "_content/EmailCampaign.WebApplication",
+      "RelativePath": "ProfilePics/7ad48839-b79b-4b7a-a812-9ac273090c7d.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ProfilePics\\7ad48839-b79b-4b7a-a812-9ac273090c7d.jpg"
     },
     {
       "Identity": "D:\\Abhit\\Projects\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\starter.html",

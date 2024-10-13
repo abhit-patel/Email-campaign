@@ -13,14 +13,7 @@
 <html lang="en">
 
 <head>
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+   
     <style>
         .action-buttons {
             display: flex;
@@ -41,6 +34,14 @@
                             <div class="card-header">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h2 class="mb-0">RolePermission List</h2>
+                                    <div class="card-tools">
+                                        <div class="d-flex form-group mb-0 d-flex align-items-center">
+                                            <input type="search" id="searchInput" class="form-control" placeholder="Search here">
+                                            <button id="searchButton" class="btn btn-default btn-outline-secondary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -48,7 +49,7 @@
                                 @if (Model != null && Model.Any())
                                 {
                                     <div class="table-responsive">
-                                        <table class="table table-hover table-bordered">
+                                        <table id="searchTable" class="table table-hover table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Index</th>
@@ -109,15 +110,23 @@
                     </div>
                 </div>
             </div>
-        </section>
+    </section>
 </div>
-    <!-- /.register-box -->
-    <!-- jQuery -->
-    <script src="../../plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../dist/js/adminlte.min.js"></script>
+    
+<script>
+    $(document).ready(function () {
+        $('#searchTable').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>
+
 </body>
 
 </html>

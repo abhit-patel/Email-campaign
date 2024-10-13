@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EmailCampaign.WebApplication")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9f5ea12e8de3469c13d7073e37d24c8d10caa017")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9dc9ba757512528f575569daedd7ca82a0334ec5")]
 [assembly: System.Reflection.AssemblyProductAttribute("EmailCampaign.WebApplication")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EmailCampaign.WebApplication")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -11,6 +11,6 @@ namespace EmailCampaign.Domain.Entities.ViewModel
     {
         public Guid Id { get; set; }
         [Required(ErrorMessage = "Role Name is required")]
-        public String RoleName { get; set; }
+        public string RoleName { get; set; }
     }
 }

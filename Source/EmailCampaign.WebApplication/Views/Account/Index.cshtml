@@ -1,6 +1,7 @@
 ﻿@model EmailCampaign.Domain.Entities.ViewModel.LoginVM
 
 @{
+    ViewData["Title"] = "Login Page";
     Layout = null; // render the page without any layout
 }
 
@@ -16,8 +17,11 @@
     <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/css/toaster.css" />
+
 </head>
 <body class="hold-transition login-page">
+    <div id="toaster" class="toaster"></div>
     <div class="login-box">
         <div class="login-logo">
             <p><b>GD</b> - Email campaign</p>
@@ -30,15 +34,15 @@
             <div class="card-body login-card-body">
 
 
-                <form asp-action="UserLogin" asp-controller="Account" method="post" data-validate="true">
+                <form asp-action="UserLogin" asp-controller="Account" method="post" >
                     <div class="form-group ">
                         <label asp-for="Email">Email</label>
-                        <input asp-for="Email" type="email" class="form-control" placeholder="Email" required>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="Email"  value="@Model.Email">
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group ">
                         <label asp-for="Password">Password</label>
-                        <input asp-for="Password" type="password" class="form-control" placeholder="Password" required>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Password" value="@Model.Password"  >
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -52,30 +56,27 @@
                                 </div>
                             </div>
                             <!-- /.col -->
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                            </div>
                             <!-- /.col -->
                         </div>
                     </div>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            </div>
+                            </div>
                 </form>
 
                 <p class="mb-1">
-                    <a href="#">Forgot Password</a>
+                    <a asp-action="ForgotPassword" asp-controller="Account">Forgot Password</a>
                 </p>
             </div>
             <!-- /.login-card-body -->
         </div>
     </div>
-    <!-- /.login-box -->
-    <!-- jQuery -->
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/dist/js/adminlte.min.js"></script>
 
     @Html.Partial("_ValidationScriptsPartial")
+    @Html.Partial("_PopUpScriptPartial")
+
 
 </body>
 </html>

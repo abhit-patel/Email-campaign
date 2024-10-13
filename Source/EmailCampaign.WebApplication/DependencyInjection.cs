@@ -10,7 +10,7 @@ namespace EmailCampaign.WebApplication
     {
         public static IServiceCollection AddAppDI(this IServiceCollection services , IConfiguration configuration)
         {
-            services.AddDomainDI().AddQueryDI().AddCoreDI().AddInfraDI().AddApplicationDI();
+            services.AddDomainDI().AddQueryDI().AddInfraDI().AddApplicationDI().AddCoreDI();
 
             return services;
         }

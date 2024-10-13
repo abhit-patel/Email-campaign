@@ -4,16 +4,20 @@ using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
+using EmailCampaign.Infrastructure.Data.Services.LogsService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml.Utils;
 using System.Data;
+using System.Reflection;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
-    //[Authorize(Policy = "PermissionPolicy")]
-
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    //[ServiceFilter(typeof(ActivityLogAttribute))]
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
@@ -29,7 +33,7 @@ namespace EmailCampaign.WebApplication.Controllers
             _userService = userService;
         }
 
-        //[Authorize("ViewPermission")]
+        [Authorize("ViewPermission")]
         public async Task<IActionResult> Index()
         {
             List<User> userList = await _userRepository.GetAllUserAsync();
@@ -40,7 +44,7 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
 
-        //[Authorize("AddEditPermission")]
+        [Authorize("AddEditPermission")]
         public async Task<IActionResult> GetUserById(Guid id)
         {
             User user = await _userRepository.GetUserAsync(id);
@@ -57,8 +61,7 @@ namespace EmailCampaign.WebApplication.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        //[Authorize("AddEditPermission")]
-        //[CustomAuthorize("User/AddUser")]
+        [Authorize("AddEditPermission")]
         public async Task<IActionResult> AddUser()
         {
             await LoadRoles();
@@ -74,18 +77,37 @@ namespace EmailCampaign.WebApplication.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("AddUser")]
-        //[Authorize("AddEditPermission")]
-        //[CustomAuthorize("User/AddUser")]
+        [Authorize("AddEditPermission")]
         public async Task<IActionResult> Post(UserRegisterVM model)
         {
+            var IsEmailPresent = await _userRepository.CheckRegisteredEmailAsync(model.Email);
+
+            if (IsEmailPresent)
+            {
+                TempData["ErrorMessage"] = "User Email is already present, please use another email.";
+                return RedirectToAction("AddUser");
+            }
+
             var user = await _userRepository.CreateUserAsync(model);
 
             if(user == null)
             {
-                TempData["Message"] = "";
-                return View("AddUser");
+                TempData["ErrorMessage"] = "User create process failed, please try again.";
+                return RedirectToAction("AddUser");
             }
 
+
+            var activityLogAttribute = new ActivityLogAttribute("Create", "New user created with name {0} Created by {1}" , user.FirstName + " " + user.LastName + " (" + user.ID + ").");
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
+
+
+            TempData["SuccessMessage"] = "User created successfully..";
             return RedirectToAction("Index");
         }
 
@@ -97,7 +119,7 @@ namespace EmailCampaign.WebApplication.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("UpdateUser")]
-        //[Authorize("AddEditPermission")]
+        [Authorize("AddEditPermission")]
         public async Task<IActionResult> Update(Guid id, UserRegisterVM userModel)
         {
 
@@ -105,9 +127,23 @@ namespace EmailCampaign.WebApplication.Controllers
 
             if(user == null)
             {
-                TempData["Message"] = "";
-                return View("AddUser");
+                TempData["ErrorMessage"] = "User details has not be updated. please try again.";
+                return RedirectToAction("AddUser");
             }
+
+
+            var activityLogAttribute = new ActivityLogAttribute("Update", "Details updated of user {0}. Updated by {1}. ", user.FirstName + " " + user.LastName + " (" + user.ID + ")");
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
+
+
+
+            TempData["SuccessMessage"] = "User details updated successfully.";
             return RedirectToAction("Index");
         }
 
@@ -123,10 +159,22 @@ namespace EmailCampaign.WebApplication.Controllers
 
             if(user == null)
             {
-                TempData["Message"] = "";
-                return View("AddUser");
+                TempData["ErrorMessage"] = "User status has not been toggled successfully.";
+                return RedirectToAction("AddUser");
             }
 
+
+            var activityLogAttribute = new ActivityLogAttribute("IsActive toggle", "Active status changed of user {0}. Updated by {1}. ", user.FirstName + " " + user.LastName + " (" + user.ID + ") to Active status " + user.IsActive +" ");
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
+
+
+            TempData["SuccessMessage"] = "User status has been toggled successfully.";
             return RedirectToAction("Index");
         }
 
@@ -136,17 +184,28 @@ namespace EmailCampaign.WebApplication.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        //[Authorize("DeletePermission")]
+        [Authorize("DeletePermission")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var isDeleted = await _userRepository.DeleteUserAsync(id);
+            var user = await _userRepository.DeleteUserAsync(id);
 
-            if (!isDeleted)
+            if (!user.IsDeleted)
             {
-                TempData["Message"] = "";
-                return View("Index");
+                TempData["ErrorMessage"] = "User not deleted successfully.";
+                return RedirectToAction("Index");
             }
-             return RedirectToAction("Index");
+
+            var activityLogAttribute = new ActivityLogAttribute("Delete", "{0} User deleted. Deleted by {1}. ", user.FirstName + " " + user.LastName + " (" + user.ID + ")");
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
+
+            TempData["SuccessMessage"] = "User deleted successfully.";
+            return RedirectToAction("Index");
         }
 
 
@@ -161,7 +220,7 @@ namespace EmailCampaign.WebApplication.Controllers
             if (user == null)
             {
                 TempData["Message"] = "";
-                return View("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return View("UserProfileInfo", user);
@@ -173,20 +232,30 @@ namespace EmailCampaign.WebApplication.Controllers
             return View();
         }
 
+
         [HttpPost]
         [ActionName("UpdateProfilePic")]
-        public async Task<IActionResult> UpdateProfilePic(IFormFile profilePicture)
+        public async Task<IActionResult> UpdateProfilePic(ProfilePictureVM model)
         {
-            if (profilePicture == null)
+            if (model.ProfilePicture == null)
             {
                 return Content("File not selected");
             }
-            var user = await _userRepository.UpdateProfilePic(profilePicture);
+            var user = await _userRepository.UpdateProfilePic(model.ProfilePicture);
 
             if(user.ProfilePicture == null) {
                 TempData["Message"] = "";
                 return View("Index", "Home");
             }
+
+            var activityLogAttribute = new ActivityLogAttribute("Updated", "{0} user update profile picture. Updated by {1}.", user.FirstName + " " + user.LastName + " (" + user.ID + ")");
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
 
             return RedirectToAction("ViewProfile");
         }
@@ -197,6 +266,7 @@ namespace EmailCampaign.WebApplication.Controllers
             return View();
         }
 
+
         [HttpPost]
         [ActionName("UpdatePassword")]
         public async Task<IActionResult> ChangePassword(UpdatePasswordVM model)
@@ -206,22 +276,57 @@ namespace EmailCampaign.WebApplication.Controllers
             if (user.ProfilePicture == null)
             {
                 TempData["Message"] = "";
-                return View("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
+
+
+            var activityLogAttribute = new ActivityLogAttribute("Password Change", "{0}  Changed Account password. Update By {1}. ", user.FirstName + " " + user.LastName + " (" + user.ID + ")");
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
+
 
             return View("UserProfileInfo", user);
         }
 
-        [ActionName("UpdateProfile")]
-        public async Task<IActionResult> UpdatePrfoile(ProfileVM model)
+
+        public async Task<IActionResult> GetProfileForUpdate(Guid id)
+        {
+            User user = await _userRepository.GetUserAsync(id);
+
+            ProfileVM model = _mapper.Map<ProfileVM>(user);
+
+            return View("UpdateProfileInfo", model);
+        }
+
+
+        [HttpPost]
+        [ActionName("UpdateProfileInfo")]
+        public async Task<IActionResult> UpdateProfile(ProfileVM model)
         {
             var user = await _userRepository.UpdateProfileAsync(model);
 
             if (user == null)
             {
                 TempData["Message"] = "";
-                return View("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
+
+
+            var activityLogAttribute = new ActivityLogAttribute("Update", "{0} User update own profile details. Updated by {1}", user.FirstName + " " + user.LastName + " (" + user.ID + ")");
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
+
+            await LoadRoles();
 
             return View("UserProfileInfo", user);
         }
@@ -233,7 +338,6 @@ namespace EmailCampaign.WebApplication.Controllers
 
             ViewBag.Roles = roles.ToDictionary(r => r.Value, r => r.Text);
         }
-
 
 
     }

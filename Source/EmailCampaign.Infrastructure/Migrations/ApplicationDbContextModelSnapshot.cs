@@ -128,6 +128,44 @@ namespace EmailCampaign.Infrastructure.Migrations
                     b.ToTable("Group");
                 });
 
+            modelBuilder.Entity("EmailCampaign.Domain.Entities.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Header")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PerformOperationBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PerformOperationFor")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RedirectUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("notification");
+                });
+
             modelBuilder.Entity("EmailCampaign.Domain.Entities.Permission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -251,8 +289,8 @@ namespace EmailCampaign.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -537,13 +575,13 @@ namespace EmailCampaign.Infrastructure.Migrations
             modelBuilder.Entity("EmailCampaign.Domain.Entities.RolePermission", b =>
                 {
                     b.HasOne("EmailCampaign.Domain.Entities.Permission", "Permission")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EmailCampaign.Domain.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -556,7 +594,7 @@ namespace EmailCampaign.Infrastructure.Migrations
             modelBuilder.Entity("EmailCampaign.Domain.Entities.User", b =>
                 {
                     b.HasOne("EmailCampaign.Domain.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -613,6 +651,18 @@ namespace EmailCampaign.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EmailCampaign.Domain.Entities.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("EmailCampaign.Domain.Entities.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

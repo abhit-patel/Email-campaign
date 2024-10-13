@@ -2,24 +2,28 @@
 using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
+using EmailCampaign.Infrastructure.Data.Services.LogsService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using AuthorizeAttribute = Microsoft.AspNetCore.Authorization.AuthorizeAttribute;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
-    //[Microsoft.AspNetCore.Authorization.Authorize]
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class RoleController : Controller
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly IPermissionRepository _permissionRepository;
         private readonly IRolePermissionRepository _rolePermissionRepository;
-        public RoleController(IRoleRepository roleRepository, IMapper mapper, IPermissionRepository permissionRepository , IRolePermissionRepository rolePermissionRepository)
+        private readonly IUserRepository _userRepository;
+        public RoleController(IRoleRepository roleRepository, IMapper mapper, IPermissionRepository permissionRepository , IRolePermissionRepository rolePermissionRepository, IUserRepository userRepository)
         {
             _roleRepository = roleRepository;
             _mapper = mapper;
             _permissionRepository = permissionRepository;
             _rolePermissionRepository = rolePermissionRepository;
+            _userRepository = userRepository;
         }
 
         [Authorize("ViewPermission")]
@@ -46,16 +50,6 @@ namespace EmailCampaign.WebApplication.Controllers
             RolePermissionVM rolePermissionModel = await _rolePermissionRepository.GetAllByIdAsync(id);
 
             await LoadPermission();
-
-            //var model = new RolePermissionVM
-            //{
-            //    PermissionList = new List<PermissionListVM>()
-            //};
-
-            //foreach (var permission in ViewBag.Permission)
-            //{
-            //    model.PermissionList.Add(new PermissionListVM { PermissionId = Guid.Parse(permission.Key) });
-            //}
 
             return View("UpdateRolePermission", rolePermissionModel);
         }
@@ -90,8 +84,8 @@ namespace EmailCampaign.WebApplication.Controllers
 
             if (role == null)
             {
-                TempData["Message"] = "";
-                return View("AddRole");
+                TempData["ErrorMessage"] = "Failed to create new Role, please try again.";
+                return RedirectToAction("AddRole");
             }
             else
             {
@@ -104,12 +98,23 @@ namespace EmailCampaign.WebApplication.Controllers
 
                     if (item == null)
                     {
-                        TempData["Message"] = "";
-                        return View("AddRolePermission");
+                        TempData["Message"] = "Mapping failed for role and permission , please try again.";
+                        return RedirectToAction("AddRolePermission");
                     }
                 }
             }
 
+            var activityLogAttribute = new ActivityLogAttribute("Create", "New Role created  with name {0} and mapped permission. Created by {1}.", role.Name + " (" + role.Id + ")");
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
+
+
+            TempData["SuccessMessage"] = "Role created successfully and mapped with permission.";
             return RedirectToAction("Index");
         }
 
@@ -123,8 +128,8 @@ namespace EmailCampaign.WebApplication.Controllers
 
             if (role == null)
             {
-                TempData["Message"] = "";
-                return View("index");
+                TempData["Message"] = "Failed to update role permission mapping.";
+                return RedirectToAction("index");
             }
 
             foreach (var permissions in model.PermissionList)
@@ -136,42 +141,65 @@ namespace EmailCampaign.WebApplication.Controllers
 
                 if (item == null)
                 {
-                    TempData["Message"] = "";   
-                    return View("Index");
+                    TempData["Message"] = "Failed to update role permission mapping.";   
+                    return RedirectToAction("Index");
                 }
             }
 
+
+            var activityLogAttribute = new ActivityLogAttribute("Update", " {0} role name or mapped permission updated by {1}.", role.Name + " (" + role.Id + ")" );
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
+
+
+            TempData["SuccessMessage"] = "Role permission mapping updated successfully.";
             return RedirectToAction("Index","RolePermission");
         }
 
-
-        [ActionName("IsActiveToggle")]
-        public async Task<IActionResult> IsActiveToggleAsync(string name)
-        {
-            var user = ""; //await _userRepository.ActiveToggleAsync(email);
-
-            if (user == null)
-            {
-                TempData["Message"] = "";
-                return View("AddUser");
-            }
-
-            return RedirectToAction("Index");
-        }
 
 
         [Authorize("DeletePermission")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var isdeleteed = await _roleRepository.DeleteRoleAsync(id);
+            var rolePermission = await _rolePermissionRepository.GetItemByRoleID(id);
+            var user = await _userRepository.GetItemByRoleIDAsync(id);
 
-            if (!isdeleteed)
+            if (rolePermission != null || user != null)
             {
-                TempData["Message"] = "";
+                TempData["ErrorMessage"] = "Role already mapped with User or Permission. so can not be delete.";
+
+
+                return RedirectToAction("Index");
+            }
+
+            var role = await _roleRepository.DeleteRoleAsync(id);
+
+            if (!role.IsDeleted)
+            {
+                TempData["ErrorMessage"] = "Process can't be completed";
                 return View("Index");
             }
+
+
+            var activityLogAttribute = new ActivityLogAttribute("Delete", "{0} Role and mapped permission deleted by {1}", role.Name + " (" + role.Id + ")");
+            var context = new ActionExecutingContext(
+            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
+            new List<IFilterMetadata>(),
+            new Dictionary<string, object> { },
+            this
+            );
+            await activityLogAttribute.LogActivityAsync(context);
+
+
+            TempData["SuccessMessage"] = "Role deleted successfully.";
             return RedirectToAction("Index");
         }
+
 
 
         private async Task LoadPermission()

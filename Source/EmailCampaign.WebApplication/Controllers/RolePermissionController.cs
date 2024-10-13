@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
-    //[Microsoft.AspNetCore.Authorization.Authorize]
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class RolePermissionController : Controller
     {
         private readonly IRolePermissionRepository _rolePermissionRepository;
@@ -34,7 +34,7 @@ namespace EmailCampaign.WebApplication.Controllers
             return View(roleList);
         }
 
-
+        /*** not used for now 
         [Authorize("AddEditPermission")]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -71,23 +71,21 @@ namespace EmailCampaign.WebApplication.Controllers
         [ActionName("AddRolePermission")]
         public async Task<IActionResult> Post(RolePermissionVM model)
         {
-            //if (ModelState.IsValid) { return View("Index"); }
+            if (ModelState.IsValid) { return View("Index"); }
 
-            //foreach(var permissions in model.PermissionList)
-            //{
-            //    RolePermissionDBVM dbModel = _mapper.Map<RolePermissionDBVM>(permissions);
-            //    dbModel.RoleId = model.RoleId;
+            foreach (var permissions in model.PermissionList)
+            {
+                RolePermissionDBVM dbModel = _mapper.Map<RolePermissionDBVM>(permissions);
+                dbModel.RoleId = model.RoleId;
 
-            //    var item = await _rolePermissionRepository.CreateAsync(dbModel);
+                var item = await _rolePermissionRepository.CreateAsync(dbModel);
 
-            //    if (item == null)
-            //    {
-            //        TempData["Message"] = "";
-            //        return View("AddRolePermission");
-            //    }
-            //}
-
-            
+                if (item == null)
+                {
+                    TempData["Message"] = "";
+                    return View("AddRolePermission");
+                }
+            }
 
             return RedirectToAction("Index");
         }
@@ -101,6 +99,7 @@ namespace EmailCampaign.WebApplication.Controllers
 
             return RedirectToAction("Index");
         }
+        */
 
 
         [Authorize("DeletePermission")]
@@ -110,9 +109,11 @@ namespace EmailCampaign.WebApplication.Controllers
 
             if (!isDeleted)
             {
-                TempData["Message"] = "";
-                return View("Index");
+                TempData["ErrorMessage"] = "Failed to delete permission mapping.";
+                return RedirectToAction("Index");
             }
+
+            TempData["SuccessMessage"] = "Permission mapping delete successfully.";
             return RedirectToAction("Index");
         }
 
@@ -127,6 +128,7 @@ namespace EmailCampaign.WebApplication.Controllers
             //ViewBag.Roles = new SelectList(roles, "Value", "Text");
             //ViewBag.Permission = new SelectList(permission, "Value", "Text");
         }
+
 
     }
 }

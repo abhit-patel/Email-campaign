@@ -3,6 +3,7 @@ using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
+using EmailCampaign.Infrastructure.Data.Services.LogsService;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IUserContextService _userContextService;
-        public RolePermissionRepository( ApplicationDbContext dbContext , IUserContextService userContextService)
+        private readonly ErrorLogFilter _errorLogFilter;
+
+
+        public RolePermissionRepository( ApplicationDbContext dbContext , IUserContextService userContextService , ErrorLogFilter errorLogFilter)
         {
             _dbContext = dbContext;
             _userContextService = userContextService;
+            _errorLogFilter = errorLogFilter;
         }
 
         public async Task<List<RolePermission>> GetAllAsync()
@@ -29,12 +34,23 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
         public async Task<RolePermission> GetByIdAsync(Guid id)
         {
-            return await _dbContext.RolePermission.FirstOrDefaultAsync(p => p.Id == id);
+            return await _dbContext.RolePermission.FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted == false);
         }
+
+        public async Task<RolePermission> GetItemByRoleID(Guid roleId)
+        {
+            return await _dbContext.RolePermission.FirstOrDefaultAsync(p =>p.RoleId == roleId);
+        }
+
+        public async Task<RolePermission> GetItemByPermissionId(Guid permissionId)
+        {
+            return await _dbContext.RolePermission.FirstOrDefaultAsync(p => p.PermissionId == permissionId);
+        }
+
 
         public async Task<RolePermissionVM> GetAllByIdAsync(Guid id)
         {
-            RolePermissionVM model = new RolePermissionVM();
+            //RolePermissionVM model = new RolePermissionVM();
 
             var roleName = await _dbContext.Role.Where(p => p.Id == id).Select(p => p.Name).SingleOrDefaultAsync();
 
@@ -75,7 +91,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
             await _dbContext.RolePermission.AddAsync(newItem);
 
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                await _errorLogFilter.OnException(ex);
+            }
 
             return newItem;
         }
@@ -105,8 +128,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             }
             catch (DbUpdateException ex)
             {
-                //_logger.LogError(ex, "Error updating user with ID {id}", id);
-                throw;
+                await _errorLogFilter.OnException(ex);
             }
 
             return rolePermission;
@@ -133,7 +155,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 }
                 catch (DbUpdateException ex)
                 {
-                    throw;
+                    await _errorLogFilter.OnException(ex); 
                 }
             }
                 return false; 

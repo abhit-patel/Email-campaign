@@ -1,13 +1,21 @@
 using EmailCampaign.Application.DataMapper;
+using EmailCampaign.Core.SharedKernel;
 using EmailCampaign.Infrastructure.Data.Context;
+using EmailCampaign.Infrastructure.Data.Services;
 using EmailCampaign.Query.QueryService;
 using EmailCampaign.WebApplication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Environment.IsDevelopment();
+
 
 builder.Services.AddAppDI(builder.Configuration);
+
+builder.Services.AddSingleton<EmailService>();
 
 
 // Add services to the container.
@@ -20,13 +28,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 builder.Services.AddAuthentication(options => {
-    options.DefaultAuthenticateScheme = "Cookies";
-    options.DefaultChallengeScheme = "Cookies";
-    options.DefaultScheme = "Cookies";
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
 .AddCookie(options => {
+    options.Cookie.Name = "EmailCampaignCookies";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.LoginPath = "/Account/Index";
     options.LogoutPath = "/Account/UserLogout";
+
 });
 
 
@@ -46,7 +58,7 @@ builder.Services.AddAuthorization(options => {
 });
 
 builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromHours(24);
+    //options.IdleTimeout = TimeSpan.FromHours(24);
     options.Cookie.HttpOnly = true;
 });
 
@@ -71,7 +83,6 @@ else
 }
 
 
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -81,9 +92,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<NotificationMiddleware>();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Index}/{id?}");
 //app.MapRazorPages();
 
 app.Run();

@@ -14,9 +14,15 @@ namespace EmailCampaign.Domain.Interfaces
     {
         Task<List<User>> GetAllUserAsync();
         Task<User> GetUserAsync(Guid id);
+        Task<User> GetItemByRoleIDAsync(Guid roleId);
+        Task<User> GetUserByEmailAsync(string email);
+        Task<bool> CheckRegisteredEmailAsync(string email);
         Task<User> CreateUserAsync(UserRegisterVM model);
         Task<User> UpdateUserAsync(Guid id, UserRegisterVM model);
-        Task<bool> DeleteUserAsync(Guid userID);
+        Task<User> DeleteUserAsync(Guid userID);
+        Task<User> SavePasswordResetTokenAsync(string email, string token);
+        Task<bool> ValidatePasswordResetTokenAsync(string email, string token);
+        Task<User> ResetPasswordAsync(string email, string password);
         Task<User> ActiveToggleAsync(string email);
         Task<User> GetUserInfoForProfile();
         Task<User> UpdateProfilePic(IFormFile profilePicture);

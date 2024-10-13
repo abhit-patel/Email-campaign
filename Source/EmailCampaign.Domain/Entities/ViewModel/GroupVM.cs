@@ -11,7 +11,7 @@ namespace EmailCampaign.Domain.Entities.ViewModel
     {
         public Guid Id { get; set; }
         [Required(ErrorMessage = "Name is required")]
-        public String Name { get; set; }
+        public string Name { get; set; }
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
         public bool IsActive { get; set; }

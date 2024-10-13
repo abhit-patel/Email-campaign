@@ -1,6 +1,4 @@
-﻿@model EmailCampaign.Domain.Entities.ViewModel.ProfileVM
-@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
-
+﻿@model EmailCampaign.Domain.Entities.ViewModel.ProfilePictureVM
 
 @{
     ViewData["Title"] = "User List";
@@ -19,51 +17,48 @@
     <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+
 </head>
 <body>
 
-<div class="wrapper">
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 col">
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h2 class="mb-0">Update Profile Picture</h2>
+    <div class="wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 col">
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h2 class="mb-0">Update Profile Picture</h2>
                                     <a asp-controller="User" asp-action="ViewProfile" class="btn btn-dark btn-sm">
-                                    <i class="fas fa-arrow-left"></i> Back to Profile
-                                </a>
+                                        <i class="fas fa-arrow-left"></i> Back to Profile
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
+                            <div class="card-body">
+                                <div class="row">
 
-                                <!-- Profile Picture Upload Form -->
-                                <div class="col-md-9">
-                                        <form asp-action="UpdateProfilePic" asp-controller="User" method="post" enctype="multipart/form-data">
-                                        
-                                        <div class="form-group">
-                                            <label for="profilePicture">Select New Profile Picture</label>
-                                            <input type="file" class="form-control-file" id="profilePicture" name="profilePicture" accept="image/*">
-                                            <span class="text-danger" asp-validation-for="ProfilePicture"></span>
-                                        </div>
+                                    <!-- Profile Picture Upload Form -->
+                                    <div class="col-md-9">
 
-                                        <button type="submit" class="btn btn-primary">Update Picture</button>
-                                    </form>
+                                        <form id="profileForm" asp-action="UpdateProfilePic" asp-controller="User" method="post" enctype="multipart/form-data">
+                                            <div class="form-group">
+                                                <label asp-for="ProfilePicture">Select New Profile Picture</label>
+                                                <input asp-for="ProfilePicture" type="file" class="form-control-file" id="profilePicture" name="profilePicture" accept="image/*">
+                                                @* <span asp-validation-for="ProfilePicture" class="text-danger"></span> *@
+                                            </div>
+                                            <button id="submitBtn" type="submit" class="btn btn-primary">Update Picture</button>
+                                        </form>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        </section>
+    </div>
 
     <!-- /.register-box -->
     <!-- jQuery -->
@@ -72,6 +67,18 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
+
+    <script>
+        document.getElementById('profileForm').addEventListener('submit', function (e) {
+            if (!document.getElementById('profilePicture').files.length) {
+                e.preventDefault();
+                alert('Please select a file before submitting.');
+            }
+        });
+    </script>
+
+    @* @Html.Partial("_ValidationScriptsPartial") *@
+
 </body>
 
 </html>

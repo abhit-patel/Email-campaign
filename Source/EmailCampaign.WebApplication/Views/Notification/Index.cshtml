@@ -1,0 +1,123 @@
+﻿@model List<EmailCampaign.Domain.Entities.Notification>
+@{
+    ViewData["Title"] = "User List";
+    //Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+    <<style>
+        .notification-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .notification-icon a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }   
+    </style>>
+</head>
+<body >
+    <div class="wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 col">
+                        <div class="card card-secondary">
+                            <div class="card-header mb-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h2 class="mb-0">Activity Notification Tab</h2>
+                                    <div class="card-tools">
+                                        <div class="d-flex">
+                                            <div class="d-flex form-group mb-0 d-flex align-items-center">
+                                                <input type="search" id="searchInput" class="form-control" placeholder="Search here">
+                                                <button id="searchButton" class="btn btn-default btn-outline-secondary">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body table-responsive p-0">
+                                <table id="searchTable" class="table table-hover text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Index</th>
+                                            <th>Header</th>
+                                            <th>Message</th>
+                                            <th>RedirectURL</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int i = 1;
+                                        }
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>@item.Header</td>
+                                                <td>@item.Body</td>
+                                                <td>
+                                                    <a href="@item.RedirectUrl">Click here</a>
+                                                </td>
+                                                <td class="notification-icon">
+                                                    @if (item.IsRead)
+                                                    {
+                                                        <i class="fas fa-eye"></i> 
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-action="UpdateNotification" asp-controller="Notification" asp-route-id="@item.Id" class="btn btn-sm">
+                                                        <i class="fas fa-eye-slash"></i>
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                            i++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#searchTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+</body>
+</html>

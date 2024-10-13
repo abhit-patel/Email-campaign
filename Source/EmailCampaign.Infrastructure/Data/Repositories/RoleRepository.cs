@@ -3,6 +3,7 @@ using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
+using EmailCampaign.Infrastructure.Data.Services.LogsService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,10 +20,17 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IUserContextService _userContextService;
-        public RoleRepository(ApplicationDbContext dbContext , IUserContextService userContextService)
+        private readonly INotificationRepository _notificationRepository;
+        private readonly ErrorLogFilter _errorLogFilter;
+
+
+        public RoleRepository(ApplicationDbContext dbContext , IUserContextService userContextService, INotificationRepository notificationRepository, ErrorLogFilter errorLogFilter)
         {
             _dbContext = dbContext;
             _userContextService = userContextService;
+            _notificationRepository = notificationRepository;
+            _errorLogFilter = errorLogFilter;
+
         }
 
 
@@ -33,7 +41,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
         public async Task<Role> GetRoleByIdAsync(Guid id)
         {
-            return await _dbContext.Role.FirstOrDefaultAsync(p => p.Id == id);
+            return await _dbContext.Role.FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted == false);
         }
 
         public async Task<Role> GetRoleByNameAsync(string name)
@@ -56,7 +64,28 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
             await _dbContext.Role.AddAsync(newRole);
 
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                await _errorLogFilter.OnException(ex);
+            }
+
+            if (newRole != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "New role created.",
+                    Body = "User " + _userContextService.GetUserName() + " Created new User role with " + _userContextService.GetUserEmail() + ".",
+                    PerformOperationBy = Guid.Parse(_userContextService.GetUserId()),
+                    PerformOperationFor = Guid.Parse(_userContextService.GetUserId()),
+                    RedirectUrl = "/Role"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
 
             return newRole;
         }
@@ -82,13 +111,13 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             }
             catch (DbUpdateException ex)
             {
-                throw;
+                await _errorLogFilter.OnException(ex);
             }
 
             return role;
         }
 
-        public async Task<bool> DeleteRoleAsync(Guid ID)
+        public async Task<Role> DeleteRoleAsync(Guid ID)
         {
             Role role = await _dbContext.Role.FirstOrDefaultAsync(p => p.Id == ID);
 
@@ -104,14 +133,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 try
                 {
                     await _dbContext.SaveChangesAsync();
-                    return true;
+                    return role;
                 }
                 catch (DbUpdateException ex)
                 {
-                    throw;
+                    await _errorLogFilter.OnException(ex);
                 }
             }
-            return false;
+            return new Role();
         }
 
 

@@ -13,8 +13,12 @@
       "PackagePath": "staticwebassets\\ContactsFile\\dummy-data.csv"
     },
     {
-      "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\ProfilePics\\0f6cdf66-77d5-402c-b2ee-8d04b694ea7e.jpg",
-      "PackagePath": "staticwebassets\\ProfilePics\\0f6cdf66-77d5-402c-b2ee-8d04b694ea7e.jpg"
+      "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\LogsFile\\activity_log.json",
+      "PackagePath": "staticwebassets\\LogsFile\\activity_log.json"
+    },
+    {
+      "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\ProfilePics\\7ad48839-b79b-4b7a-a812-9ac273090c7d.jpg",
+      "PackagePath": "staticwebassets\\ProfilePics\\7ad48839-b79b-4b7a-a812-9ac273090c7d.jpg"
     },
     {
       "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\build\\config\\.eslintrc.json",
@@ -475,6 +479,10 @@
     {
       "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\css\\toaster.css",
+      "PackagePath": "staticwebassets\\css\\toaster.css"
     },
     {
       "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\dist\\css\\adminlte.css",
@@ -1443,6 +1451,10 @@
     {
       "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\js\\toaster.js",
+      "PackagePath": "staticwebassets\\js\\toaster.js"
     },
     {
       "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\lib\\bootstrap\\LICENSE",

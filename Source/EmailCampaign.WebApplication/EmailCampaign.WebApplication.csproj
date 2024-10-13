@@ -30,6 +30,7 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="wwwroot\ContactsFile\" />
+    <Folder Include="wwwroot\LogsFile\" />
     <Folder Include="wwwroot\ProfilePics\" />
   </ItemGroup>
 

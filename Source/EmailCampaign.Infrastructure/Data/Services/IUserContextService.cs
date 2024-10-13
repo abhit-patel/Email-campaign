@@ -10,6 +10,7 @@ namespace EmailCampaign.Infrastructure.Data.Services
     {
         string GetUserId();
         string GetUserEmail();
+        string GetUserName();
         bool IsAuthenticated();
     }
 }

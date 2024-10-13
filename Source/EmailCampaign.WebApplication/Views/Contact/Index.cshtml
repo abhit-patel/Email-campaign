@@ -6,32 +6,17 @@
     Layout = "_Layout"; // render the page without layout
 }
 
-@if (TempData["Message"] != null)
-{
-<script type="text/javascript">
-document.addEventListener("DOMContentLoaded", function() {
-Swal.fire({
-title: 'Notification',
-text: '@TempData["Message"]',
-icon: '@TempData["MessageType"]',
-confirmButtonText: 'OK'
-});
-});
-</script>
-}
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+   
     <style>
         .action-buttons {
         display: flex;
@@ -60,60 +45,55 @@ confirmButtonText: 'OK'
                             <div class="card-header">
                                 <div class="d-flex justify-content-between align-items-center ">
                                     <h2 class="mb-0">Contact List</h2>
-                                
-                                    @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
-                                    {
-                                        <div class="d-flex">
-                                            <form asp-controller="Contact" asp-action="ImportFile" method="post" enctype="multipart/form-data" class="d-flex align-items-center me-2">
-                                                <div class="form-group mb-0 d-flex align-items-center">
-                                                    <input type="file" name="file" class="form-control me-2" />
-                                                    <button type="submit" class="btn btn-success">Upload</button>
-                                                </div>
-                                            </form>
-                                            <a asp-controller="Contact" asp-action="AddContact" class="btn btn-dark m-2">
-                                                <i class="fas fa-plus fa-sm"></i> Add New Contact
-                                            </a>
+                                    <div class="card-tools">
+                                            <div class="d-flex">
+                                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                        {
+                                                <form asp-controller="Contact" asp-action="ImportFile" method="post" enctype="multipart/form-data" class="d-flex align-items-center me-2">
+                                                    <div class="form-group mb-0 d-flex align-items-center">
+                                                        <input type="file" name="file" class="form-control me-2" />
+                                                        <button type="submit" class="btn btn-success">Upload</button>
+                                                    </div>
+                                                </form>
+                                                <a asp-controller="Contact" asp-action="AddContact" class="btn btn-dark m-2">
+                                                    <i class="fas fa-plus fa-sm"></i> Add New Contact
+                                                </a>
+                                        }
+                                        <div class="d-flex form-group mb-0 d-flex align-items-center">
+                                            <input type="search" id="searchInput" class="form-control" placeholder="Search here">
+                                            <button id="searchButton" class="btn btn-default btn-outline-secondary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
                                         </div>
-                                    }
-                                </div>
-                            </div>
+                                            </div>
 
-                            <div class="card-body px-0 pt-0 pb-2">
-                                <div class="search-container">
-                                    <div class="row">
-                                        <div class="col-md-9"></div>
-                                        <div class="col-md-3">
-                                            <form class="d-flex" asp-action="SearchQuery" asp-controller="Contact">
-                                                <input type="search" name="searchQuery" id="searchInput" class="form-control me-1" placeholder="Search contacts...">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary" type="submit" id="searchButton">
-                                                        <i class="fas fa-search"></i>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="card-body px-0 pt-0 pb-2">
                                 @if (Model != null && Model.Any())
                                 {
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>FirstName</th>
-                                                    <th>LastName</th>
-                                                    <th>Email</th>
-                                                    <th>Company Name</th>
+                                <div class="table-responsive">
+                                    <table id="searchTable" class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>FirstName</th>
+                                                <th>LastName</th>
+                                                <th>Email</th>
+                                                <th>Company Name</th>
+                                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                                {
                                                     <th>IsActive</th>
-                                                     @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded){
+                                                }
+                                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded){
                                                         <th>
                                                             Actions
                                                         </th>
-                                                     }
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                                 @{
                                                     int i = 1;
                                                 }
@@ -125,38 +105,41 @@ confirmButtonText: 'OK'
                                                         <td>@contact.LastName</td>
                                                         <td>@contact.Email</td>
                                                         <td>@contact.CompanyName</td>
-                                                        <td>
-                                                            <a href="@Url.Action("IsActiveToggle", "Contact", new { email = contact.Email })" 
-                                                               class="btn btn-sm @(contact.IsActive ? "btn-success" : "btn-danger") toggleButton">
-                                                                @(contact.IsActive ? "Active" : "Inactive")
-                                                            </a>
-                                                        </td>
+                                                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                                        {
+                                                            <td>
+                                                                <a href="@Url.Action("IsActiveToggle", "Contact", new { email = contact.Email })" 
+                                                                class="btn btn-sm @(contact.IsActive ? "btn-success" : "btn-danger") toggleButton">
+                                                                    @(contact.IsActive ? "Active" : "Inactive")
+                                                                </a>
+                                                            </td>
+                                                        }
                                                         @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
                                                         {
                                                             <td>
                                                                 <div class="action-buttons">
 
-                                                                    <a asp-controller="Contact" asp-action="GetContactById" asp-route-id="@contact.Id" class="btn btn-primary btn-sm">
-                                                                        <i class="fas fa-edit fa-sm"></i>
-                                                                    </a>
+                                                                        <a asp-controller="Contact" asp-action="GetContactById" asp-route-id="@contact.Id" class="btn btn-primary btn-sm">
+                                                                            <i class="fas fa-edit fa-sm"></i>
+                                                                        </a>
 
-                                                                    @if ((await AuthorizationService.AuthorizeAsync(User, "", "DeletePermission")).Succeeded)
-                                                                    {
-                                                                        <form asp-controller="Contact" asp-action="Delete" asp-route-id="@contact.Id" method="post" class="DeleteForm" >
-                                                                            <button type="submit" class="btn btn-danger btn-sm deleteButton">
-                                                                                <i class="fas fa-trash-alt fa-sm"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                    }
+                                                                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "DeletePermission")).Succeeded)
+                                                                        {
+                                                                            <form asp-controller="Contact" asp-action="Delete" asp-route-id="@contact.Id" method="post" class="DeleteForm" >
+                                                                                <button type="submit" class="btn btn-danger btn-sm deleteButton">
+                                                                                    <i class="fas fa-trash-alt fa-sm"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                        }
                                                                 </div>
                                                             </td>
                                                         }
                                                     </tr>
                                                     i++;
                                                 }
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 }
                             </div>
                         </div>
@@ -165,13 +148,28 @@ confirmButtonText: 'OK'
             </div>
         </section>
     </div>
-    <!-- /.register-box -->
-    <!-- jQuery -->
-    <script src="../../plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../dist/js/adminlte.min.js"></script>
+
+
+     @* pagination scripts *@
+    <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#searchTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 
 </body>
 

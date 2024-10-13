@@ -3,6 +3,7 @@ using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
+using EmailCampaign.Infrastructure.Data.Services.LogsService;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IUserContextService _userContextService;
+        private readonly ErrorLogFilter _errorLogFilter;
 
-        public PermissionRepository(ApplicationDbContext dbContext , IUserContextService userContextService)
+        public PermissionRepository(ApplicationDbContext dbContext , IUserContextService userContextService, ErrorLogFilter errorLogFilter)
         {
             _dbContext = dbContext;
             _userContextService = userContextService;
+            _errorLogFilter = errorLogFilter;
+
         }
 
         public async Task<List<Permission>> GetAllPermissionAsync()
@@ -31,7 +35,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
         public async Task<Permission> GetPermissionAsync(Guid id)
         {
-            return await _dbContext.Permission.FirstOrDefaultAsync(p => p.Id == id);
+            return await _dbContext.Permission.FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted == false);
         }
 
 
@@ -53,7 +57,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
             await _dbContext.Permission.AddAsync(newPermission);
 
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                await _errorLogFilter.OnException(ex);
+            }
 
             return newPermission;
         }
@@ -84,14 +95,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             }
             catch (DbUpdateException ex)
             {
-                throw;
+                await _errorLogFilter.OnException(ex);
             }
 
             return permission;
 
         }
 
-        public async Task<bool> DeletePermissionAsync(Guid ID)
+        public async Task<Permission> DeletePermissionAsync(Guid ID)
         {
             Permission permission = await _dbContext.Permission.FirstOrDefaultAsync(p => p.Id == ID);
 
@@ -107,14 +118,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 try
                 {
                     await _dbContext.SaveChangesAsync();
-                    return true;
+                    return permission;
                 }
                 catch (DbUpdateException ex)
                 {
-                    throw;
+                    await _errorLogFilter.OnException(ex);
                 }
             }
-            return false;
+            return new Permission();
         }
 
         public async Task<List<SelectListItem>> GetPermissionAsSelectListItemsAsync()

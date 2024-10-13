@@ -11,14 +11,7 @@
 <html lang="en">
 
 <head>
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    
     <style>
         .action-buttons {
             display: flex;
@@ -40,9 +33,22 @@
                             <div class="card-header">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h2 class="mb-0">Role List</h2>
-                                    <a asp-controller="Role" asp-action="AddRolePermission" class="btn btn-dark btn-sm">
-                                        <i class="fas fa-plus fa-sm"></i> Add New Role
-                                    </a>
+                                    <div class="card-tools">
+                                        <div class="d-flex">
+                                            @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                            {
+                                                <a asp-controller="Role" asp-action="AddRolePermission" class="btn btn-dark m-2">
+                                                    <i class="fas fa-plus"></i> Add New Role
+                                                </a>
+                                            }
+                                            <div class="d-flex form-group mb-0 d-flex align-items-center">
+                                                <input type="search" id="searchInput" class="form-control" placeholder="Search here">
+                                                <button id="searchButton" class="btn btn-default btn-outline-secondary">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -50,12 +56,11 @@
                                 @if (Model != null && Model.Any())
                                 {
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover">
+                                        <table id="searchTable" class="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Index</th>
                                                     <th>Name</th>
-                                                    <th>IsActive</th>
                                                     @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
                                                     {
                                                         <th>
@@ -73,13 +78,6 @@
                                                     <tr>
                                                         <td>@i</td>
                                                         <td>@role.Name</td>
-                                                        <td>
-
-                                                            @* <a href="@Url.Action("IsActiveToggle", "User", new { email = role.Name })"
-                                                    class="btn btn-sm @(role.IsActive ? "btn-success" : "btn-danger")">
-                                                    @(role.IsActive ? "Active" : "Inactive")
-                                                    </a> *@
-                                                        </td>
                                                         @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
                                                         {
                                                             <td>
@@ -114,13 +112,21 @@
             </div>
         </section>
     </div>
-    <!-- /.register-box -->
-    <!-- jQuery -->
-    <script src="../../plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../dist/js/adminlte.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#searchTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+   
 </body>
 
 </html>

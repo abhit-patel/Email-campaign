@@ -4,9 +4,11 @@ using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
+using EmailCampaign.Infrastructure.Data.Services.LogsService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,25 +23,47 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
         private readonly IAuthRepository _authRepository;
         private readonly IMapper _mapper;
         private readonly IUserContextService _userContextService;
+        private readonly PasswordHasher _passwordHasher;
+        private readonly ErrorLogFilter _errorLogFilter;
+        private readonly INotificationRepository _notificationRepository;
 
-        public UserRepository(ApplicationDbContext dbContext, IAuthRepository authRepository, IMapper mapper, IUserContextService userContextService)
+
+        public UserRepository(ApplicationDbContext dbContext, IAuthRepository authRepository, IMapper mapper, IUserContextService userContextService, ErrorLogFilter errorLogFilter, INotificationRepository notificationRepository)
         {
             _dbContext = dbContext;
             _authRepository = authRepository;
             _mapper = mapper;
             _userContextService = userContextService;
-
+            _errorLogFilter = errorLogFilter;
+            _passwordHasher = new PasswordHasher();
+            _notificationRepository = notificationRepository;
         }
 
         public async Task<List<User>> GetAllUserAsync()
         {
-            return await _dbContext.User.Where(p => p.IsDeleted == false).ToListAsync();
+            return await _dbContext.User.Where(p => p.IsDeleted == false & p.IsSuperAdmin == false).ToListAsync();
         }
 
         public async Task<User> GetUserAsync(Guid Userid)
         {
-            return await _dbContext.User.FirstOrDefaultAsync(p => p.ID == Userid);
+            return await _dbContext.User.FirstOrDefaultAsync(p => p.ID == Userid && p.IsDeleted == false);
         }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return await _dbContext.User.FirstOrDefaultAsync(p => p.Email == email);
+        }
+
+        public async Task<User> GetItemByRoleIDAsync(Guid roleId)
+        {
+            return await _dbContext.User.FirstOrDefaultAsync(p => p.RoleId == roleId);
+        }
+
+        public async Task<bool> CheckRegisteredEmailAsync(string email)
+        {
+            return await _dbContext.User.AnyAsync(p => p.IsDeleted == false && p.Email == email);
+        }
+
 
         public async Task<User> CreateUserAsync(UserRegisterVM model)
         {
@@ -60,7 +84,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 ProfilePicture = "",
                 RoleId = model.RoleID,
                 IsActive = model.IsActive,
-                IsSuperAdmin = model.IsSuperAdmin,
+                IsSuperAdmin = false,
                 ResetpasswordCode = "",
                 CreatedBy = Guid.Parse(_userContextService.GetUserId()),
                 CreatedOn = DateTime.UtcNow,
@@ -75,9 +99,23 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             {
                 await _dbContext.SaveChangesAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                await _errorLogFilter.OnException(ex);
+            }
+
+            if (newUser != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "User created",
+                    Body = "User created with" + newUser.FirstName + newUser.LastName + " name by " + _userContextService.GetUserName() + ".",
+                    PerformOperationBy = newUser.CreatedBy,
+                    PerformOperationFor = newUser.ID,
+                    RedirectUrl = "/Notification"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
             }
 
             return newUser;
@@ -88,6 +126,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
         {
             User user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == id);
 
+
             if (user != null)
             {
 
@@ -95,7 +134,6 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 user.LastName = model.LastName;
                 user.Email = model.Email;
                 user.BirthDate = model.Birthdate;
-                user.Password = model.Password;
                 user.IsActive = model.IsActive;
                 user.IsSuperAdmin = model.IsSuperAdmin;
                 user.RoleId = model.RoleID;
@@ -114,14 +152,31 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             catch (DbUpdateException ex)
             {
                 //_logger.LogError(ex, "Error updating user with ID {id}", id);
+                await _errorLogFilter.OnException(ex);
                 throw;
             }
+
+            if (user != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "User Details updated",
+                    Body = "Your details updated by " + _userContextService.GetUserName() + ".",
+                    PerformOperationBy = user.CreatedBy,
+                    PerformOperationFor = user.ID,
+                    RedirectUrl = "/Notification"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
+
             return user;
         }
 
 
 
-        public async Task<bool> DeleteUserAsync(Guid userID)
+        public async Task<User> DeleteUserAsync(Guid userID)
         {
             User user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == userID);
 
@@ -137,22 +192,110 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 try
                 {
                     await _dbContext.SaveChangesAsync();
-                    return true;
+                    return user;
                 }
                 catch (DbUpdateException ex)
                 {
+                    await _errorLogFilter.OnException(ex);
                     throw;
                 }
             }
+            return new User();
+        }
+
+
+        public async Task<User> SavePasswordResetTokenAsync(string email, string token)
+        {
+            User user = await _dbContext.User.FirstOrDefaultAsync(p => p.Email == email);
+
+            if (user != null)
+            {
+                user.ResetpasswordCode = token;
+
+                _dbContext.Entry(user).State = EntityState.Modified;
+
+                try
+                {
+                    await _dbContext.SaveChangesAsync();
+                    return user;
+                }
+                catch (DbUpdateException ex)
+                {
+                    await _errorLogFilter.OnException(ex);
+                    throw;
+                }
+            }
+
+            return new User();
+
+        }
+
+        public async Task<bool> ValidatePasswordResetTokenAsync(string email, string token)
+        {
+            User user = await _dbContext.User.FirstOrDefaultAsync(p => p.Email == email && p.ResetpasswordCode == token);
+
+            if (user != null)
+            {
+                return true;
+            }
+
             return false;
         }
 
+
+        public async Task<User> ResetPasswordAsync(string email, string password)
+        {
+            User user = await _dbContext.User.FirstOrDefaultAsync(p => p.Email == email);
+
+            if (user != null)
+            {
+                return new User();
+            }
+            HashedPassVM items = _passwordHasher.HashPassword(password);
+
+            user.Password = password;
+            user.HashPassword = items.hashedPassword;
+            user.SaltKey = items.saltKey;
+
+
+            user.UpdatedBy = user.ID;
+            user.UpdatedOn = DateTime.UtcNow;
+
+            _dbContext.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                await _errorLogFilter.OnException(ex);
+                throw;
+            }
+
+            if (user != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "Reset password by mail",
+                    Body = "User " + user.FirstName + " " + user.LastName + " updated account's password by " + user.Email + ".",
+                    PerformOperationBy = user.CreatedBy,
+                    PerformOperationFor = user.ID,
+                    RedirectUrl = "/Notification"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
+            return user;
+
+        }
 
         public async Task<User> ActiveToggleAsync(string email)
         {
             User user = await _dbContext.User.FirstOrDefaultAsync(p => p.Email == email);
 
-            if(user != null)
+            if (user != null)
             {
                 if (user.IsActive)
                 {
@@ -160,7 +303,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 }
                 else
                 {
-                    user.IsActive=true;
+                    user.IsActive = true;
                 }
             }
 
@@ -175,7 +318,22 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             }
             catch (DbUpdateException ex)
             {
+                await _errorLogFilter.OnException(ex);
                 throw;
+            }
+
+            if (user != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "User IsActive toggle button event occur.",
+                    Body = "User IsActive status is now " + user.IsActive + "." + " and it's updated by " + _userContextService.GetUserName() + ".",
+                    PerformOperationBy = user.CreatedBy,
+                    PerformOperationFor = user.ID,
+                    RedirectUrl = "/User"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
             }
 
             return user;
@@ -188,7 +346,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
             User user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == UserId && p.IsDeleted == false);
 
-            if(user == null)
+            if (user == null)
             {
                 return null;
             }
@@ -196,13 +354,11 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             return user;
         }
 
-
         public async Task<User> UpdateProfilePic(IFormFile profilePicture)
         {
             Guid UserId = Guid.Parse(_userContextService.GetUserId());
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\ProfilePics", UserId.ToString() + ".jpg");
 
-            // Overwrite the file if it exists
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await profilePicture.CopyToAsync(stream);
@@ -210,8 +366,8 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
             User user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == UserId);
 
-            user.ProfilePicture = "~/ProfilePics/"+ UserId.ToString() +".jpg";
-            user.UpdatedBy = UserId;
+            user.ProfilePicture = "/ProfilePics/" + UserId.ToString() + ".jpg";
+            user.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
             user.UpdatedOn = DateTime.UtcNow;
 
 
@@ -224,8 +380,24 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             catch (DbUpdateException ex)
             {
                 //_logger.LogError(ex, "Error updating user with ID {id}", id);
+                await _errorLogFilter.OnException(ex);
                 throw;
             }
+
+            if (user != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "User update profile picture.",
+                    Body = "User " + user.FirstName + " " + user.LastName + " updated it's profile picture. ",
+                    PerformOperationBy = user.CreatedBy,
+                    PerformOperationFor = user.ID,
+                    RedirectUrl = "/Notifications"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
             return user;
         }
 
@@ -235,9 +407,19 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
             User user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == userId);
 
+            if (user != null)
+            {
+                return new User();
+            }
+
+            //for get hashed new password
+            HashedPassVM items = _passwordHasher.HashPassword(password);
+
             user.Password = password;
+            user.HashPassword = items.hashedPassword;
+            user.SaltKey = items.saltKey;
             user.UpdatedOn = DateTime.UtcNow;
-            user.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
+            user.UpdatedBy = userId;
 
             _dbContext.Entry(user).State = EntityState.Modified;
 
@@ -247,18 +429,35 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             }
             catch (DbUpdateException ex)
             {
+                await _errorLogFilter.OnException(ex);
                 throw;
             }
+
+            if (user != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "Reset password from profile",
+                    Body = "User " + user.FirstName + " " + user.LastName + " updated account's password from profile tab.",
+                    PerformOperationBy = user.CreatedBy,
+                    PerformOperationFor = user.ID,
+                    RedirectUrl = "/Notification"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
             return user;
         }
-
 
         public async Task<User> UpdateProfileAsync(ProfileVM model)
         {
             User user = await _dbContext.User.FirstOrDefaultAsync(p => p.Email == model.Email);
 
-            User UpdatedUser = _mapper.Map<User>(user);
-
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.BirthDate = model.Birthdate;
             user.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
             user.UpdatedOn = DateTime.UtcNow;
 
@@ -270,9 +469,26 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             }
             catch (DbUpdateException ex)
             {
+                await _errorLogFilter.OnException(ex);
                 throw;
             }
+
+            if (user != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "User details updated by self.",
+                    Body = "User " + user.FirstName + " " + user.LastName + " updated account's details with " + user.Email + " account.",
+                    PerformOperationBy = user.CreatedBy,
+                    PerformOperationFor = user.ID,
+                    RedirectUrl = "/User"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
             return user;
         }
     }
 }
+

@@ -1,5 +1,6 @@
-﻿using EmailCampaign.Core.SharedKernel;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NETCore.MailKit.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace EmailCampaign.Core
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddCoreDI(this IServiceCollection services)
-        { 
+        public static IServiceCollection AddCoreDI(this IServiceCollection services )
+        {
             return services;
         }
     }

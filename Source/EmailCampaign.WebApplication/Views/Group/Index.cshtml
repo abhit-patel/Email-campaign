@@ -1,0 +1,165 @@
+﻿@model List<EmailCampaign.Domain.Entities.Group>
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Groups List";
+    Layout = "_Layout"; // render the page without layout
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+   
+<head>
+   
+    <style>
+        .action-buttons {
+        display: flex;
+        gap: 5px;
+        }
+
+        .action-buttons form {
+        margin: 0;
+        }
+
+        .search-form {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 col">
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center ">
+                                    <h2 class="mb-0">Groups List</h2>
+                                    <div class="card-tools">
+                                            <div class="d-flex">
+                                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                        {
+                                                <a asp-controller="Group" asp-action="AddGroup" class="btn btn-dark m-2">
+                                                    <i class="fas fa-plus fa-sm"></i> Add New Group
+                                                </a>
+                                        }
+                                        <div class="d-flex form-group mb-0 d-flex align-items-center">
+                                            <input type="search" id="searchInput" class="form-control" placeholder="Search here">
+                                            <button id="searchButton" class="btn btn-default btn-outline-secondary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                                @if (Model != null && Model.Any())
+                                {
+                                <div class="table-responsive">
+                                    <table id="searchTable" class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Contact Mapping</th>
+                                                @* @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                                { *@
+                                                    <th>IsActive</th>
+                                               @*  }
+                                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded){ *@
+                                                        <th>
+                                                            Actions
+                                                        </th>
+                                                @* } *@
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                @{
+                                                    int i = 1;
+                                                }
+                                                @foreach (var group in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@i</td>
+                                                        <td>@group.Name</td>
+                                                        <td>@group.Description</td>
+                                                        <td>
+                                                            <a asp-controller="Group" asp-action="ViewContactsForGroup" asp-route-id="@group.Id" class="btn btn-primary btn-sm">
+                                                                            <i class="fas fa-user-plus fa-sm"> View Mapping</i>
+                                                            </a>
+                                                            <a asp-controller="Group" asp-action="ContactMapping" asp-route-id="@group.Id" class="btn btn-primary btn-sm m-2">
+                                                                            <i class="fas fa-user-plus fa-sm">  Map Contact</i>
+                                                            </a>
+                                                            <a asp-controller="Group" asp-action="GetContactsForGroup" asp-route-id="@group.Id" class="btn btn-primary btn-sm">
+                                                                            <i class="fas fa-user-plus fa-sm">  Update Mapping</i>
+                                                            </a>
+                                                        </td>   
+                                                        @* @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                                        { *@
+                                                            <td>
+                                                                <a href="@Url.Action("IsActiveToggle", "Group", new { id  = group.Id })" 
+                                                                class="btn btn-sm @(group.IsActive ? "btn-success" : "btn-danger") toggleButton">
+                                                                    @(group.IsActive ? "Active" : "Inactive")
+                                                                </a>
+                                                            </td>
+                                                        @* }
+                                                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                                        { *@
+                                                            <td>
+                                                                <div class="action-buttons">
+
+                                                                        <a asp-controller="Group" asp-action="GetGroupById" asp-route-id="@group.Id" class="btn btn-primary btn-sm">
+                                                                            <i class="fas fa-edit fa-sm"></i>
+                                                                        </a>
+
+                                                                        @* @if ((await AuthorizationService.AuthorizeAsync(User, "", "DeletePermission")).Succeeded)
+                                                                        { *@
+                                                                            <form asp-controller="Group" asp-action="Delete" asp-route-id="@group.Id" method="post" class="DeleteForm" >
+                                                                                <button type="submit" class="btn btn-danger btn-sm deleteButton">
+                                                                                    <i class="fas fa-trash-alt fa-sm"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                        @* } *@
+                                                                </div>
+                                                            </td>
+                                                        @* } *@
+                                                    </tr>
+                                                    i++;
+                                                }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#searchTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+
+</body>
+
+</html>

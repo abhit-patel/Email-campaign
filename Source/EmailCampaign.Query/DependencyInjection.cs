@@ -16,7 +16,6 @@ namespace EmailCampaign.Query
             services.AddScoped<IAuthorizationHandler, PermissionHandler>();
             services.AddScoped<IPermissionService, PermissionService>();
 
-
             return services;
         }
     }

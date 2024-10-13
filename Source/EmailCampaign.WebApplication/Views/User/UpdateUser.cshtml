@@ -65,21 +65,12 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="birthdate">Birthdate</label>
-                                                <input asp-for="Birthdate" type="datetime-local" class="form-control"
-                                                       id="birthdate" placeholder="Select Birthdate">
+                                                <input asp-for="Birthdate" type="date" class="form-control" placeholder="Select Birthdate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
                                                 <span asp-validation-for="Birthdate" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="password">Password</label>
-                                                <input asp-for="Password" type="password" class="form-control" id="password"
-                                                       placeholder="Enter your Password">
-                                                <span asp-validation-for="Password" class="text-danger"></span>
-                                            </div>
-                                        </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="role">Select role</label>
@@ -133,5 +124,7 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
+
+    @Html.Partial("_ValidationScriptsPartial")
 </body>
 </html>

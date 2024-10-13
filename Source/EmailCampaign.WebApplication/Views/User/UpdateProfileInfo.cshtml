@@ -1,0 +1,79 @@
+﻿@model EmailCampaign.Domain.Entities.ViewModel.ProfileVM
+
+@{
+    ViewData["Title"] = "Add Comtact";
+    Layout = "_Layout"; // render the page without layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition register-page">
+    <div class="wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">Update User Details</h3>
+                            </div>
+
+                            <form asp-action="UpdateProfileInfo" asp-controller="User" method="post">
+
+                                <div class="card-body">
+                                    <div class="form-group ">
+                                        <label asp-for="FirstName">First Name</label>
+                                        <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name">
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label asp-for="LastName">Last Name</label>
+                                        <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name">
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label asp-for="Email">Email</label>
+                                        <input asp-for="Email" type="email" class="form-control" placeholder="Email">
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="birthdate">Birthdate</label>
+                                        <input asp-for="Birthdate" type="date" class="form-control" placeholder="Select Birthdate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                        <span asp-validation-for="Birthdate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.form-box -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+
+    @Html.Partial("_ValidationScriptsPartial")
+
+</body>
+</html>

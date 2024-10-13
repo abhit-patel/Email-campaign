@@ -13,6 +13,7 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\EPPlus.System.Drawing.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\ExcelDataReader.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Humanizer.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\MailKit.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Web.Mvc.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Web.Razor.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\System.Net.Http.Formatting.dll
@@ -74,7 +75,9 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.Web.Infrastructure.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\MimeKit.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Mono.TextTemplating.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\NETCore.MailKit.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Newtonsoft.Json.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\Newtonsoft.Json.Bson.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\NuGet.Common.dll
@@ -86,6 +89,7 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\NuGet.ProjectModel.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\NuGet.Protocol.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\NuGet.Versioning.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\BouncyCastle.Crypto.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\SQLitePCLRaw.batteries_v2.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\SQLitePCLRaw.core.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Release\net8.0\PubTmp\Out\SQLitePCLRaw.provider.e_sqlite3.dll

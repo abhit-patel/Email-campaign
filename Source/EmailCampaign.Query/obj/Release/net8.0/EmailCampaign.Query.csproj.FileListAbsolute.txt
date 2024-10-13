@@ -18,3 +18,5 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\obj\Release\
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\obj\Release\net8.0\ref\EmailCampaign.Query.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Release\net8.0\EmailCampaign.Infrastructure.dll
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Release\net8.0\EmailCampaign.Infrastructure.pdb
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Release\net8.0\EmailCampaign.Application.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.Query\bin\Release\net8.0\EmailCampaign.Application.pdb

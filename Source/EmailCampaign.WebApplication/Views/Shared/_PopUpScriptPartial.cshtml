@@ -1,26 +1,41 @@
-﻿<script>
-    $(document).ready(function () {
-        if (@TempData["SuccessMessage"] != null || @TempData["ErrorMessage"] != null) {
-            $('#loginModal').modal('show');
+﻿<script type="text/javascript">
+    function showToast(message, type) {
+        var toaster = document.getElementById('toaster');
+        toaster.innerText = message;
+        toaster.className = 'toaster ' + type;
+        toaster.style.display = 'block';
+        setTimeout(function () {
+            toaster.style.display = 'none';
+        }, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var successMessage = '@TempData["SuccessMessage"]';
+        var failureMessage = '@TempData["ErrorMessage"]';
+
+        if (successMessage) {
+            showToast(successMessage, 'success');
+        }
+
+        if (failureMessage) {
+            showToast(failureMessage, 'failure');
         }
     });
 </script>
+
 
 
 <script type="text/javascript">
     document.querySelectorAll(".deleteButton").forEach(function (button) {
         button.addEventListener("click", function (event) {
             event.preventDefault(); // Prevent the default form submission
-            if (confirm("Are you sure you want to delete this contact?")) {
+            if (confirm("Are you sure you want to delete this record?")) {
                 // If confirmed, submit the form
                 button.closest("form").submit();
             }
         });
     });
 </script>
-
-
-
 
 
 

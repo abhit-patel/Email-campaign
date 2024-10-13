@@ -32,6 +32,11 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
         {
             return await _dbContext.Contact.Where(p => p.IsDeleted == false).ToListAsync();
         }
+        
+        public async Task<List<Contact>> GetContactForGroupAsync()
+        {
+            return await _dbContext.Contact.Where(p => p.IsDeleted == false & p.IsActive == true).ToListAsync();
+        }
 
         public async Task<Contact> GetContactAsync(Guid id)
         {

@@ -15,7 +15,8 @@ namespace EmailCampaign.Application.DataMapper
         {
             CreateMap<UserRegisterVM, User>();
             CreateMap<User, UserRegisterVM>();
-            CreateMap<ProfileVM,User>();
+            CreateMap<ProfileVM, User>();
+            CreateMap<User, ProfileVM>();
             CreateMap<RoleVM, Role>();
             CreateMap<Role, RoleVM>();
             CreateMap<PermissionVM, Permission>();
@@ -27,6 +28,7 @@ namespace EmailCampaign.Application.DataMapper
             CreateMap<GroupVM, Group>();
             CreateMap<Group, GroupVM>();
             CreateMap<PermissionListVM, RolePermissionDBVM>();
+            CreateMap<RolePermissionVM, Role>();
         }
     }
 }

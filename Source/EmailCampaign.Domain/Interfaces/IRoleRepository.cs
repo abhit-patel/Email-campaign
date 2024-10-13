@@ -16,7 +16,7 @@ namespace EmailCampaign.Domain.Interfaces
         Task<Role> GetRoleByNameAsync(string name);
         Task<Role> CreateRoleAsync(string roleName);
         Task<Role> UpdateRoleAsync(Guid id, RoleVM model);
-        Task<bool> DeleteRoleAsync(Guid ID);
+        Task<Role> DeleteRoleAsync(Guid ID);
         Task<List<SelectListItem>> GetRolesAsSelectListItemsAsync();
     }
 }

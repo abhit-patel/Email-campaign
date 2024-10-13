@@ -1,0 +1,20 @@
+﻿.toaster {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+    z-index: 1000;
+}
+
+    .toaster.success {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .toaster.failure {
+        background-color: #dc3545;
+        color: #fff;
+    }

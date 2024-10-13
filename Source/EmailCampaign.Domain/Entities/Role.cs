@@ -10,7 +10,7 @@ namespace EmailCampaign.Domain.Entities
     public class Role : BaseEntity
     {
         public Guid Id { get; set; }
-        public String Name { get; set; }
+        public string Name { get; set; }
         public ICollection<RolePermission> RolePermissions { get; set; }
         public ICollection<User> Users { get; set; }
 
