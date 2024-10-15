@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmailCampaign.Infrastructure.Data.Services
+namespace EmailCampaign.Domain.Services
 {
     public class PasswordHasher
     {

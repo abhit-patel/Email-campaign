@@ -3,6 +3,7 @@ using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces.Core;
 using EmailCampaign.Infrastructure.Data.Repositories.Core;
+using EmailCampaign.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmailCampaign.WebApplication.Controllers.Core
@@ -34,7 +35,6 @@ namespace EmailCampaign.WebApplication.Controllers.Core
 
             GroupVM GroupVM = _mapper.Map<GroupVM>(group);
 
-            //await LoadRoles();
 
             return View("UpdateGroup", GroupVM);
         }
@@ -42,7 +42,6 @@ namespace EmailCampaign.WebApplication.Controllers.Core
         [HttpGet]
         public IActionResult AddGroup()
         {
-            //await LoadRoles();
 
             return View();
         }
@@ -95,9 +94,12 @@ namespace EmailCampaign.WebApplication.Controllers.Core
 
 
         [ActionName("ContactMapping")]
-        public async Task<IActionResult> MapGroupContact( Guid id )
+        public async Task<IActionResult> MapGroupContact(Guid id)
         {
             var Contacts = await _contactRepository.GetContactForGroupAsync();
+
+            ContactGroupVM contactGroupModel = await _groupRepository.GetContactForGroupAsync(id);
+
 
             var model = new ContactGroupVM
             {
@@ -108,7 +110,7 @@ namespace EmailCampaign.WebApplication.Controllers.Core
                     ContactName = $"{c.FirstName} {c.LastName} ",
                     Email = $"{c.Email}",
                     CompanyName = $"{c.CompanyName}",
-                    IsSelected = false
+                    IsSelected = contactGroupModel.Contacts.Any(p => p.ContactId == c.Id),
                 }).ToList()
             };
 
@@ -120,23 +122,29 @@ namespace EmailCampaign.WebApplication.Controllers.Core
         [ActionName("AddContactMapping")]
         public async Task<IActionResult> SaveContactMapping(ContactGroupVM groupContactVM)
         {
-            if(groupContactVM == null)
+            if (groupContactVM == null)
             {
+                TempData["ErrorMessage"] = "Failed model binding with value. Please try again.";
                 return RedirectToAction("Index");
             }
 
-            var selectedContacts = groupContactVM.Contacts.Where(p => p.IsSelected == true).ToList();
-
-            foreach(var contact in selectedContacts)
+            var selectedContactsGroup = new ContactGroupVM
             {
-                    var contactsGroup = await _groupRepository.AddContactsGroupAsync(groupContactVM.GroupID, contact.ContactId, contact.IsSelected);
+                GroupID = groupContactVM.GroupID,
+                Contacts = groupContactVM.Contacts.Where(c => c.IsSelected).ToList()
+            };
 
-                    if (contactsGroup == null)
-                    {
-                        return View("Index");
-                    }
+            var contactsGroup = await _groupRepository.AddContactsGroupAsync(selectedContactsGroup);
+
+
+            if (contactsGroup == null)
+            {
+                TempData["ErrorMessage"] = "Failed to add groupContact Mapping. Please try again.";
+                return View("Index");
             }
 
+
+            TempData["SuccessMessage"] = "GroupContact mapping successfully added!";
             return RedirectToAction("Index");
         }
 
@@ -145,7 +153,7 @@ namespace EmailCampaign.WebApplication.Controllers.Core
         [ActionName("GetContactsForGroup")]
         public async Task<IActionResult> GetAllContactForGroup(Guid id)
         {
-            if(id == Guid.Empty)
+            if (id == Guid.Empty)
             {
                 return RedirectToAction("Index");
             }
@@ -171,16 +179,15 @@ namespace EmailCampaign.WebApplication.Controllers.Core
                 return RedirectToAction("Index");
             }
 
-            foreach (var contact in groupContactVM.Contacts)
-            {
-                var contactsGroup = await _groupRepository.UpdateContactsGroupAsync(groupContactVM.GroupID, contact.ContactId, contact.IsSelected);
+            var contactsGroup = await _groupRepository.UpdateContactsGroupAsync(groupContactVM);
 
-                if (contactsGroup == null)
-                {
-                    return RedirectToAction("Index");
-                }
+            if (contactsGroup == null)
+            {
+                TempData["ErrorMessage"] = "Failed to update GroupContactMapping. Please try again.";
+                return RedirectToAction("Index");
             }
 
+            TempData["SuccessMessage"] = "GroupContact mapping successfully Updated!";
             return RedirectToAction("Index");
 
         }

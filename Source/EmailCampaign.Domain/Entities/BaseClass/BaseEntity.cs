@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmailCampaign.Core.SharedKernel
+namespace EmailCampaign.Domain.Entities.BaseClass
 {
     public class BaseEntity
     {

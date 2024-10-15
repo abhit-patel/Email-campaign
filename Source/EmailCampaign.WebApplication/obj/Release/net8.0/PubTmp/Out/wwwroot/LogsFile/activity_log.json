@@ -394,5 +394,77 @@
     "Device": "",
     "IPAddress": "::1",
     "AddedOn": "2024-10-11T09:00:39.2462223Z"
+  },
+  {
+    "Id": "88e16eb6-181e-49af-bff1-338f14000e5d",
+    "Type": "Create",
+    "EntityType": "RoleController",
+    "Message": "New Role created  with name Admin (1f5d73b9-1989-438f-832a-09bcfca92285) and mapped permission. Created by Abhit Hisnu (7ad48839-b79b-4b7a-a812-9ac273090c7d).",
+    "Email": "abhit.hinsu@girirajdigital.com",
+    "UserId": "7ad48839-b79b-4b7a-a812-9ac273090c7d",
+    "Slug": "Role/AddRolePermission",
+    "Device": "",
+    "IPAddress": "::1",
+    "AddedOn": "2024-10-14T05:10:58.0325935Z"
+  },
+  {
+    "Id": "49954882-6213-438c-ab42-999369293ddd",
+    "Type": "Create",
+    "EntityType": "RoleController",
+    "Message": "New Role created  with name Tester (6c49b29f-18b1-446c-870e-9170f708ef44) and mapped permission. Created by Abhit Hisnu (7ad48839-b79b-4b7a-a812-9ac273090c7d).",
+    "Email": "abhit.hinsu@girirajdigital.com",
+    "UserId": "7ad48839-b79b-4b7a-a812-9ac273090c7d",
+    "Slug": "Role/AddRolePermission",
+    "Device": "",
+    "IPAddress": "::1",
+    "AddedOn": "2024-10-14T05:11:50.8698682Z"
+  },
+  {
+    "Id": "ddc012b2-4438-4fe1-808f-3ce15f00dacf",
+    "Type": "Create",
+    "EntityType": "UserController",
+    "Message": "New user created with name Abhit Hinsu (f9a3ce82-b680-4000-830a-380ec38ad059). Created by Abhit Hisnu (7ad48839-b79b-4b7a-a812-9ac273090c7d)",
+    "Email": "abhit.hinsu@girirajdigital.com",
+    "UserId": "7ad48839-b79b-4b7a-a812-9ac273090c7d",
+    "Slug": "User/AddUser",
+    "Device": "",
+    "IPAddress": "::1",
+    "AddedOn": "2024-10-14T05:12:25.5289389Z"
+  },
+  {
+    "Id": "2346c8a2-64ac-4115-bd63-fb89c57e2f68",
+    "Type": "Create",
+    "EntityType": "UserController",
+    "Message": "New user created with name Admin Admin (2f0ea8b0-8213-4b27-b3a2-57e4e9c44169). Created by Abhit Hisnu (7ad48839-b79b-4b7a-a812-9ac273090c7d)",
+    "Email": "abhit.hinsu@girirajdigital.com",
+    "UserId": "7ad48839-b79b-4b7a-a812-9ac273090c7d",
+    "Slug": "User/AddUser",
+    "Device": "",
+    "IPAddress": "::1",
+    "AddedOn": "2024-10-14T05:13:00.4147815Z"
+  },
+  {
+    "Id": "811c3268-c500-484c-a359-5c30234966ea",
+    "Type": "Create",
+    "EntityType": "UserController",
+    "Message": "New user created with name Bhavy hinsu (362b1aa8-3842-46a8-a18b-097c8642f789). Created by Abhit Hisnu (7ad48839-b79b-4b7a-a812-9ac273090c7d)",
+    "Email": "abhit.hinsu@girirajdigital.com",
+    "UserId": "7ad48839-b79b-4b7a-a812-9ac273090c7d",
+    "Slug": "User/AddUser",
+    "Device": "",
+    "IPAddress": "::1",
+    "AddedOn": "2024-10-14T05:13:40.6903535Z"
+  },
+  {
+    "Id": "c14ecded-1337-42fd-ad1c-1039d1af0b18",
+    "Type": "Updated",
+    "EntityType": "UserController",
+    "Message": "Abhit Hinsu (f9a3ce82-b680-4000-830a-380ec38ad059) user update profile picture. Updated by Abhit Hinsu (f9a3ce82-b680-4000-830a-380ec38ad059).",
+    "Email": "abc@gmail.com",
+    "UserId": "f9a3ce82-b680-4000-830a-380ec38ad059",
+    "Slug": "User/UpdateProfilePic",
+    "Device": "",
+    "IPAddress": "::1",
+    "AddedOn": "2024-10-14T05:17:24.7233765Z"
   }
 ]

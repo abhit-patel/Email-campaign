@@ -1,4 +1,4 @@
-﻿@model EmailCampaign.Domain.Entities.ViewModel.UserRegisterVM
+﻿@model EmailCampaign.Application.Features.User.Commands.CreateUserCommand
 
 @{
     ViewData["Title"] = "Add User";
@@ -65,8 +65,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="birthdate">Birthdate</label>
-                                                <input asp-for="Birthdate" type="date" class="form-control" placeholder="Select Birthdate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                                                <span asp-validation-for="Birthdate" class="text-danger"></span>
+                                                <input asp-for="BirthDate" type="date" class="form-control" placeholder="Select Birthdate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                                <span asp-validation-for="BirthDate" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -82,14 +82,14 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="role">Select role</label>
-                                                <select asp-for="RoleID" class="form-control">
+                                                <select asp-for="RoleId" class="form-control">
                                                     <option value="">-- Select an option --</option>
                                                     @foreach (var role in  (Dictionary<string,string>)ViewBag.Roles)
                                                     {
                                                         <option value="@role.Key">@role.Value</option>
                                                     }
                                                 </select>
-                                                <span asp-validation-for="RoleID" class="text-danger"></span>
+                                                <span asp-validation-for="RoleId" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>

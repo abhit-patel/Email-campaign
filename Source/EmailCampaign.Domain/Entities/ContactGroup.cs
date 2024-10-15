@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmailCampaign.Domain.Entities.BaseClass;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmailCampaign.Domain.Entities
 {
-    public class ContactGroup
+    public class ContactGroup : BaseEntity
     {
         public Guid Id { get; set; }
 

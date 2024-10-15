@@ -40,11 +40,12 @@ namespace EmailCampaign.Query.QueryService
 
             bool isSuperAdmin = await _dbContext.User.AnyAsync(p => p.IsSuperAdmin == true && p.ID == userId);
 
-            if(isSuperAdmin)
+            if (isSuperAdmin)
             {
                 context.Succeed(requirement);
                 return;
             }
+
 
             var roleId =  _dbContext.User.Where(p => p.ID == userId && p.IsDeleted == false).Select(p => p.RoleId.ToString()).SingleOrDefault() ;
 

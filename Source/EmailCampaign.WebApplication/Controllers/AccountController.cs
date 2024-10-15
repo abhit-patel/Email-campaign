@@ -68,8 +68,8 @@ namespace EmailCampaign.WebApplication.Controllers
 
             await HttpContext.SignInAsync(userPrincipal, new AuthenticationProperties
             {
-                IsPersistent = true,
-                ExpiresUtc =  loginVM.RememberMe? DateTime.UtcNow.AddDays(5) : DateTime.UtcNow.AddHours(1) // Set expiration for the cookie
+                //IsPersistent = true,
+                //ExpiresUtc =  loginVM.RememberMe? DateTime.UtcNow.AddDays(5) : DateTime.UtcNow.AddHours(24) // Set expiration for the cookie
             });
 
 
@@ -105,7 +105,7 @@ namespace EmailCampaign.WebApplication.Controllers
         [ActionName("UserLogout")]
         public async Task<IActionResult> Logout()
         {
-            await this.HttpContext.SignOutAsync();
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Clear();
 
             //Response.Cookies.Delete("RememberMeEmail");

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmailCampaign.Infrastructure.Data.Services
+namespace EmailCampaign.Domain.Services
 {
     public interface IUserContextService
     {

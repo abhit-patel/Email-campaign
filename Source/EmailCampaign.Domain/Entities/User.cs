@@ -1,4 +1,4 @@
-﻿using EmailCampaign.Core.SharedKernel;
+﻿using EmailCampaign.Domain.Entities.BaseClass;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

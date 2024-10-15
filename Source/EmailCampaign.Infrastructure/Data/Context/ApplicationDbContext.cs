@@ -1,4 +1,5 @@
-﻿using EmailCampaign.Domain.Entities;
+﻿using EmailCampaign.Application.Interfaces;
+using EmailCampaign.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EmailCampaign.Infrastructure.Data.Context
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser> , IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -28,7 +29,10 @@ namespace EmailCampaign.Infrastructure.Data.Context
         public DbSet<Group> Group { get; set; }
         public DbSet<ContactGroup> ContactGroup { get; set; }
 
-
-
+       
+        public async Task<int> SaveChangesAsync()
+        {
+            return await base.SaveChangesAsync();
+        }
     }
 }

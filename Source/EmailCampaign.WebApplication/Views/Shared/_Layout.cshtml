@@ -267,18 +267,30 @@
                                     </li>
                                 }
 
+                                @{
+                                HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "Group";
+                                }
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "ViewPermission")).Succeeded)
+                                {
                                 <li class="nav-item">
                                         <a asp-action="Index" asp-controller="Group" class="nav-link">
                                             <i class="fa fa-circle nav-icon"></i>
                                             <p>Manage group</p>
                                         </a>
                                     </li>
+                                }
+                                @{
+                                HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "Group";
+                                }
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                {
                                     <li class="nav-item">
                                         <a asp-action="AddGroup" asp-controller="Group" class="nav-link">
                                             <i class="fa fa-circle nav-icon"></i>
                                             <p>Create group</p>
                                         </a>
                                     </li>
+                                }
                             </ul>
                         </li>
 
@@ -404,32 +416,38 @@
                             </li>
                         }
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-folder-open"></i>
-                                <p>
-                                    Logs
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
 
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="ActivityLog" asp-controller="Log" class="nav-link">
-                                        <i class="fa fa-circle nav-icon"></i>
-                                        <p>Activity Log</p>
-                                    </a>
-                                </li>
+                        @{
+                            HttpContextAccessor.HttpContext.GetRouteData().Values["controller"] = "Log";
+                        }
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "ViewPermission")).Succeeded)
+                        {
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-folder-open"></i>
+                                    <p>
+                                        Logs
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
 
-                                <li class="nav-item">
-                                    <a asp-action="ErrorLog" asp-controller="Log" class="nav-link">
-                                        <i class="fa fa-circle nav-icon"></i>
-                                        <p>Error Log</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="ActivityLog" asp-controller="Log" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Activity Log</p>
+                                        </a>
+                                    </li>
 
+                                    <li class="nav-item">
+                                        <a asp-action="ErrorLog" asp-controller="Log" class="nav-link">
+                                            <i class="fa fa-circle nav-icon"></i>
+                                            <p>Error Log</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
                 </nav>
                 <div id="toaster" class="toaster"></div>

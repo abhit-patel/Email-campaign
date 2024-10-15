@@ -1,6 +1,7 @@
 ﻿using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
+using EmailCampaign.Domain.Services;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
 using EmailCampaign.Infrastructure.Data.Services.LogsService;
@@ -155,10 +156,10 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 }
                 catch (DbUpdateException ex)
                 {
-                    await _errorLogFilter.OnException(ex); 
+                    await _errorLogFilter.OnException(ex);
                 }
             }
-                return false; 
+            return false;
         }
 
     }

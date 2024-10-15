@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
 using System.Web.Http;
+using System.Web.Mvc;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
-    //[LogActivity]
-    //[ServiceFilter(typeof(ActivityLogAttribute))]
+    
     [Microsoft.AspNetCore.Authorization.Authorize]
-    public class HomeController : Controller
+    public class HomeController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly ILogger<HomeController> _logger;
         
@@ -29,9 +29,6 @@ namespace EmailCampaign.WebApplication.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //List<Notification> item = await _notificationRepository.GetNotificationForIconAsync();
-
-            //ViewBag.Notifications = item.Select(n => new { n.Id, n.Header }).ToList();
 
             return View();
         }
@@ -40,8 +37,6 @@ namespace EmailCampaign.WebApplication.Controllers
         {
             return View();
         }
-
-
        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

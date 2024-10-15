@@ -319,6 +319,8 @@ D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.pdb
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\EmailCampaign.WebApplication.genruntimeconfig.cache
 D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\obj\Debug\net8.0\ref\EmailCampaign.WebApplication.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\MediatR.dll
+D:\Abhit\Projects\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\MediatR.Contracts.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\appsettings.Development.json
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\appsettings.json
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EmailCampaign.WebApplication.staticwebassets.runtime.json
@@ -335,8 +337,12 @@ A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\D
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EPPlus.Interfaces.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\EPPlus.System.Drawing.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\ExcelDataReader.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\FluentValidation.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\Humanizer.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\MailKit.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\MediatR.dll
+A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\MediatR.Contracts.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Web.Mvc.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Web.Razor.dll
 A:\Giriraj_work\email-campaign-manager\Source\EmailCampaign.WebApplication\bin\Debug\net8.0\System.Net.Http.Formatting.dll

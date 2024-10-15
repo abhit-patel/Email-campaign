@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EmailCampaign.Application.Features.User.Commands;
 using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
 using System;
@@ -14,6 +15,9 @@ namespace EmailCampaign.Application.DataMapper
         public MappingProfile()
         {
             CreateMap<UserRegisterVM, User>();
+            CreateMap<UserRegisterVM, CreateUserCommand>();
+            CreateMap<UpdateUserCommand, User>();
+            CreateMap<User, UpdateUserCommand>();
             CreateMap<User, UserRegisterVM>();
             CreateMap<ProfileVM, User>();
             CreateMap<User, ProfileVM>();

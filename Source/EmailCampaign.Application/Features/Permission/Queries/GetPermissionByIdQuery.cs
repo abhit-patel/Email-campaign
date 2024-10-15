@@ -1,0 +1,14 @@
+﻿using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EmailCampaign.Application.Features.Permission.Queries
+{
+    public class GetPermissionByIdQuery : IRequest<Domain.Entities.Permission>
+    {
+        public Guid Id { get; set; }
+    }
+}

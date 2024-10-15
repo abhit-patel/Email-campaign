@@ -2,6 +2,7 @@
 using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
+using EmailCampaign.Domain.Services;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
 using EmailCampaign.Infrastructure.Data.Services.LogsService;
@@ -41,7 +42,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
         public async Task<List<User>> GetAllUserAsync()
         {
-            return await _dbContext.User.Where(p => p.IsDeleted == false & p.IsSuperAdmin == false).ToListAsync();
+            return await _dbContext.User.Where(p => p.IsDeleted == false && p.IsSuperAdmin == false).ToListAsync();
         }
 
         public async Task<User> GetUserAsync(Guid Userid)
@@ -270,7 +271,6 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             catch (DbUpdateException ex)
             {
                 await _errorLogFilter.OnException(ex);
-                throw;
             }
 
             if (user != null)
@@ -326,7 +326,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             {
                 var notification = new Notification
                 {
-                    Header = "User IsActive toggle button event occur.",
+                    Header = "User IsActive toggle event occur.",
                     Body = "User IsActive status is now " + user.IsActive + "." + " and it's updated by " + _userContextService.GetUserName() + ".",
                     PerformOperationBy = user.CreatedBy,
                     PerformOperationFor = user.ID,
@@ -392,7 +392,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                     Body = "User " + user.FirstName + " " + user.LastName + " updated it's profile picture. ",
                     PerformOperationBy = user.CreatedBy,
                     PerformOperationFor = user.ID,
-                    RedirectUrl = "/Notifications"
+                    RedirectUrl = "/User/ViewProfile"
                 };
 
                 await _notificationRepository.CreateNotificationAsync(notification);
@@ -481,7 +481,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                     Body = "User " + user.FirstName + " " + user.LastName + " updated account's details with " + user.Email + " account.",
                     PerformOperationBy = user.CreatedBy,
                     PerformOperationFor = user.ID,
-                    RedirectUrl = "/User"
+                    RedirectUrl = "/User/ViewProfile"
                 };
 
                 await _notificationRepository.CreateNotificationAsync(notification);

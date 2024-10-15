@@ -1,5 +1,4 @@
-﻿using EmailCampaign.Core.SharedKernel;
-using System;
+﻿using EmailCampaign.Domain.Entities.BaseClass;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

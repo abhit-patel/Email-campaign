@@ -14,10 +14,11 @@ namespace EmailCampaign.Domain.Interfaces.Core
         Task<List<Contact>> GetAllContactAsync();
         Task<Contact> GetContactAsync(Guid id);
         Task<Contact> CreateContactAsync(ContactVM model);
+        Task<bool> CheckRegisteredEmailAsync(string email);
         Task<Contact> UpdateContactAsync(Guid id, ContactVM model);
         Task<Contact> ActiveToggleAsync(string email);
         Task<List<Contact>> GetContactForGroupAsync();
-        Task<bool> DeleteContactAsync(Guid userID);
+        Task<Contact> DeleteContactAsync(Guid userID);
 
         Task<List<ContactVM>> ImportExcel(string filePath);
         Task<List<ContactVM>> ImportCsv(string filePath);

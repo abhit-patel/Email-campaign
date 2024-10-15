@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EmailCampaign.Domain.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace EmailCampaign.Domain
     {
         public static IServiceCollection AddDomainDI(this IServiceCollection services)
         {
+            services.AddScoped<PasswordHasher>();
             return services ;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
+using EmailCampaign.Domain.Services;
 using EmailCampaign.Infrastructure.Data.Services;
 using System;
 using System.Collections.Generic;

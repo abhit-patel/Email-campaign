@@ -1,12 +1,14 @@
 ﻿using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
+using EmailCampaign.Domain.Services;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
 using EmailCampaign.Infrastructure.Data.Services.LogsService;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,14 +20,15 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IUserContextService _userContextService;
+        private readonly INotificationRepository _notificationRepository;
         private readonly ErrorLogFilter _errorLogFilter;
 
-        public PermissionRepository(ApplicationDbContext dbContext , IUserContextService userContextService, ErrorLogFilter errorLogFilter)
+        public PermissionRepository(ApplicationDbContext dbContext , IUserContextService userContextService, ErrorLogFilter errorLogFilter, INotificationRepository notificationRepository)
         {
             _dbContext = dbContext;
             _userContextService = userContextService;
             _errorLogFilter = errorLogFilter;
-
+            _notificationRepository = notificationRepository;
         }
 
         public async Task<List<Permission>> GetAllPermissionAsync()
@@ -66,6 +69,20 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 await _errorLogFilter.OnException(ex);
             }
 
+            if (newPermission != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "New Permission created.",
+                    Body = "User " + _userContextService.GetUserName() + " Created new Permission with " + newPermission.ControllerName + " (" + newPermission.Id + ").",
+                    PerformOperationBy = Guid.Parse(_userContextService.GetUserId()),
+                    PerformOperationFor = Guid.Parse(_userContextService.GetUserId()),
+                    RedirectUrl = "/Permission"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
             return newPermission;
         }
 
@@ -102,7 +119,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
         }
 
-        public async Task<Permission> DeletePermissionAsync(Guid ID)
+        public async Task<bool> DeletePermissionAsync(Guid ID)
         {
             Permission permission = await _dbContext.Permission.FirstOrDefaultAsync(p => p.Id == ID);
 
@@ -118,14 +135,14 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 try
                 {
                     await _dbContext.SaveChangesAsync();
-                    return permission;
+                    return true;
                 }
                 catch (DbUpdateException ex)
                 {
                     await _errorLogFilter.OnException(ex);
                 }
             }
-            return new Permission();
+            return false;
         }
 
         public async Task<List<SelectListItem>> GetPermissionAsSelectListItemsAsync()

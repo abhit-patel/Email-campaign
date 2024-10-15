@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using AutoMapper;
 using CsvHelper;
 using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
+using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Domain.Interfaces.Core;
+using EmailCampaign.Domain.Services;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
+using EmailCampaign.Infrastructure.Data.Services.LogsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OfficeOpenXml;
@@ -19,23 +24,33 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
     public class ContactRepository : IContactRepository
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly ErrorLogFilter _errorLogFilter;
         private readonly IUserContextService _userContextService;
+        private readonly INotificationRepository _notificationRepository;
         private readonly IMapper _mapper;
-        public ContactRepository(ApplicationDbContext dbContext, IMapper mapper, IUserContextService userContextService)
+        public ContactRepository(ApplicationDbContext dbContext, IMapper mapper, IUserContextService userContextService, ErrorLogFilter errorLogFilter, INotificationRepository notificationRepository)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _userContextService = userContextService;
+            _notificationRepository = notificationRepository;
+            _errorLogFilter = errorLogFilter;
+
         }
 
         public async Task<List<Contact>> GetAllContactAsync()
         {
             return await _dbContext.Contact.Where(p => p.IsDeleted == false).ToListAsync();
         }
-        
+
         public async Task<List<Contact>> GetContactForGroupAsync()
         {
             return await _dbContext.Contact.Where(p => p.IsDeleted == false & p.IsActive == true).ToListAsync();
+        }
+
+        public async Task<bool> CheckRegisteredEmailAsync(string email)
+        {
+            return await _dbContext.Contact.AnyAsync(p => p.IsDeleted == false & p.Email == email);
         }
 
         public async Task<Contact> GetContactAsync(Guid id)
@@ -64,7 +79,30 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
 
             await _dbContext.Contact.AddAsync(contact);
 
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                await _errorLogFilter.OnException(ex);
+            }
+
+            if (contact != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "New Contact created.",
+                    Body = "User " + _userContextService.GetUserName() + " Created new Contact with " + contact.FirstName + " " + contact.LastName + " (" + contact.Id + ").",
+                    PerformOperationBy = Guid.Parse(_userContextService.GetUserId()),
+                    PerformOperationFor = Guid.Parse(_userContextService.GetUserId()),
+                    RedirectUrl = "/Contact"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
+
             return contact;
         }
 
@@ -89,7 +127,28 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
 
             _dbContext.Entry(contact).State = EntityState.Modified;
 
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                await _errorLogFilter.OnException(ex);
+            }
+
+            if (contact != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "Contact Details updated.",
+                    Body = "User " + _userContextService.GetUserName() + " update details of Contact with " + contact.FirstName + " " + contact.LastName + " (" + contact.Id + ").",
+                    PerformOperationBy = Guid.Parse(_userContextService.GetUserId()),
+                    PerformOperationFor = Guid.Parse(_userContextService.GetUserId()),
+                    RedirectUrl = "/Contact"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
 
             return contact;
 
@@ -126,15 +185,27 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
                 throw;
             }
 
+            if (contact != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "Contact IsActive toggle event occur.",
+                    Body = "Contact IsActive status is now " + contact.IsActive + "." + " and it's updated by " + _userContextService.GetUserName() + ".",
+                    PerformOperationBy = Guid.Parse(_userContextService.GetUserId()),
+                    PerformOperationFor = Guid.Parse(_userContextService.GetUserId()),
+                    RedirectUrl = "/Contact"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
             return contact;
 
         }
-    
 
 
 
-
-    public async Task<bool> DeleteContactAsync(Guid ID)
+        public async Task<Contact> DeleteContactAsync(Guid ID)
         {
             Contact contact = await _dbContext.Contact.FirstOrDefaultAsync(p => p.Id == ID);
 
@@ -151,14 +222,32 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
                 try
                 {
                     await _dbContext.SaveChangesAsync();
-                    return true;
                 }
                 catch (DbUpdateException ex)
                 {
                     throw;
                 }
             }
-            return false;
+            else
+            {
+                return new Contact();
+            }
+
+            if (contact != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "Contact Deleted.",
+                    Body = "User " + _userContextService.GetUserName() + " Deleted Contact with " + contact.FirstName + " " + contact.LastName + " (" + contact.Id + ").",
+                    PerformOperationBy = Guid.Parse(_userContextService.GetUserId()),
+                    PerformOperationFor = Guid.Parse(_userContextService.GetUserId()),
+                    RedirectUrl = "/Contact"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
+            return contact;
         }
 
         public async Task<List<ContactVM>> ImportCsv(string filePath)
@@ -167,6 +256,16 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
             using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
             {
                 List<ContactVM> records = csv.GetRecords<ContactVM>().ToList();
+
+                foreach (var item in records)
+                {
+                    var contact = await CreateContactAsync(item);
+
+                    if (contact == null)
+                    {
+                        return new List<ContactVM>();
+                    }
+                }
 
                 return records;
             }
@@ -182,11 +281,11 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
             {
                 var worksheet = package.Workbook.Worksheets.FirstOrDefault();
 
-                if(worksheet != null)
+                if (worksheet != null)
                 {
                     var rowCount = worksheet.Dimension.Rows;
 
-                    for(int i = 2; i <= rowCount; i++)
+                    for (int i = 2; i <= rowCount; i++)
                     {
                         var data = new ContactVM
                         {
@@ -195,16 +294,26 @@ namespace EmailCampaign.Infrastructure.Data.Repositories.Core
                             LastName = worksheet.Cells[i, 3].Value.ToString(),
                             Email = worksheet.Cells[i, 4].Value.ToString(),
                             CompanyName = worksheet.Cells[i, 5].Value.ToString(),
-                            IsActive = bool.Parse(worksheet.Cells[i,6].Value.ToString())
+                            IsActive = bool.Parse(worksheet.Cells[i, 6].Value.ToString())
                         };
 
                         contactVMs.Add(data);
                     }
 
+                    foreach (var item in contactVMs)
+                    {
+                        var contact = await CreateContactAsync(item);
+
+                        if (contact == null)
+                        {
+                            return new List<ContactVM>();
+                        }
+                    }
+
                     return contactVMs;
                 }
 
-                return null;
+                return new List<ContactVM>();
             }
 
         }

@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using EmailCampaign.Application.Features.User.Commands;
+using EmailCampaign.Application.Features.User.Queries;
 using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
 using EmailCampaign.Infrastructure.Data.Services.LogsService;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -13,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml.Utils;
 using System.Data;
 using System.Reflection;
+using System.Threading;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
@@ -24,19 +28,21 @@ namespace EmailCampaign.WebApplication.Controllers
         private readonly IMapper _mapper;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserService _userService;
+        private readonly IMediator _mediator;
 
-        public UserController(IUserRepository userRepository, IMapper mapper , IRoleRepository roleRepository, IUserService userService )
+        public UserController(IUserRepository userRepository, IMapper mapper , IRoleRepository roleRepository, IUserService userService, IMediator mediator )
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _roleRepository = roleRepository;
             _userService = userService;
+            _mediator = mediator;
         }
 
         [Authorize("ViewPermission")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            List<User> userList = await _userRepository.GetAllUserAsync();
+            var userList = await _mediator.Send(new GetAllUserQuery());
 
             await LoadRoles();
 
@@ -45,11 +51,16 @@ namespace EmailCampaign.WebApplication.Controllers
 
 
         [Authorize("AddEditPermission")]
-        public async Task<IActionResult> GetUserById(Guid id)
+        public async Task<IActionResult> GetUserById(Guid id, CancellationToken cancellationToken)
         {
-            User user = await _userRepository.GetUserAsync(id);
+            GetUserByIdQuery getUserByIdQuery = new GetUserByIdQuery
+            {
+                Id = id
+            };
 
-            UserRegisterVM  userVM = _mapper.Map<UserRegisterVM>(user);
+            var user = await _mediator.Send(getUserByIdQuery, cancellationToken);
+
+            UpdateUserCommand  userVM = _mapper.Map<UpdateUserCommand>(user);
 
             await LoadRoles();
 
@@ -78,7 +89,7 @@ namespace EmailCampaign.WebApplication.Controllers
         [HttpPost]
         [ActionName("AddUser")]
         [Authorize("AddEditPermission")]
-        public async Task<IActionResult> Post(UserRegisterVM model)
+        public async Task<IActionResult> Post(CreateUserCommand model, CancellationToken cancellationToken)
         {
             var IsEmailPresent = await _userRepository.CheckRegisteredEmailAsync(model.Email);
 
@@ -88,7 +99,10 @@ namespace EmailCampaign.WebApplication.Controllers
                 return RedirectToAction("AddUser");
             }
 
-            var user = await _userRepository.CreateUserAsync(model);
+            //CreateUserCommand finalModel = _mapper.Map<CreateUserCommand>(model);
+            var user = await _mediator.Send(model, cancellationToken);
+
+            //var user = await _userRepository.CreateUserAsync(model);
 
             if(user == null)
             {
@@ -120,12 +134,17 @@ namespace EmailCampaign.WebApplication.Controllers
         [HttpPost]
         [ActionName("UpdateUser")]
         [Authorize("AddEditPermission")]
-        public async Task<IActionResult> Update(Guid id, UserRegisterVM userModel)
+        public async Task<IActionResult> Update(Guid id, UpdateUserCommand userModel, CancellationToken cancellationToken)
         {
+            if(userModel.Id != id)
+            {
+                TempData["ErrorMessage"] = "User details data binding problem. please try again.";
+                return RedirectToAction("AddUser");
+            }
 
-            var user = await _userRepository.UpdateUserAsync(id, userModel);
+            var user = await _mediator.Send(userModel, cancellationToken);
 
-            if(user == null)
+            if (user == null)
             {
                 TempData["ErrorMessage"] = "User details has not be updated. please try again.";
                 return RedirectToAction("AddUser");
@@ -153,9 +172,14 @@ namespace EmailCampaign.WebApplication.Controllers
         /// <param name="email"></param>
         /// <returns></returns>
         [ActionName("IsActiveToggle")]
-        public async Task<IActionResult> IsActiveToggleAsync(string email)
+        public async Task<IActionResult> IsActiveToggleAsync(string email , CancellationToken cancellationToken)
         {
-            var user = await _userRepository.ActiveToggleAsync(email);
+            UpdateActiveToggleCommand updateActiveToggle = new UpdateActiveToggleCommand
+            {
+                email = email
+            };
+
+            var user = await _mediator.Send(updateActiveToggle, cancellationToken);
 
             if(user == null)
             {
@@ -185,9 +209,16 @@ namespace EmailCampaign.WebApplication.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [Authorize("DeletePermission")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.DeleteUserAsync(id);
+
+            DeleteUserCommand deleteUserCommand = new DeleteUserCommand
+            {
+                Id = id,
+            };
+
+            var user = await _mediator.Send(deleteUserCommand, cancellationToken);
+
 
             if (!user.IsDeleted)
             {
@@ -269,9 +300,9 @@ namespace EmailCampaign.WebApplication.Controllers
 
         [HttpPost]
         [ActionName("UpdatePassword")]
-        public async Task<IActionResult> ChangePassword(UpdatePasswordVM model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordCommand model, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.ChangePasswordAsync(model.Password);
+            var user = await _mediator.Send(model, cancellationToken);   
 
             if (user.ProfilePicture == null)
             {
@@ -338,6 +369,7 @@ namespace EmailCampaign.WebApplication.Controllers
 
             ViewBag.Roles = roles.ToDictionary(r => r.Value, r => r.Text);
         }
+
 
 
     }

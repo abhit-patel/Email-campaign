@@ -15,7 +15,7 @@ namespace EmailCampaign.Domain.Interfaces
         Task<Permission> GetPermissionAsync(Guid id);
         Task<Permission> CreatePermissionAsync(PermissionVM model);
         Task<Permission> UpdatePermissionAsync(Guid id, PermissionVM model);
-        Task<Permission> DeletePermissionAsync(Guid ID);
+        Task<bool> DeletePermissionAsync(Guid ID);
         Task<List<SelectListItem>> GetPermissionAsSelectListItemsAsync();
     }
 }

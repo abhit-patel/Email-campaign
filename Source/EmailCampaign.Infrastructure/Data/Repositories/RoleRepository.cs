@@ -1,6 +1,7 @@
 ﻿using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
 using EmailCampaign.Domain.Interfaces;
+using EmailCampaign.Domain.Services;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
 using EmailCampaign.Infrastructure.Data.Services.LogsService;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -78,7 +80,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 var notification = new Notification
                 {
                     Header = "New role created.",
-                    Body = "User " + _userContextService.GetUserName() + " Created new User role with " + _userContextService.GetUserEmail() + ".",
+                    Body = "User " + _userContextService.GetUserName() + " Created new User role-mapping with " + newRole.Name + " (" + newRole.Id + ").",
                     PerformOperationBy = Guid.Parse(_userContextService.GetUserId()),
                     PerformOperationFor = Guid.Parse(_userContextService.GetUserId()),
                     RedirectUrl = "/Role"
@@ -96,7 +98,7 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
 
             Role role = await _dbContext.Role.FirstOrDefaultAsync(p => p.Id == id);
 
-            if (role == null) { return null; }
+            if (role == null) { return new Role(); }
 
             role.Name = model.RoleName;
 
@@ -112,6 +114,20 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
             catch (DbUpdateException ex)
             {
                 await _errorLogFilter.OnException(ex);
+            }
+
+            if (role != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "Role details updated.",
+                    Body = "User " + _userContextService.GetUserName() + " updated role details with " + role.Name + " (" + role.Id + ").",
+                    PerformOperationBy = Guid.Parse(_userContextService.GetUserId()),
+                    PerformOperationFor = Guid.Parse(_userContextService.GetUserId()),
+                    RedirectUrl = "/Role"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
             }
 
             return role;
@@ -133,14 +149,32 @@ namespace EmailCampaign.Infrastructure.Data.Repositories
                 try
                 {
                     await _dbContext.SaveChangesAsync();
-                    return role;
                 }
                 catch (DbUpdateException ex)
                 {
                     await _errorLogFilter.OnException(ex);
                 }
             }
-            return new Role();
+            else
+            {
+                return new Role();
+            }
+
+            if (role != null)
+            {
+                var notification = new Notification
+                {
+                    Header = "Role Deleted by user.",
+                    Body = "User " + _userContextService.GetUserName() + " delete role with " + role.Name + " (" + role.Id + ").",
+                    PerformOperationBy = Guid.Parse(_userContextService.GetUserId()),
+                    PerformOperationFor = Guid.Parse(_userContextService.GetUserId()),
+                    RedirectUrl = "/Role"
+                };
+
+                await _notificationRepository.CreateNotificationAsync(notification);
+            }
+
+            return role;
         }
 
 

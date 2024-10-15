@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "qC8emrZwIlNZOXEOgVG9vc3XAVPzrapqwToe3GMx2s0=",
+  "Hash": "73r7QvxkCoGfuAmFZG63M5CDc+7FSOQ99LkuysOYdNk=",
   "Source": "EmailCampaign.WebApplication",
   "BasePath": "_content/EmailCampaign.WebApplication",
   "Mode": "Default",
@@ -46945,6 +46945,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\ProfilePics\\7ad48839-b79b-4b7a-a812-9ac273090c7d.jpg"
+    },
+    {
+      "Identity": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\ProfilePics\\f9a3ce82-b680-4000-830a-380ec38ad059.jpg",
+      "SourceId": "EmailCampaign.WebApplication",
+      "SourceType": "Discovered",
+      "ContentRoot": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\",
+      "BasePath": "_content/EmailCampaign.WebApplication",
+      "RelativePath": "ProfilePics/f9a3ce82-b680-4000-830a-380ec38ad059.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ProfilePics\\f9a3ce82-b680-4000-830a-380ec38ad059.jpg"
     },
     {
       "Identity": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\starter.html",

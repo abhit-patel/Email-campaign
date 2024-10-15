@@ -1,5 +1,6 @@
 ﻿using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Interfaces.Log;
+using EmailCampaign.Domain.Services;
 using EmailCampaign.Infrastructure.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

@@ -1,6 +1,7 @@
 ﻿using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Domain.Interfaces.Log;
+using EmailCampaign.Domain.Services;
 using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Services;
 using EmailCampaign.Infrastructure.Data.Services.LogsService;

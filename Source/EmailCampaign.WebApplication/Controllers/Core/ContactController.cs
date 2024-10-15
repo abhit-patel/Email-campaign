@@ -9,8 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using EmailCampaign.Infrastructure.Data.Repositories;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using EmailCampaign.Infrastructure.Data.Services.LogsService;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EmailCampaign.WebApplication.Controllers.Core
 {
@@ -58,6 +56,15 @@ namespace EmailCampaign.WebApplication.Controllers.Core
         [ActionName("AddContact")]
         public async Task<IActionResult> Post(ContactVM model)
         {
+            var isRegisteredEmail = await _contactRepository.CheckRegisteredEmailAsync(model.Email);
+
+            if (isRegisteredEmail)
+            {
+                TempData["ErrorMessage"] = "Contact Email is already present, please use another email.";
+                return RedirectToAction("AddContact");
+            }
+
+
             var contact = await _contactRepository.CreateContactAsync(model);
 
             if (contact == null)
@@ -65,16 +72,6 @@ namespace EmailCampaign.WebApplication.Controllers.Core
                 TempData["ErrorMessage"] = "Failed to add contact. Please try again.";
                 return RedirectToAction("Index");
             }
-
-            var activityLogAttribute = new ActivityLogAttribute("Create", "New Contact created with name {0} Created by {1}", contact.FirstName + " " + contact.LastName + " (" + contact.Id + ")");
-            var context = new ActionExecutingContext(
-            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
-            new List<IFilterMetadata>(),
-            new Dictionary<string, object> { },
-            this
-            );
-            await activityLogAttribute.LogActivityAsync(context);
-
 
             TempData["SuccessMessage"] = "Contact successfully added!";
 
@@ -103,51 +100,24 @@ namespace EmailCampaign.WebApplication.Controllers.Core
             {
                 List<ContactVM> scvData = await _contactRepository.ImportCsv(filePath);
 
-                foreach (var item in scvData)
+                if (scvData == null)
                 {
-                    var contact = await _contactRepository.CreateContactAsync(item);
-
-                    if (contact == null)
-                    {
-                        TempData["ErrorMessage"] = "import file process failed !!";
-                        return RedirectToAction("AddContact");
-                    }
-
-                    var activityLogAttribute = new ActivityLogAttribute("Create", "New Contact created by CSV file with name {0} Created by {1}", contact.FirstName + " "+ contact.LastName + " (" + contact.Id + ")");
-                    var context = new ActionExecutingContext(
-                    new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
-                    new List<IFilterMetadata>(),
-                    new Dictionary<string, object> { },
-                    this
-                    );
-                    await activityLogAttribute.LogActivityAsync(context);
+                    TempData["ErrorMessage"] = "import file process failed !!";
+                    return RedirectToAction("AddContact");
                 }
+
             }
             else if (Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
             {
                 List<ContactVM> excelData = await _contactRepository.ImportExcel(filePath);
 
-                foreach (var item in excelData)
+                if (excelData == null)
                 {
-                    var contact = await _contactRepository.CreateContactAsync(item);
-
-                    if (contact == null)
-                    {
-                        TempData["ErrorMessage"] = "Import file process failed !!";
-                        return RedirectToAction("AddContact");
-                    }
-
-                    var activityLogAttribute = new ActivityLogAttribute("Create", "New Contact created by Excel file with name {0} Created by {1}", contact.FirstName + " " + contact.LastName + " (" + contact.Id + ")");
-                    var context = new ActionExecutingContext(
-                    new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
-                    new List<IFilterMetadata>(),
-                    new Dictionary<string, object> { },
-                    this
-                    );
-                    await activityLogAttribute.LogActivityAsync(context);
+                    TempData["ErrorMessage"] = "Import file process failed !!";
+                    return RedirectToAction("AddContact");
                 }
-            }
 
+            }
 
             TempData["SuccessMessage"] = "file successfully imported.";
             return RedirectToAction("Index");
@@ -179,15 +149,6 @@ namespace EmailCampaign.WebApplication.Controllers.Core
                 return RedirectToAction("AddUser");
             }
 
-            var activityLogAttribute = new ActivityLogAttribute("IsActive toggle", "Active status changed of user {0} Updated by {1}", contact.FirstName + " " + contact.LastName + " (" + contact.Id + ")");
-            var context = new ActionExecutingContext(
-            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
-            new List<IFilterMetadata>(),
-            new Dictionary<string, object> { },
-            this
-            );
-            await activityLogAttribute.LogActivityAsync(context);
-
             TempData["SuccessMessage"] = "Status has been toggled successfully.";
             return RedirectToAction("Index");
         }
@@ -196,15 +157,13 @@ namespace EmailCampaign.WebApplication.Controllers.Core
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            var isDeleteed = await _contactRepository.DeleteContactAsync(id);
+            var contact = await _contactRepository.DeleteContactAsync(id);
 
-            if (!isDeleteed)
+            if (!contact.IsDeleted)
             {
                 TempData["ErrorMessage"] = "Contact delete process failed.";
                 return RedirectToAction("Index");
             }
-
-
 
             TempData["SuccessMessage"] = "Contact successfully deleted.";
             return RedirectToAction("Index");

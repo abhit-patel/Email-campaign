@@ -1,7 +1,11 @@
-﻿using EmailCampaign.Core.SharedKernel;
+﻿using EmailCampaign.Application.Interfaces;
+using EmailCampaign.Core.SharedKernel;
 using EmailCampaign.Domain.Interfaces;
 using EmailCampaign.Domain.Interfaces.Core;
 using EmailCampaign.Domain.Interfaces.Log;
+using EmailCampaign.Domain.Services;
+using EmailCampaign.Infrastructure.Data;
+using EmailCampaign.Infrastructure.Data.Context;
 using EmailCampaign.Infrastructure.Data.Repositories;
 using EmailCampaign.Infrastructure.Data.Repositories.Core;
 using EmailCampaign.Infrastructure.Data.Repositories.Log;
@@ -34,11 +38,13 @@ namespace EmailCampaign.Infrastructure
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IUserContextService, UserContextService>();
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<IActivityLogRepository, JsonActivityLogRepository>();
             services.AddScoped<IErrorLogRepository, JsonErrorLogRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<ActivityLogAttribute>(_ => new ActivityLogAttribute ("","","") );
             services.AddScoped<ErrorLogFilter>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             return services;

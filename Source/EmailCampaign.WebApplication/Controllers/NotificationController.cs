@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class NotificationController : Controller
     {
         private readonly INotificationRepository _notificationRepository;

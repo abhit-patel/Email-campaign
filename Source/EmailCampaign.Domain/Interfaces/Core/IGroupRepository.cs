@@ -18,9 +18,9 @@ namespace EmailCampaign.Domain.Interfaces.Core
         Task<Group> DeleteGroupAsync(Guid GroupID);
 
 
-        Task<ContactGroup> AddContactsGroupAsync(Guid groupId, Guid contactId, bool isSelected);
+        Task<ContactGroupVM> AddContactsGroupAsync(ContactGroupVM contactGroup);
         Task<ContactGroupVM> GetContactForGroupAsync(Guid groupId);
-        Task<ContactGroup> UpdateContactsGroupAsync(Guid groupId, Guid contactId, bool isSelected);
+        Task<ContactGroupVM> UpdateContactsGroupAsync(ContactGroupVM contactGroup);
         Task<ContactGroup> ContacSubscribeStatus(Guid contactId, Guid groupId);
     }
 }

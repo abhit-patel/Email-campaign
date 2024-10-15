@@ -1,8 +1,10 @@
 ﻿using EmailCampaign.Domain.Interfaces.Log;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
+    [Authorize]
     public class LogController : Controller
     {
         private readonly IActivityLogRepository _activityLogRepository;
@@ -20,6 +22,7 @@ namespace EmailCampaign.WebApplication.Controllers
             return View();
         }
 
+        [Authorize("ViewPermission")]
         public IActionResult ActivityLog()
         {
             var logs = _activityLogRepository.GetActivityLog();
@@ -27,7 +30,7 @@ namespace EmailCampaign.WebApplication.Controllers
             return View(logs);
         }
 
-
+        [Authorize("ViewPermission")]
         public IActionResult ErrorLog()
         {
             var logs = _errorLogRepository.GetErrorLog();

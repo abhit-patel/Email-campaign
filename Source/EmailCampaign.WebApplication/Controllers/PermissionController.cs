@@ -5,8 +5,9 @@ using EmailCampaign.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using AuthorizeAttribute = Microsoft.AspNetCore.Authorization.AuthorizeAttribute;
 using EmailCampaign.Infrastructure.Data.Repositories;
-using EmailCampaign.Infrastructure.Data.Services.LogsService;
-using Microsoft.AspNetCore.Mvc.Filters;
+using MediatR;
+using EmailCampaign.Application.Features.Permission.Queries;
+using EmailCampaign.Application.Features.Permission.Commands;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
@@ -16,28 +17,36 @@ namespace EmailCampaign.WebApplication.Controllers
         private readonly IPermissionRepository _permissionRepository;
         private readonly IRolePermissionRepository _rolePermissionRepository;
         private readonly IMapper _mapper;
-        public PermissionController(IPermissionRepository permissionRepository, IMapper mapper, IRolePermissionRepository rolePermissionRepository)
+        private readonly IMediator _mediator;
+
+        public PermissionController(IPermissionRepository permissionRepository, IMapper mapper, IRolePermissionRepository rolePermissionRepository, IMediator mediator)
         {
             _permissionRepository = permissionRepository;
             _mapper = mapper;
             _rolePermissionRepository = rolePermissionRepository;
+            _mediator = mediator;
         }
 
         [Authorize("ViewPermission")]
         public async Task<IActionResult> Index()
         {
-            List<Permission> roleList = await _permissionRepository.GetAllPermissionAsync();
-            return View(roleList);
+            var permissionList = await _mediator.Send(new GetAllPermissionQuery());
+            return View(permissionList);
         }
 
         //[Authorize("AddEditPermission")]
-        public async Task<IActionResult> GetPermissionById(Guid id)
+        public async Task<IActionResult> GetPermissionById(Guid id,CancellationToken cancellationToken)
         {
-            Permission permission = await _permissionRepository.GetPermissionAsync(id);
+            GetPermissionByIdQuery query = new GetPermissionByIdQuery
+            {
+                Id = id
+            };
 
-            PermissionVM permissionVM = _mapper.Map<PermissionVM>(permission);
+            var permission = await _mediator.Send(query, cancellationToken);
 
-            return View("UpdatePermission", permissionVM);
+            //PermissionVM permissionVM = _mapper.Map<PermissionVM>(permission);
+
+            return View("UpdatePermission", permission);
         }
 
         [HttpGet]
@@ -50,27 +59,17 @@ namespace EmailCampaign.WebApplication.Controllers
         [HttpPost]
         [ActionName("AddPermission")]
         [Authorize("AddEditPermission")]
-        public async Task<IActionResult> AddPermission(PermissionVM model)
+        public async Task<IActionResult> AddPermission(CreatePermissionCommand model, CancellationToken cancellationToken)
         {
             //if (ModelState.IsValid) { return View("Index"); }
 
-            var permission = await _permissionRepository.CreatePermissionAsync(model);
+            var permission = await _mediator.Send(model, cancellationToken);
 
             if (permission == null)
             {
                 TempData["ErrorMessage"] = "Permission create process failed !!";
                 return View("AddPermission");
             }
-
-            var activityLogAttribute = new ActivityLogAttribute("Create", "New Permission created with name {0} Created by {1}", permission.ControllerName +  " (" + permission.Id + ")");
-            var context = new ActionExecutingContext(
-            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
-            new List<IFilterMetadata>(),
-            new Dictionary<string, object> { },
-            this
-            );
-            await activityLogAttribute.LogActivityAsync(context);
-
 
             TempData["SuccessMessage"] = "Permission successfully created.";
             return RedirectToAction("Index");
@@ -79,18 +78,23 @@ namespace EmailCampaign.WebApplication.Controllers
 
         [HttpPost]
         [Authorize("AddEditPermission")]
-        public async Task<IActionResult> Update(Guid id, PermissionVM permissionModel)
+        public async Task<IActionResult> Update(Guid id, UpdatePermissionCommand permissionModel,CancellationToken cancellationToken)
         {
 
-            var permission = await _permissionRepository.UpdatePermissionAsync(id, permissionModel);
+            var permission = await _mediator.Send(permissionModel, cancellationToken);
 
             return RedirectToAction("Index");
         }
 
 
         [Authorize("DeletePermission")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
+            DeletePermissionCommand deletePermissionCommand = new DeletePermissionCommand
+            {
+                Id = id
+            };
+
             RolePermission rolePermission = await _rolePermissionRepository.GetItemByPermissionId(id);
 
             if(rolePermission != null)
@@ -99,22 +103,13 @@ namespace EmailCampaign.WebApplication.Controllers
                 return RedirectToAction("Index");
             }
 
-            var permission = await _permissionRepository.DeletePermissionAsync(id);
+            var permission = await _mediator.Send(deletePermissionCommand, cancellationToken);
 
-            if (permission == null)
+            if (!permission.IsDeleted)
             {
                 TempData["ErrorMessage"] = "Permission delete process failed.";
                 return View("Index");
             }
-
-            var activityLogAttribute = new ActivityLogAttribute("Delete", "Permission detalis Updated with name {0} Created by {1}", permission.ControllerName + " (" + permission.Id + ")");
-            var context = new ActionExecutingContext(
-            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
-            new List<IFilterMetadata>(),
-            new Dictionary<string, object> { },
-            this
-            );
-            await activityLogAttribute.LogActivityAsync(context);
 
             TempData["SuccessMessage"] = "Permission deleted successfully.";
             return RedirectToAction("Index");
