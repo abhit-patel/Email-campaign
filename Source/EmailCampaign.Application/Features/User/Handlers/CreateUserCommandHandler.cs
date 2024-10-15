@@ -25,15 +25,14 @@ namespace EmailCampaign.Application.Features.User.Handlers
         private readonly IUserContextService _userContextService;
         private readonly IAuthRepository _authRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly INotificationRepository _notificationRepository;
 
-        public CreateUserCommandHandler(IApplicationDbContext dbContext, IUnitOfWork unitOfWork, PasswordHasher passwordHasher, IAuthRepository authRepository, IUserContextService userContextService, INotificationRepository notificationRepository)
+
+        public CreateUserCommandHandler(IApplicationDbContext dbContext, IUnitOfWork unitOfWork, PasswordHasher passwordHasher, IAuthRepository authRepository, IUserContextService userContextService)
         {
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;
             _authRepository = authRepository;
             _userContextService = userContextService;
-            _notificationRepository = notificationRepository;
         }
 
 
@@ -51,7 +50,7 @@ namespace EmailCampaign.Application.Features.User.Handlers
             user.Password = request.Password;
             user.SaltKey = items.saltKey;
             user.HashPassword = items.hashedPassword;
-            user.ProfilePicture = "";
+            user.ProfilePicture = "/ProfilePics/profile-user.png";
             user.RoleId = request.RoleId;
             user.IsActive = request.IsActive;
             user.IsSuperAdmin = false;
@@ -64,21 +63,9 @@ namespace EmailCampaign.Application.Features.User.Handlers
 
             await _dbContext.User.AddAsync(user);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync();
 
-            if (user != null)
-            {
-                var notification = new Notification
-                {
-                    Header = "User created",
-                    Body = "User created with" + user.FirstName + user.LastName + " name by " + _userContextService.GetUserName() + ".",
-                    PerformOperationBy = user.CreatedBy,
-                    PerformOperationFor = user.ID,
-                    RedirectUrl = "/Notification"
-                };
-
-                await _notificationRepository.CreateNotificationAsync(notification);
-            }
+            //await _unitOfWork.SaveChangesAsync();
 
             return user;
         }

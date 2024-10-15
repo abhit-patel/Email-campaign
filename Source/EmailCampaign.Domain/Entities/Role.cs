@@ -11,6 +11,7 @@ namespace EmailCampaign.Domain.Entities
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public bool IsActive { get; set; }
         public ICollection<RolePermission> RolePermissions { get; set; }
         public ICollection<User> Users { get; set; }
 

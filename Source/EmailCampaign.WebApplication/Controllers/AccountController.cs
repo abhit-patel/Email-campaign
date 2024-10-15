@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using EmailCampaign.Core.SharedKernel;
 using System.Text.Encodings.Web;
+using EmailCampaign.Application.Features.User.Queries;
+using MediatR;
+using EmailCampaign.Application.Features.User.Commands;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
@@ -21,13 +24,15 @@ namespace EmailCampaign.WebApplication.Controllers
         private readonly IAuthRepository _authRepository;
         private readonly EmailService _emailService ;
         private readonly IUserRepository _userRepository;
+        private readonly IMediator _mediator;
 
 
-        public AccountController(IAuthRepository authRepository , IUserRepository userRepository, EmailService emailService)
+        public AccountController(IAuthRepository authRepository, IUserRepository userRepository, EmailService emailService, IMediator mediator)
         {
             _authRepository = authRepository;
             _userRepository = userRepository;
             _emailService = emailService;
+            _mediator = mediator;
         }
         public IActionResult Index()
         {
@@ -122,11 +127,13 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM forgotPasswordVm)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM forgotPasswordVm ,CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                User user = await _userRepository.GetUserByEmailAsync(forgotPasswordVm.Email);
+                GetUserByEmailQuery getUserByEmailQuery = new GetUserByEmailQuery { email = forgotPasswordVm.Email };
+
+                User user = await _mediator.Send(getUserByEmailQuery , cancellationToken);
 
                 if (user == null)
                 {
@@ -136,11 +143,15 @@ namespace EmailCampaign.WebApplication.Controllers
 
                 var token = Guid.NewGuid().ToString();
 
-                await _userRepository.SavePasswordResetTokenAsync(user.Email, token);
+                UpdatePasswordResetTokenCommand updatePasswordResetTokenCommand = new UpdatePasswordResetTokenCommand
+                {
+                    email = user.Email,
+                    token = token
+                };
+                await _mediator.Send(updatePasswordResetTokenCommand, cancellationToken);
 
 
-
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, protocol: Request.Scheme);;
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { token }, protocol: Request.Scheme);;
 
                 await _emailService.SendEmailAsync(user.Email, "Reset password", $"Please reset your password by '{callbackUrl}' clicking here.");
 
@@ -154,37 +165,38 @@ namespace EmailCampaign.WebApplication.Controllers
 
 
         //[FromQuery]
-        public IActionResult ResetPassword( string token = null , string email = null )
+        public IActionResult ResetPassword( string token = null)
         {
-            return View (new ResetPasswordVM { Token = token, Email = email });
+
+            return View (new ResetPasswordVM { Token = token });
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            User user = await _userRepository.GetUserByEmailAsync(model.Email);
+            GetUserByResetPassCodeQuery getUserByResetPassCodeQuery = new GetUserByResetPassCodeQuery { token = model.Token };
+
+            var user = await _mediator.Send(getUserByResetPassCodeQuery ,cancellationToken);
 
             if (user == null)
-            {
-                TempData["ErrorMessage"] = "User not found for your entered mail id.";
-                return View("ResetPassword");
-            }
-
-            var isValidToken = await _userRepository.ValidatePasswordResetTokenAsync(user.Email, model.Token);
-
-            if (!isValidToken)
             {
                 TempData["ErrorMessage"] = "Password rest process failed. Token not matched.";
                 return View("ResetPassword");
             }
 
-            var updatedUser = await _userRepository.ResetPasswordAsync(user.Email, model.Password);
+            ResetPasswordCommand resetPasswordCommand = new ResetPasswordCommand
+            {
+                email = user.Email,
+                password = user.Password,
+            };
+
+            var updatedUser = await _mediator.Send(resetPasswordCommand, cancellationToken);
 
 
             if (updatedUser != null)

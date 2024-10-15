@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace EmailCampaign.Application.Features.Permission.Handlers
 {
-    public class GetAllPermissionQueryHandler : IRequestHandler<GetAllPermissionQuery, IEnumerable<Domain.Entities.Permission>>
+    public class GetAllContactQueryHandler : IRequestHandler<GetAllPermissionQuery, IEnumerable<Domain.Entities.Permission>>
     {
         private readonly IApplicationDbContext _dbContext;
         
-        public GetAllPermissionQueryHandler(IApplicationDbContext dbContext)
+        public GetAllContactQueryHandler(IApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

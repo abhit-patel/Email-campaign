@@ -10,6 +10,7 @@ namespace EmailCampaign.Application.Features.User.Commands
 {
     public class CreateUserCommand : IRequest<Domain.Entities.User>
     {
+        public Guid ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateOnly BirthDate { get; set; }
@@ -17,6 +18,5 @@ namespace EmailCampaign.Application.Features.User.Commands
         public string Password { get; set; }
         public Guid RoleId { get; set; }
         public bool IsActive { get; set; }
-
     }
 }

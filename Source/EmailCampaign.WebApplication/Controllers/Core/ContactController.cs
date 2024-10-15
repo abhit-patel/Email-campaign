@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using EmailCampaign.Infrastructure.Data.Repositories;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using MediatR;
+using EmailCampaign.Application.Features.Contact.Queries;
+using EmailCampaign.Application.Features.Contact.Commands;
 
 namespace EmailCampaign.WebApplication.Controllers.Core
 {
@@ -17,31 +20,36 @@ namespace EmailCampaign.WebApplication.Controllers.Core
     {
         private readonly IContactRepository _contactRepository;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public ContactController(IContactRepository contactRepository, IMapper mapper)
+        public ContactController(IContactRepository contactRepository, IMapper mapper, IMediator mediator)
         {
             _contactRepository = contactRepository;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         //[CustomAuthorize("User/Index", typeof(IUserService))]
         public async Task<IActionResult> Index()
         {
-            List<Contact> contactList = await _contactRepository.GetAllContactAsync();
+            var contactList = await _mediator.Send(new GetAllContactQuery());
 
             return View(contactList);
         }
 
 
-        public async Task<IActionResult> GetContactById(Guid id)
+        public async Task<IActionResult> GetContactById(Guid id, CancellationToken cancellationToken)
         {
-            Contact contact = await _contactRepository.GetContactAsync(id);
+            GetContactByIdQuery getContactByIdQuery = new GetContactByIdQuery
+            {
+                Id = id
+            };
 
-            ContactVM contactVM = _mapper.Map<ContactVM>(contact);
+            var contact = await _mediator.Send(getContactByIdQuery, cancellationToken);
 
             //await LoadRoles();
 
-            return View("UpdateContact", contactVM);
+            return View("UpdateContact", contact);
         }
 
         [HttpGet]
@@ -54,8 +62,9 @@ namespace EmailCampaign.WebApplication.Controllers.Core
 
         [HttpPost]
         [ActionName("AddContact")]
-        public async Task<IActionResult> Post(ContactVM model)
+        public async Task<IActionResult> Post(CreateContactCommand model, CancellationToken cancellationToken)
         {
+
             var isRegisteredEmail = await _contactRepository.CheckRegisteredEmailAsync(model.Email);
 
             if (isRegisteredEmail)
@@ -64,8 +73,7 @@ namespace EmailCampaign.WebApplication.Controllers.Core
                 return RedirectToAction("AddContact");
             }
 
-
-            var contact = await _contactRepository.CreateContactAsync(model);
+            var contact = await _mediator.Send(model, cancellationToken);
 
             if (contact == null)
             {
@@ -125,10 +133,9 @@ namespace EmailCampaign.WebApplication.Controllers.Core
 
 
         [HttpPost]
-        public async Task<IActionResult> Update(Guid id, ContactVM contactModel)
+        public async Task<IActionResult> Update(Guid id, UpdateContactCommand contactModel, CancellationToken cancellationToken)
         {
-
-            var contact = await _contactRepository.UpdateContactAsync(id, contactModel);
+            var contact = await _mediator.Send(contactModel, cancellationToken);
 
             if (contact == null)
             {
@@ -139,9 +146,14 @@ namespace EmailCampaign.WebApplication.Controllers.Core
 
 
         [ActionName("IsActiveToggle")]
-        public async Task<IActionResult> IsActiveToggleAsync(string email)
+        public async Task<IActionResult> IsActiveToggleAsync(string email, CancellationToken cancellationToken)
         {
-            var contact = await _contactRepository.ActiveToggleAsync(email);
+            ContactActiveToggleCommand contactActiveToggleCommand = new ContactActiveToggleCommand
+            {
+                email = email
+            };
+
+            Contact contact = await _mediator.Send(contactActiveToggleCommand, cancellationToken);
 
             if (contact == null)
             {
@@ -155,9 +167,14 @@ namespace EmailCampaign.WebApplication.Controllers.Core
 
 
 
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            var contact = await _contactRepository.DeleteContactAsync(id);
+            DeleteContactCommand deleteContactCommand = new DeleteContactCommand
+            {
+                Id = id
+            };
+
+            var contact = await _mediator.Send(deleteContactCommand, cancellationToken);
 
             if (!contact.IsDeleted)
             {

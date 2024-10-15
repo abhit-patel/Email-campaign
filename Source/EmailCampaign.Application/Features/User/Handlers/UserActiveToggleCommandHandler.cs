@@ -13,52 +13,52 @@ using System.Threading.Tasks;
 
 namespace EmailCampaign.Application.Features.User.Handlers
 {
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Domain.Entities.User>
+    public class UserActiveToggleCommandHandler : IRequestHandler<ContactActiveToggleCommand, Domain.Entities.User>
     {
+
         private readonly IApplicationDbContext _dbContext;
         private readonly IUserContextService _userContextService;
         private readonly INotificationRepository _notificationRepository;
 
-        public UpdateUserCommandHandler(IApplicationDbContext dbContext, IUserContextService userContextService, INotificationRepository notificationRepository)
+        public UserActiveToggleCommandHandler(IApplicationDbContext dbContext, IUserContextService userContextService, INotificationRepository notificationRepository)
         {
             _dbContext = dbContext;
             _userContextService = userContextService;
             _notificationRepository = notificationRepository;
-            }
-
-        public async Task<Domain.Entities.User> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        }
+        public async Task<Domain.Entities.User> Handle(ContactActiveToggleCommand request, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == request.Id);
-
+            var user = await _dbContext.User.FirstOrDefaultAsync(p => p.Email == request.email);
 
             if (user != null)
             {
-
-                user.FirstName = request.FirstName;
-                user.LastName = request.LastName;
-                user.Email = request.Email;
-                user.BirthDate = request.BirthDate;
-                user.IsActive = request.IsActive;
-                user.RoleId = request.RoleId;
-
-                user.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
-                user.UpdatedOn = DateTime.UtcNow;
-
+                if (user.IsActive)
+                {
+                    user.IsActive = false;
+                }
+                else
+                {
+                    user.IsActive = true;
+                }
             }
+
+            user.UpdatedOn = DateTime.UtcNow;
+            user.UpdatedBy = Guid.Parse(_userContextService.GetUserId());
+
 
             _dbContext.Entry(user).State = EntityState.Modified;
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync();
 
             if (user != null)
             {
                 var notification = new Notification
                 {
-                    Header = "User Details updated",
-                    Body = "Your details updated by " + _userContextService.GetUserName() + ".",
+                    Header = "User IsActive toggle event occur.",
+                    Body = "User IsActive status is now " + user.IsActive + "." + " and it's updated by " + _userContextService.GetUserName() + ".",
                     PerformOperationBy = user.CreatedBy,
                     PerformOperationFor = user.ID,
-                    RedirectUrl = "/Notification"
+                    RedirectUrl = "/User"
                 };
 
                 await _notificationRepository.CreateNotificationAsync(notification);
@@ -68,3 +68,4 @@ namespace EmailCampaign.Application.Features.User.Handlers
         }
     }
 }
+

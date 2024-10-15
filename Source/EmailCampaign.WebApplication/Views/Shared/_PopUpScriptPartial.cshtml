@@ -24,6 +24,14 @@
 </script>
 
 
+<script type="text/javascript">
+    function selectAllPermissions(rowIndex) {
+        // Select all checkboxes in the given row (View, Add/Edit, Delete)
+        document.getElementById('view_' + rowIndex).checked = true;
+        document.getElementById('addEdit_' + rowIndex).checked = true;
+        document.getElementById('delete_' + rowIndex).checked = true;
+    }
+</script>
 
 <script type="text/javascript">
     document.querySelectorAll(".deleteButton").forEach(function (button) {

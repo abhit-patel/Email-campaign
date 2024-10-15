@@ -8,6 +8,8 @@ using EmailCampaign.Infrastructure.Data.Repositories;
 using MediatR;
 using EmailCampaign.Application.Features.Permission.Queries;
 using EmailCampaign.Application.Features.Permission.Commands;
+using EmailCampaign.Application.Features.User.Commands;
+using EmailCampaign.Application.Features.RoleWithPermission.Queries;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
@@ -35,7 +37,7 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
         //[Authorize("AddEditPermission")]
-        public async Task<IActionResult> GetPermissionById(Guid id,CancellationToken cancellationToken)
+        public async Task<IActionResult> GetPermissionById(Guid id, CancellationToken cancellationToken)
         {
             GetPermissionByIdQuery query = new GetPermissionByIdQuery
             {
@@ -44,9 +46,11 @@ namespace EmailCampaign.WebApplication.Controllers
 
             var permission = await _mediator.Send(query, cancellationToken);
 
+            UpdatePermissionCommand updateUserCommand = _mapper.Map<UpdatePermissionCommand>(permission);
+
             //PermissionVM permissionVM = _mapper.Map<PermissionVM>(permission);
 
-            return View("UpdatePermission", permission);
+            return View("UpdatePermission", updateUserCommand);
         }
 
         [HttpGet]
@@ -78,7 +82,7 @@ namespace EmailCampaign.WebApplication.Controllers
 
         [HttpPost]
         [Authorize("AddEditPermission")]
-        public async Task<IActionResult> Update(Guid id, UpdatePermissionCommand permissionModel,CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(Guid id, UpdatePermissionCommand permissionModel, CancellationToken cancellationToken)
         {
 
             var permission = await _mediator.Send(permissionModel, cancellationToken);
@@ -95,9 +99,11 @@ namespace EmailCampaign.WebApplication.Controllers
                 Id = id
             };
 
-            RolePermission rolePermission = await _rolePermissionRepository.GetItemByPermissionId(id);
+            GetRolePermissionByPermissionIdQuery getRolePermissionByPermissionIdQuery = new GetRolePermissionByPermissionIdQuery { permissionId = id };
 
-            if(rolePermission != null)
+            RolePermission rolePermission = await _mediator.Send(getRolePermissionByPermissionIdQuery, cancellationToken);
+
+            if (rolePermission != null)
             {
                 TempData["ErrorMessage"] = "Permission already mapped with RolePermission. so can not be delete.";
                 return RedirectToAction("Index");

@@ -1,7 +1,7 @@
-﻿@model EmailCampaign.Domain.Entities.ViewModel.ProfileVM
+﻿@model EmailCampaign.Application.Features.User.Commands.UpdateUserProfileInfoCommand
 
 @{
-    ViewData["Title"] = "Add Comtact";
+    ViewData["Title"] = "Update User Profile";
     Layout = "_Layout"; // render the page without layout
 }
 
@@ -30,28 +30,33 @@
                                 <h3 class="card-title">Update User Details</h3>
                             </div>
 
-                            <form asp-action="UpdateProfileInfo" asp-controller="User" method="post">
-
+                            <form asp-action="UpdateProfileInfo" asp-controller="User" method="post" enctype="multipart/form-data">
+                                <input type="hidden" asp-for="Id"></input>
                                 <div class="card-body">
                                     <div class="form-group ">
                                         <label asp-for="FirstName">First Name</label>
                                         <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name">
-                                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                                    </div>
+@*                                         <span asp-validation-for="FirstName" class="text-danger"></span>
+ *@                                    </div>
                                     <div class="form-group ">
                                         <label asp-for="LastName">Last Name</label>
                                         <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name">
-                                        <span asp-validation-for="LastName" class="text-danger"></span>
-                                    </div>
+@*                                         <span asp-validation-for="LastName" class="text-danger"></span>
+ *@                                    </div>
                                     <div class="form-group ">
                                         <label asp-for="Email">Email</label>
                                         <input asp-for="Email" type="email" class="form-control" placeholder="Email">
-                                        <span asp-validation-for="Email" class="text-danger"></span>
-                                    </div>
+@*                                         <span asp-validation-for="Email" class="text-danger"></span>
+ *@                                    </div>
                                     <div class="form-group">
                                         <label for="birthdate">Birthdate</label>
                                         <input asp-for="Birthdate" type="date" class="form-control" placeholder="Select Birthdate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                                        <span asp-validation-for="Birthdate" class="text-danger"></span>
+@*                                         <span asp-validation-for="Birthdate" class="text-danger"></span>
+ *@                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="ProfilePicture">Select New Profile Picture</label>
+                                        <input asp-for="ProfilePicture" type="file" class="form-control-file" id="profilePicture" name="profilePicture" accept="image/*">
+                                        @* <span asp-validation-for="ProfilePicture" class="text-danger"></span> *@
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -73,7 +78,9 @@
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
 
-    @Html.Partial("_ValidationScriptsPartial")
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 
 </body>
 </html>

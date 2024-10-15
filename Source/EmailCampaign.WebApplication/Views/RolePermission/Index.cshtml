@@ -58,11 +58,11 @@
                                                     <th>IsView</th>
                                                     <th>IsAddEdit</th>
                                                     <th>IsDelete</th>
-                                                     @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded){
+                                                    @*@if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded){
                                                         <th>
                                                             Actions
                                                         </th>
-                                                     }
+                                                     } *@
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -78,14 +78,14 @@
                                                         <td>@item.IsView</td>
                                                         <td>@item.IsAddEdit</td>
                                                         <td>@item.IsDelete</td>
-                                                        @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
+                                                       @*  @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
                                                         {
                                                             <td>
                                                                 <div class="action-buttons">
 
-                                                                    @* <a asp-controller="RolePermission" asp-action="GetById" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
+                                                                     <a asp-controller="RolePermission" asp-action="GetById" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
                                                                         <i class="fas fa-edit fa-sm"></i>
-                                                                    </a> *@
+                                                                    </a> 
 
                                                                     @if ((await AuthorizationService.AuthorizeAsync(User, "", "DeletePermission")).Succeeded)
                                                                     {
@@ -97,7 +97,7 @@
                                                                     }
                                                                 </div>
                                                             </td>
-                                                        }
+                                                        } *@
                                                     </tr>
                                                     i++;
                                                 }

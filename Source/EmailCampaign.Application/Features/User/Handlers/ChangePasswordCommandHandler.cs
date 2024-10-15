@@ -51,7 +51,7 @@ namespace EmailCampaign.Application.Features.User.Handlers
 
             _dbContext.Entry(user).State = EntityState.Modified;
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync();
 
             if (user != null)
             {

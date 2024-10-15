@@ -1,4 +1,4 @@
-﻿@model List<EmailCampaign.Domain.Entities.Role>
+﻿@model List<EmailCampaign.Domain.Entities.ViewModel.RoleWithUserCount>
 @inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
 
 
@@ -61,6 +61,7 @@
                                                 <tr>
                                                     <th>Index</th>
                                                     <th>Name</th>
+                                                    <th>Active User</th>
                                                     @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
                                                     {
                                                         <th>
@@ -77,14 +78,20 @@
                                                 {
                                                     <tr>
                                                         <td>@i</td>
-                                                        <td>@role.Name</td>
+                                                        <td>@role.RoleName</td>
+                                                        <td>@role.activeUser</td>
                                                         @if ((await AuthorizationService.AuthorizeAsync(User, "", "AddEditPermission")).Succeeded)
                                                         {
                                                             <td>
                                                                 <div class="action-buttons">
+                                                                    <a href="@Url.Action("IsActiveToggle", "Role", new { name = role.RoleName })" 
+                                                                        class="btn btn-sm @(role.isActive ? "btn-success" : "btn-danger") toggleButton">
+                                                                        @(role.isActive ? "Active" : "Inactive")
+                                                                    </a>
                                                                     <a asp-controller="Role" asp-action="GetRolePermission" asp-route-id="@role.Id" class="btn btn-primary btn-sm">
                                                                         <i class="fas fa-edit fa-sm"></i>
                                                                     </a>
+
 
                                                                     @if ((await AuthorizationService.AuthorizeAsync(User, "", "DeletePermission")).Succeeded)
                                                                     {

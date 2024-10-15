@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace EmailCampaign.Application.Features.Permission.Handlers
 {
-    public class UpdatePermissionCommandHandler : IRequestHandler<UpdatePermissionCommand, Domain.Entities.Permission>
+    public class UpdateContactCommandHandler : IRequestHandler<UpdatePermissionCommand, Domain.Entities.Permission>
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly IUserContextService _userContextService;
         private readonly INotificationRepository _notificationRepository;
-        public UpdatePermissionCommandHandler(IApplicationDbContext dbContext, IUserContextService userContextService, INotificationRepository notificationRepository)
+        public UpdateContactCommandHandler(IApplicationDbContext dbContext, IUserContextService userContextService, INotificationRepository notificationRepository)
         {
             _dbContext = dbContext;
             _userContextService = userContextService;
@@ -43,7 +43,7 @@ namespace EmailCampaign.Application.Features.Permission.Handlers
 
             _dbContext.Entry(permission).State = EntityState.Modified;
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync();
 
             return permission;
         }

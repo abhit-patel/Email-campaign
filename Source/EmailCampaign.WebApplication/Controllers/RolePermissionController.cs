@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using EmailCampaign.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using MediatR;
+using EmailCampaign.Application.Features.RoleWithPermission.Queries;
 
 namespace EmailCampaign.WebApplication.Controllers
 {
@@ -16,18 +18,21 @@ namespace EmailCampaign.WebApplication.Controllers
         private readonly IRoleRepository _roleRepository;
         private readonly IPermissionRepository _permissionRepository;
         private readonly IMapper _mapper;
-        public RolePermissionController(IRolePermissionRepository rolePermissionRepository, IMapper mapper, IRoleRepository roleRepository, IPermissionRepository permissionRepository)
+        private readonly IMediator _mediator;
+
+        public RolePermissionController(IRolePermissionRepository rolePermissionRepository, IMapper mapper, IRoleRepository roleRepository, IPermissionRepository permissionRepository, IMediator mediator)
         {
             _mapper = mapper;
             _rolePermissionRepository = rolePermissionRepository;
             _roleRepository = roleRepository;
             _permissionRepository = permissionRepository;
+            _mediator = mediator;
         }
 
         [Authorize("ViewPermission")]
         public async Task<IActionResult> Index()
         {
-            List<RolePermission> roleList = await _rolePermissionRepository.GetAllAsync();
+            var roleList = await _mediator.Send(new GetAllRolePermissionQuery());
 
             await LoadRolePermission();
             
@@ -102,25 +107,26 @@ namespace EmailCampaign.WebApplication.Controllers
         */
 
 
-        [Authorize("DeletePermission")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var isDeleted = await _rolePermissionRepository.DeleteAsync(id);
+        //[Authorize("DeletePermission")]
+        //public async Task<IActionResult> Delete(Guid id)
+        //{
+        //    var isDeleted = await _rolePermissionRepository.DeleteAsync(id);
 
-            if (!isDeleted)
-            {
-                TempData["ErrorMessage"] = "Failed to delete permission mapping.";
-                return RedirectToAction("Index");
-            }
+        //    if (!isDeleted)
+        //    {
+        //        TempData["ErrorMessage"] = "Failed to delete permission mapping.";
+        //        return RedirectToAction("Index");
+        //    }
 
-            TempData["SuccessMessage"] = "Permission mapping delete successfully.";
-            return RedirectToAction("Index");
-        }
+        //    TempData["SuccessMessage"] = "Permission mapping delete successfully.";
+        //    return RedirectToAction("Index");
+        //}
 
         private async Task LoadRolePermission()
         {
-            var roles = await _roleRepository.GetRolesAsSelectListItemsAsync();
-            var permission = await _permissionRepository.GetPermissionAsSelectListItemsAsync();
+
+            var roles = await _mediator.Send(new GetRoleAsSelectListItemQuery());
+            var permission = await _mediator.Send(new GetPermissionAsSelectListItemQuery());
 
             ViewBag.Roles = roles.ToDictionary(r => r.Value, r => r.Text);
             ViewBag.Permission = permission.ToDictionary(p => p.Value, p => p.Text);

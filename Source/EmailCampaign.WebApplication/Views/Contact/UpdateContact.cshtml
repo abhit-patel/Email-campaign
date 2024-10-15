@@ -1,4 +1,4 @@
-﻿@model EmailCampaign.Domain.Entities.ViewModel.ContactVM
+﻿@model EmailCampaign.Application.Features.Contact.Commands.UpdateContactCommand
 
 @{
     ViewData["Title"] = "Update Contact";
@@ -95,5 +95,9 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 </body>
 </html>

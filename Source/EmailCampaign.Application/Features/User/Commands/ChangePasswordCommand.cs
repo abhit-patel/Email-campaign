@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmailCampaign.Application.Features.User.Commands
 {
-    public class ChangePasswordCommand :  IRequest<Domain.Entities.User>
+    public class ChangePasswordCommand : IRequest<Domain.Entities.User>
     {
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }

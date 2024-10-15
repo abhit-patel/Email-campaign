@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmailCampaign.Application.Features.User.Commands
+namespace EmailCampaign.Application.Features.Contact.Commands
 {
-    public class UpdateActiveToggleCommand : IRequest<Domain.Entities.User>
+    public class ContactActiveToggleCommand : IRequest<Domain.Entities.Contact>
     {
         public string email { get; set; }
+    
     }
 }

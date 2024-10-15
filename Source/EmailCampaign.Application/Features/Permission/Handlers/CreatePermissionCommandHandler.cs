@@ -41,7 +41,7 @@ namespace EmailCampaign.Application.Features.Permission.Handlers
 
             await _dbContext.Permission.AddAsync(newPermission);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync();
 
             if (newPermission != null)
             {

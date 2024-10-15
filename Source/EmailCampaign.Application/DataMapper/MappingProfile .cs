@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using EmailCampaign.Application.Features.Permission.Commands;
+using EmailCampaign.Application.Features.RoleWithPermission.Commands;
 using EmailCampaign.Application.Features.User.Commands;
 using EmailCampaign.Domain.Entities;
 using EmailCampaign.Domain.Entities.ViewModel;
@@ -19,12 +21,14 @@ namespace EmailCampaign.Application.DataMapper
             CreateMap<UpdateUserCommand, User>();
             CreateMap<User, UpdateUserCommand>();
             CreateMap<User, UserRegisterVM>();
+            CreateMap<User, UpdateUserProfileInfoCommand>();
             CreateMap<ProfileVM, User>();
             CreateMap<User, ProfileVM>();
             CreateMap<RoleVM, Role>();
             CreateMap<Role, RoleVM>();
             CreateMap<PermissionVM, Permission>();
             CreateMap<Permission, PermissionVM>();
+            CreateMap<Permission, UpdatePermissionCommand>();
             CreateMap<RolePermissionDBVM, RolePermission>();
             CreateMap<RolePermission, RolePermissionDBVM>();
             CreateMap<ContactVM, Contact>();
@@ -33,6 +37,9 @@ namespace EmailCampaign.Application.DataMapper
             CreateMap<Group, GroupVM>();
             CreateMap<PermissionListVM, RolePermissionDBVM>();
             CreateMap<RolePermissionVM, Role>();
+
+            CreateMap<CreateRolePermissionCommand, RolePermissionVM>().ReverseMap();
+            CreateMap<UpdateRolePermissionCommand, RolePermissionVM>().ReverseMap();
         }
     }
 }

@@ -14,13 +14,13 @@ namespace EmailCampaign.Application.Features.User.Handlers
     {
         private readonly IApplicationDbContext _dbContext;
 
-        public GetUserByIdQueryHandler( IApplicationDbContext dbContext )
+        public GetUserByIdQueryHandler(IApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
         public async Task<Domain.Entities.User> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == request.Id, cancellationToken);
+            var user = await _dbContext.User.FirstOrDefaultAsync(p => p.ID == request.Id && p.IsDeleted == false, cancellationToken);
 
             return user;
         }

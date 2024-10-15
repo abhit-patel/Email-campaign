@@ -1,4 +1,4 @@
-﻿@model EmailCampaign.Domain.Entities.ViewModel.RolePermissionVM
+﻿@model EmailCampaign.Application.Features.RoleWithPermission.Commands.CreateRolePermissionCommand
 
 @{
     ViewData["Title"] = "Add Role-Permission";
@@ -46,6 +46,7 @@
                                             <tr>
                                                 <th>Index</th>
                                                 <th>Permission</th>
+                                                <th>Select All</th>
                                                 <th>IsView</th>
                                                 <th>IsAddEdit</th>
                                                 <th>IsDelete</th>
@@ -57,22 +58,27 @@
                                                 <tr>
                                                     <td>@(i + 1)</td>
                                                     <td>@ViewBag.Permission[Model.PermissionList[i].PermissionId.ToString().ToUpper()]</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary btn-sm" onclick="selectAllPermissions(@i)">
+                                                            Select All
+                                                        </button>
+                                                    </td>
                                                     <input type="hidden" asp-for="PermissionList[i].PermissionId" />
                                                     <td>
                                                         <div class="form-check">
-                                                            <input asp-for="PermissionList[i].IsView" class="form-check-input" />
+                                                            <input asp-for="PermissionList[i].IsView" id="view_@i" class="form-check-input" />
                                                             <label class="form-check-label" asp-for="PermissionList[i].IsView"></label>
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="form-check">
-                                                            <input asp-for="PermissionList[i].IsAddEdit" class="form-check-input" />
+                                                            <input asp-for="PermissionList[i].IsAddEdit" id="addEdit_@i" class="form-check-input" />
                                                             <label class="form-check-label" asp-for="PermissionList[i].IsAddEdit"></label>
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="form-check">
-                                                            <input asp-for="PermissionList[i].IsDelete" class="form-check-input" />
+                                                            <input asp-for="PermissionList[i].IsDelete" id="delete_@i" class="form-check-input" />
                                                             <label class="form-check-label" asp-for="PermissionList[i].IsDelete"></label>
                                                         </div>
                                                     </td>

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EmailCampaign.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eacacbce2f5ca04d3599a355760dc559314c96ba")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac96d2873faa326efb6fd5eaf64ccd8bdc6c7b58")]
 [assembly: System.Reflection.AssemblyProductAttribute("EmailCampaign.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EmailCampaign.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

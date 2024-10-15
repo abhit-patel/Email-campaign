@@ -1,4 +1,4 @@
-﻿@model EmailCampaign.Domain.Entities.ViewModel.RolePermissionVM
+﻿@model EmailCampaign.Application.Features.RoleWithPermission.Commands.UpdateRolePermissionCommand
 
 @{
     ViewData["Title"] = "Update Role-Permission";
@@ -33,6 +33,7 @@
                         </div>
 
                         <form asp-action="UpdateRolePermission" asp-controller="Role" method="post">
+                            <input type="hidden" asp-for="RoleId"></input>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <div class="form-group ">

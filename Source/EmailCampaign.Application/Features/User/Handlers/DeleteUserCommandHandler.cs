@@ -19,7 +19,7 @@ namespace EmailCampaign.Application.Features.User.Handlers
         private readonly IUserContextService _userContextService;
         private readonly INotificationRepository _notificationRepository;
 
-        public DeleteUserCommandHandler(IApplicationDbContext dbContext, IUserContextService userContext, INotificationRepository notificationRepository )
+        public DeleteUserCommandHandler(IApplicationDbContext dbContext, IUserContextService userContext, INotificationRepository notificationRepository)
         {
             _dbContext = dbContext;
             _userContextService = userContext;
@@ -43,14 +43,14 @@ namespace EmailCampaign.Application.Features.User.Handlers
 
             _dbContext.Entry(user).State = EntityState.Modified;
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync();
 
             if (user != null)
             {
                 var notification = new Notification
                 {
                     Header = "User deleted",
-                    Body = "user " + user.FirstName + " "+ user.LastName + " ("+ user.ID  + ") deleted. user deleted by " + _userContextService.GetUserName() + ".",
+                    Body = "user " + user.FirstName + " " + user.LastName + " (" + user.ID + ") deleted. user deleted by " + _userContextService.GetUserName() + ".",
                     PerformOperationBy = user.CreatedBy,
                     PerformOperationFor = user.ID,
                     RedirectUrl = "/Notification"

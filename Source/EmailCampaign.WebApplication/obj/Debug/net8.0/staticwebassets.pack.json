@@ -25,6 +25,14 @@
       "PackagePath": "staticwebassets\\ProfilePics\\f9a3ce82-b680-4000-830a-380ec38ad059.jpg"
     },
     {
+      "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\ProfilePics\\f9a3ce82-b680-4000-830a-380ec38ad059.png",
+      "PackagePath": "staticwebassets\\ProfilePics\\f9a3ce82-b680-4000-830a-380ec38ad059.png"
+    },
+    {
+      "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\ProfilePics\\profile-user.png",
+      "PackagePath": "staticwebassets\\ProfilePics\\profile-user.png"
+    },
+    {
       "Id": "A:\\Giriraj_work\\email-campaign-manager\\Source\\EmailCampaign.WebApplication\\wwwroot\\build\\config\\.eslintrc.json",
       "PackagePath": "staticwebassets\\build\\config\\.eslintrc.json"
     },

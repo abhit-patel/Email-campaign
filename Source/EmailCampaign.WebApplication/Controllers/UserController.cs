@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EmailCampaign.Application.Features.RoleWithPermission.Queries;
 using EmailCampaign.Application.Features.User.Commands;
 using EmailCampaign.Application.Features.User.Queries;
 using EmailCampaign.Domain.Entities;
@@ -30,7 +31,7 @@ namespace EmailCampaign.WebApplication.Controllers
         private readonly IUserService _userService;
         private readonly IMediator _mediator;
 
-        public UserController(IUserRepository userRepository, IMapper mapper , IRoleRepository roleRepository, IUserService userService, IMediator mediator )
+        public UserController(IUserRepository userRepository, IMapper mapper, IRoleRepository roleRepository, IUserService userService, IMediator mediator)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -60,7 +61,7 @@ namespace EmailCampaign.WebApplication.Controllers
 
             var user = await _mediator.Send(getUserByIdQuery, cancellationToken);
 
-            UpdateUserCommand  userVM = _mapper.Map<UpdateUserCommand>(user);
+            UpdateUserCommand userVM = _mapper.Map<UpdateUserCommand>(user);
 
             await LoadRoles();
 
@@ -91,7 +92,9 @@ namespace EmailCampaign.WebApplication.Controllers
         [Authorize("AddEditPermission")]
         public async Task<IActionResult> Post(CreateUserCommand model, CancellationToken cancellationToken)
         {
-            var IsEmailPresent = await _userRepository.CheckRegisteredEmailAsync(model.Email);
+
+            CheckRegisteredEmailQuery checkRegisteredEmailQuery = new CheckRegisteredEmailQuery { email = model.Email };
+            var IsEmailPresent = await _mediator.Send(checkRegisteredEmailQuery, cancellationToken);
 
             if (IsEmailPresent)
             {
@@ -104,14 +107,14 @@ namespace EmailCampaign.WebApplication.Controllers
 
             //var user = await _userRepository.CreateUserAsync(model);
 
-            if(user == null)
+            if (user == null)
             {
                 TempData["ErrorMessage"] = "User create process failed, please try again.";
                 return RedirectToAction("AddUser");
             }
 
 
-            var activityLogAttribute = new ActivityLogAttribute("Create", "New user created with name {0} Created by {1}" , user.FirstName + " " + user.LastName + " (" + user.ID + ").");
+            var activityLogAttribute = new ActivityLogAttribute("Create", "New user created with name {0} Created by {1}", user.FirstName + " " + user.LastName + " (" + user.ID + ").");
             var context = new ActionExecutingContext(
             new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
             new List<IFilterMetadata>(),
@@ -136,7 +139,7 @@ namespace EmailCampaign.WebApplication.Controllers
         [Authorize("AddEditPermission")]
         public async Task<IActionResult> Update(Guid id, UpdateUserCommand userModel, CancellationToken cancellationToken)
         {
-            if(userModel.Id != id)
+            if (userModel.Id != id)
             {
                 TempData["ErrorMessage"] = "User details data binding problem. please try again.";
                 return RedirectToAction("AddUser");
@@ -161,7 +164,6 @@ namespace EmailCampaign.WebApplication.Controllers
             await activityLogAttribute.LogActivityAsync(context);
 
 
-
             TempData["SuccessMessage"] = "User details updated successfully.";
             return RedirectToAction("Index");
         }
@@ -172,23 +174,23 @@ namespace EmailCampaign.WebApplication.Controllers
         /// <param name="email"></param>
         /// <returns></returns>
         [ActionName("IsActiveToggle")]
-        public async Task<IActionResult> IsActiveToggleAsync(string email , CancellationToken cancellationToken)
+        public async Task<IActionResult> IsActiveToggleAsync(string email, CancellationToken cancellationToken)
         {
-            UpdateActiveToggleCommand updateActiveToggle = new UpdateActiveToggleCommand
+            ContactActiveToggleCommand updateActiveToggle = new ContactActiveToggleCommand
             {
                 email = email
             };
 
             var user = await _mediator.Send(updateActiveToggle, cancellationToken);
 
-            if(user == null)
+            if (user == null)
             {
                 TempData["ErrorMessage"] = "User status has not been toggled successfully.";
                 return RedirectToAction("AddUser");
             }
 
 
-            var activityLogAttribute = new ActivityLogAttribute("IsActive toggle", "Active status changed of user {0}. Updated by {1}. ", user.FirstName + " " + user.LastName + " (" + user.ID + ") to Active status " + user.IsActive +" ");
+            var activityLogAttribute = new ActivityLogAttribute("IsActive toggle", "Active status changed of user {0}. Updated by {1}. ", user.FirstName + " " + user.LastName + " (" + user.ID + ") to Active status " + user.IsActive + " ");
             var context = new ActionExecutingContext(
             new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
             new List<IFilterMetadata>(),
@@ -244,7 +246,7 @@ namespace EmailCampaign.WebApplication.Controllers
         [ActionName("ViewProfile")]
         public async Task<IActionResult> GetUserProfileInfo()
         {
-            User user = await _userRepository.GetUserInfoForProfile();
+            User user = await _mediator.Send(new GetUserInfoForProfileQuery());
 
             await LoadRoles();
 
@@ -258,40 +260,6 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
 
-        public IActionResult SelectProfile()
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        [ActionName("UpdateProfilePic")]
-        public async Task<IActionResult> UpdateProfilePic(ProfilePictureVM model)
-        {
-            if (model.ProfilePicture == null)
-            {
-                return Content("File not selected");
-            }
-            var user = await _userRepository.UpdateProfilePic(model.ProfilePicture);
-
-            if(user.ProfilePicture == null) {
-                TempData["Message"] = "";
-                return View("Index", "Home");
-            }
-
-            var activityLogAttribute = new ActivityLogAttribute("Updated", "{0} user update profile picture. Updated by {1}.", user.FirstName + " " + user.LastName + " (" + user.ID + ")");
-            var context = new ActionExecutingContext(
-            new ActionContext(HttpContext, RouteData, new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor()),
-            new List<IFilterMetadata>(),
-            new Dictionary<string, object> { },
-            this
-            );
-            await activityLogAttribute.LogActivityAsync(context);
-
-            return RedirectToAction("ViewProfile");
-        }
-
-
         public IActionResult ChangePassword()
         {
             return View();
@@ -302,7 +270,7 @@ namespace EmailCampaign.WebApplication.Controllers
         [ActionName("UpdatePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordCommand model, CancellationToken cancellationToken)
         {
-            var user = await _mediator.Send(model, cancellationToken);   
+            var user = await _mediator.Send(model, cancellationToken);
 
             if (user.ProfilePicture == null)
             {
@@ -325,11 +293,21 @@ namespace EmailCampaign.WebApplication.Controllers
         }
 
 
-        public async Task<IActionResult> GetProfileForUpdate(Guid id)
+        public async Task<IActionResult> GetProfileForUpdate(Guid id, CancellationToken cancellationToken)
         {
-            User user = await _userRepository.GetUserAsync(id);
+            GetUserByIdQuery getUserByIdQuery = new GetUserByIdQuery { Id = id };
+            User user = await _mediator.Send(getUserByIdQuery, cancellationToken);
 
-            ProfileVM model = _mapper.Map<ProfileVM>(user);
+            //UpdateUserProfileInfoCommand model = _mapper.Map<UpdateUserProfileInfoCommand>(user);
+
+            UpdateUserProfileInfoCommand model = new UpdateUserProfileInfoCommand
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Birthdate = user.BirthDate
+            };
+
 
             return View("UpdateProfileInfo", model);
         }
@@ -337,13 +315,14 @@ namespace EmailCampaign.WebApplication.Controllers
 
         [HttpPost]
         [ActionName("UpdateProfileInfo")]
-        public async Task<IActionResult> UpdateProfile(ProfileVM model)
+        public async Task<IActionResult> UpdateProfile(UpdateUserProfileInfoCommand model, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.UpdateProfileAsync(model);
+
+            var user = await _mediator.Send(model, cancellationToken);
 
             if (user == null)
             {
-                TempData["Message"] = "";
+                TempData["ErrorMessage"] = "";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -365,7 +344,7 @@ namespace EmailCampaign.WebApplication.Controllers
 
         private async Task LoadRoles()
         {
-            var roles = await _roleRepository.GetRolesAsSelectListItemsAsync();
+            var roles = await _mediator.Send(new GetRoleAsSelectListItemQuery());
 
             ViewBag.Roles = roles.ToDictionary(r => r.Value, r => r.Text);
         }
